@@ -4,7 +4,7 @@
 
 	<resultMap type="Evaluating" id="EvaluatingMap" autoMapping="true" >
 		 <id column="id" property="id" />
-		<association property="grade" resultMap="teacherMap"></association>
+		<association property="teacher" resultMap="teacherMap"></association>
 
 	</resultMap>
 	<resultMap type="Teacher" id="teacherMap" autoMapping="true">
