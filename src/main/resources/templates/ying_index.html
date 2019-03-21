@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<body>
+<form action="toAddUserController.controller" method="post">
+    <table border="1" width="97%" align="center">
+        <tr>
+            <th align="right">用户名:</th>
+            <td>
+                <input type="text" name="username" >
+            </td>
+            <th align="right">用户角色:</th>
+            <td>
+                <select name="userroles" >
+                    <option value="">--请选择--</option>
+                    <option value="01">学生</option>
+                    <option value="02">老师</option>
+                    <option value="03">校长</option>
+                    <option value="04">管理员</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center">
+                <input type="button" value="查询用户信息">
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+    <table border="1" width="97%" align="center">
+        <tr>
+            <th>评测ID</th>
+            <th>教师姓名</th>
+            <th>评测时间</th>
+            <th>评测平均分</th>
+        </tr>
+        <tr th:each="list : ${TeacherScore}">
+            <td th:text="${TeacherScore.id}"></td>
+            <td th:text="${TeacherScore.teacher.name}"></td>
+            <td th:text="${TeacherScore.date}"></td>
+            <td th:text="${TeacherScore.socore}"></td>
+
+
+
+
+        <tr>
+            <td colspan="5" align="center">
+                <input type="submit" value="新增用户信息">
+            </td>
+        </tr>
+
+
+
+
+
+
+
+
+
+
+
+    </table>
+</form>
+</body>
+</body>
+</html>
