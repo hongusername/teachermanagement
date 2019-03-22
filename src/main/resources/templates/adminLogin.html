@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,10 +9,22 @@
     <script type="text/javascript" src="/js/vue.js"></script>
     <script type="text/javascript" src="/js/vue-resource.js"></script>
     <link rel="icon" href="/image/kgclogo.jpg" type="image/x-icon" />
-</head>
-<body>
+    <style type="text/css">
+        body {
+            width：100%;
+            height: 100%;
+            background-image: url("/image/kgcbg.jpg");
+            background-repeat: no-repeat;
 
-<div style="padding: 100px 100px 10px;">
+        }
+
+    </style>
+
+
+</head>
+<body id="body">
+<h3 align="center" style="padding: 60px 400px 10px;">亲爱的管理员，您好！</h3>
+<div style="padding: 10px 400px 10px;">
 <form action="/dologin" method="post" class="bs-example bs-example-form" role="form">
 
     <div class="input-group">
@@ -24,7 +36,8 @@
         <span class="input-group-addon">密码:</span>
         <input type="password" class="form-control" name="pwd" placeholder="请输入密码">
     </div>
-     <button class="btn btn-default" style="align-content: center">登录</button>
+
+     <button class="btn btn-primary  btn-block" style="align-content: center">登录</button>
 </form>
 </div>
 </body>
