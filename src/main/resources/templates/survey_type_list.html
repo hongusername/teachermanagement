@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/vue.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .btn-group {
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div class="btn-group">
+        <button type="button" class="btn btn-default">删除</button>
+        <button type="button" class="btn btn-default" data-toggle="modal" @click="add()" data-target="#myModal">添加
+        </button>
+    </div>
+    <table class="table table-striped table-bordered  table-condensed">
+        <thead>
+        <th><input type="checkbox"></th>
+        <th>序号</th>
+        <th>问卷类型</th>
+        <th>操作</th>
+        </thead>
+        <tbody>
+        <tr v-for="(item,index) in surveyTypeList">
+            <td><input type="checkbox"></td>
+            <td>{{index+1}}</td>
+            <td>{{item.name}}</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-xs">修改</button>
+                <button type="button" class="btn btn-primary btn-xs">删除</button>
+                <button type="button" class="btn btn-primary btn-xs" @click="details(item.id)">详情</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    添加问卷类型
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" @click="delTableRow()">删除</button>
+                    <button type="button" class="btn btn-default" @click="addTableRow()">添加一行</button>
+                </div>
+                <table class="table table-striped table-bordered  table-condensed">
+                    <tr>
+                        <td>调查问卷类型：</td>
+                        <td colspan="2"><input style="width: 400px" type="text" v-model="entity.name"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>选项序号</td>
+                        <td>选项分值</td>
+                    </tr>
+                    <tr v-for="(item,index) in entity.options">
+                        <td><input type="checkbox" @click="checked($event,index)"></td>
+                        <td><input type="text" v-model="entity.options[index].value"></td>
+                        <td><input type="text" v-model="entity.options[index].score"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" @click="add()" class="btn btn-primary">
+                    保存
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+</html>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            surveyTypeList: [],
+        },
+        methods: {
+            add: function () {
+                vmMyModal.$data.checkedList = [];
+                vmMyModal.$data.entity.options = [{value: '', score: ''}];
+                vmMyModal.$data.surveyType = '';
+            },
+            details: function (id) {
+                location.href="/survey_content_list_page?surveyTypeId="+id;
+            }
+        }
+        ,
+        mounted: function () {
+            this.$http.get('http://localhost:8080/survey_type/getSurveyTypeList').then(function (res) {
+                this.surveyTypeList = res.body;
+            }, function (res) {
+                alert(res.status);
+            });
+        }
+    });
+    var vmMyModal = new Vue({
+        el: '#myModal',
+        data: {
+            entity: {
+                name: '',
+                options: [{value: '', score: ''}]
+            },
+            checkedList: []
+        },
+        methods: {
+            addTableRow: function () {
+                this.entity.options.push({value: '', score: ''});
+            },
+            delTableRow: function () {
+                for (var i = 0; i < this.checkedList.length; i++) {
+                    this.entity.options.splice(this.checkedList.indexOf(i), 1);
+                    this.checkedList.splice(this.checkedList.indexOf(i), 1);
+                }
+            },
+            checked: function (e, index) {
+                if (e.target.checked) {
+                    this.checkedList.push(index);
+                } else {
+                    this.checkedList.splice(this.checkedList.indexOf(index), 1);
+                }
+            },
+            add: function () {
+                var surveyType = {name: this.entity.name, options: JSON.stringify(this.entity.options).toString()}
+                this.$http.post('http://localhost:8080/survey_type/addSurveyType', surveyType).then(function (res) {
+                    alert(res.body.message);
+                    if (res.body.success) {
+                        location.reload();
+                    }
+                }, function (res) {
+                    alert(res.status);
+                });
+            }
+        }
+    })
+</script>

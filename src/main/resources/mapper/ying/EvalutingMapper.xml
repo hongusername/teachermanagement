@@ -11,7 +11,7 @@
 		<id column="teacherid" property="teacherid" />
 	</resultMap>
   	<select id="queryAllTeacher" resultMap="EvaluatingMap">
-  	SELECT * FROM `evaluating` e,`teacher` t WHERE e.teacherid=t.`teacherid` ORDER BY id DESC
+  	SELECT * FROM `evaluating` e,`teacher` t WHERE e.teacherid=t.`teacherid` ORDER BY score DESC
   	</select>
 
   	

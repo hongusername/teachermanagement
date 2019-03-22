@@ -17,7 +17,7 @@ public class EvalutingController {
     @RequestMapping("queryAllEvaluatingController")
     public String queryAllScore(Evaluating evaluating, @RequestParam(defaultValue="1",required=false)int pageNumber, @RequestParam(defaultValue="5",required=false)int pageSize, Model model){
         model.addAttribute("TeacherScore",this.evalutingService.queryAllTeacher(evaluating,pageNumber,pageSize));
-        return "ying_index";
+        return "adminList";
     }
 
 

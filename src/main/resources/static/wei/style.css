@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+
+#search{
+	width: 100%;
+	min-width: 1263px;
+	height: 600px;
+	background:url(../img/search.jpg) no-repeat center;
+	position: relative;
+}
+#search .center{
+	width: 800px;/*600px*/
+	height: 60px;
+	background-color: #000;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -30px 0 0 -400px;
+	border-radius: 10px;
+	opacity: 0.6;
+}
+#search .search{
+	width: 500px;
+	height: 50px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -25px 0 0 -195px;/*-293*/
+	border-radius: 10px;
+	border: 1px solid #666;
+	color: #666;
+	outline: none;
+	font-size: 24px;
+	padding: 0 10px;
+}
+#search .button{
+	width: 90px;
+	height: 50px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin:  -25px 0 0 305px;/*208px*/
+	cursor: pointer;
+	border-radius: 10px;
+	font-size: 22px;
+	color: #666;
+	font-weight: bold;
+	outline: none;
+}
+#tour{
+	width: 1263px;
+	height: 1150px;
+	margin: 30px auto;
+	text-align: center;
+	/*position: relative;*/
+	/*background-color: gray;*/
+}
+#tour .center h2{
+	margin: 10px 0;
+	font-size: 45px;
+	letter-spacing: 2px;
+	color: #666;
+}
+#tour .center p{
+	margin: 10px 0;
+	color: #666;
+}
+#tour figure{
+	border: 1px solid #ddd;
+	display: inline-block;
+	padding: 4px;
+	border-radius: 4px;
+	margin: 15px 12px;
+	float: left;
+	width: 380px;
+	text-align: left;
+	position: relative;
+}
+#tour figure img{
+	vertical-align: middle;
+}
+#tour figure figcaption{
+	color: #777;
+	font-size: 14px;
+	padding: 7px 0 5px 0;
+	letter-spacing: 1px;
+	line-height: 1.5;
+}
+#tour .title{
+	color: #333;
+	font-weight: normal;
+}
+#tour .sat{
+	float: right;
+	color: #999;
+	font-size: 13px;
+	font-style: normal;
+	position: relative;
+	right: 5px;
+	top: 25px;
+}
+#tour .price {
+	color: red;
+	font-size: 14px;
+	letter-spacing: 1px;
+}
+#tour .price strong{
+	color: red;
+	font-size: 20px;
+	letter-spacing: 1px;
+}
+#tour .type{
+	color: #fff;
+	background-color: #59b200;
+	font-size: 14px;
+	letter-spacing: 1px;
+	position: absolute;
+	text-align: center;
+	width: 90px;
+	height: 25px;
+	line-height: 25px;
+	top: 4px;
+	left: 4px;
+	border-bottom-right-radius: 4px;
+}
