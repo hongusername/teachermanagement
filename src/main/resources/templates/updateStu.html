@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script src="./jquery.min.js"></script>
+    <link href="./bootstrap.min.js" rel="stylesheet">
+    <link href="./bootstrap.css" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+
+    <title>学生管理页面 - 编辑页面</title>
+</head>
+
+<body>
+
+<div class="editDIV">
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">编辑学生</h3>
+        </div>
+        <div class="panel-body">
+
+            <form method="post" action="/updateStu" role="form">
+                <table class="editTable" th:each="detail : ${detail}">
+                    <tr>
+                        <td><input type="hidden" name="stu_id" id="student_id" th:value="${detail.stu_id}"
+                                   placeholder="请在这里输入学号"></td>
+                    </tr>
+                    <tr>
+                        <td>姓名：</td>
+                        <td><input type="text" name="stu_name" id="stu_name" th:value="${detail.stu_name}"
+                                   placeholder="请在这里输入名字">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>手机号 ：</td>
+                        <td><input type="text" name="stu_phone" id="stu_phone" th:value="${detail.stu_phone}"
+                                   placeholder="请在这里输入手机号">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>班级：</td>
+                        <td>
+                            <select name="classes.class_id">
+                                <option th:value="${detail.getClasses().getClass_id()}" th:text="${detail.getClasses().getClass_name()}"></option>
+                                <option th:if="${detail.getClasses().getClass_id()!=listClass.class_id}" th:value="${listClass.class_id}" th:each="listClass : ${listClass}"
+                                        th:text="${listClass.Class_name}"></option>
+                            </select>
+                    </tr>
+                    <tr class="submitTR">
+                        <td colspan="2" align="center">
+                            <input type="hidden" name="id" value="${student.id}">
+                            <button type="submit" class="btn btn-success">提 交</button>
+                        </td>
+
+                    </tr>
+
+                </table>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
