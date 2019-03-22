@@ -19,4 +19,6 @@ public class Teacher {
     private String name;
     //类型   (1.教员  2.班主任  3.教务)
     private Integer type;
+    //密码
+    private String pwd;
 }
