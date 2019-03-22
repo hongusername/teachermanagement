@@ -3,20 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/vue.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.js"></script>
+    <link rel="icon" href="/image/kgclogo.jpg" type="image/x-icon" />
 </head>
 <body>
 
+<div style="padding: 100px 100px 10px;">
+<form action="/dologin" method="post" class="bs-example bs-example-form" role="form">
 
-<form action="/dologin" method="post">
-    <table align="center" border="1">
-        <td><input type="text" name="name" placeholder="请输入姓名">
-            </br>
-            <input type="password" name="pwd" placeholder="请输入密码">
-            </br>
-            <button>登录</button>
-        </td>
-        </tr>
-    </table>
+    <div class="input-group">
+        <span class="input-group-addon">姓名:</span>
+
+        <input type="text" class="form-control" name="name" placeholder="请输入姓名">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">密码:</span>
+        <input type="password" class="form-control" name="pwd" placeholder="请输入密码">
+    </div>
+     <button class="btn btn-default" style="align-content: center">登录</button>
 </form>
+</div>
 </body>
 </html>
