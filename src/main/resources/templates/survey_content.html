@@ -50,9 +50,9 @@
             <th colspan="7" style="text-align: center;background-color: #f9f9f9;">学 员 满 意 度 调 查 表</th>
         </tr>
         <tr>
-            <th colspan="2"><label for="class">班级编号：</label><input id="class" type="text" class="text"></th>
-            <th colspan="2"><label for="bzr">班主任老师：</label><input id="bzr" type="text" class="text"></th>
-            <th colspan="4"><label for="date">调查日期：</label> <input id="date" type="date" class="text"></th>
+            <th colspan="2"><label >班级编号：</label><span th:text="${grade.class_name}"></span></th>
+            <th colspan="2"><label >班主任老师：</label><span th:text="${teacher.name}"></span></th>
+            <th colspan="4"><label >调查日期：</label><span th:text="${#dates.format(date, 'yyyy-MM-dd')}"></span> </th>
         </tr>
         <tr>
             <td colspan="7" class="tips">填表说明： 此调查表为匿名填写，请从五个选项中选择您认为最适合的一项填写在“选项”一栏：</td>
