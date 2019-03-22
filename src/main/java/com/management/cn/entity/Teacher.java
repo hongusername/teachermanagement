@@ -17,6 +17,6 @@ public class Teacher {
     private Integer teacherid;
     //教师名字
     private String name;
-    //类型   1.教员  2.班主任  3.教务
+    //类型   (1.教员  2.班主任  3.教务)
     private Integer type;
 }
