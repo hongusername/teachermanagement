@@ -18,7 +18,7 @@ public class ITeacherController {
     private ITeacherService iTeacherService;
 
 
-    @RequestMapping("/Long")
+    @RequestMapping("/Longs")
     public String index() {
         System.out.println(1);
         return "Long_index";
@@ -33,8 +33,6 @@ public class ITeacherController {
     public String checkLogin(String username, String password, Model model) throws IOException {
         Teacher t = iTeacherService.getTeacher(username);
         model.addAttribute("username", username);
-        System.out.println(username);
-        System.out.println(password);
         if (t == null) {
             System.out.println("t==null");
             model.addAttribute("LoginInfo", "账号或密码不正确!");
