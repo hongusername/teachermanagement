@@ -11,4 +11,9 @@
     <select id="queryClassesById" resultType="Classes">
         select * from classes where class_id=#{id}
     </select>
+
+    <select id="querySurveyTypeById" resultType="SurveyType">
+        select * from survey_type where teacher_type=#{teacherid} and grade_id=#{classesid}
+    </select>
+
 </mapper>

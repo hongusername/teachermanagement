@@ -19,4 +19,8 @@ public class SurveyType {
     private String name;
     /**问卷问题选项模板*/
     private String options;
+    /**教师类型*/
+    private Integer teacherType;
+    /**学期*/
+    private Integer gradeId;
 }

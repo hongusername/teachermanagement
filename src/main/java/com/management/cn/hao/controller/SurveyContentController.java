@@ -29,31 +29,22 @@ SurveyContentController {
 
     @RequestMapping("/getContentBySurveyTypeId")
     public List<SurveyContentDTO> getContentBySurveyTypeId(Integer surveyTypeId) {
-        log.info("------------------------surveyTypeId:{}", surveyTypeId);
         List<SurveyContentDTO> contentList = surveyContentService.getContentBySurveyTypeId(surveyTypeId);
         return contentList;
     }
 
 
     @RequestMapping("/addSurveyContent")
-    public Map<String, Object> addSurveyContent(@RequestBody SurveyContentDTO surveyContentDTO) {
+    public Map<String, Object> addSurveyContent(@RequestBody List<SurveyContentDTO> surveyContentDTOList) {
         Map<String, Object> map = new HashMap<>();
-
-
-        List<Map<String, Object>> list = surveyContentDTO.getSurveyContentList();
-        for (Map<String, Object> m : list) {
-            SurveyContent surveyContent = new SurveyContent();
-            //调查问卷id
-            surveyContent.setSurveyType(surveyContentDTO.getSurveyType());
-            //问题
-            surveyContent.setContent(m.get("content").toString());
-            //问题选项
-            surveyContent.setOptions(JSON.toJSONString(m.get("options")));
-            //保存
-            surveyContentService.addSurveyContent(surveyContent);
+        Boolean result = surveyContentService.addSurveyContent(surveyContentDTOList);
+        if (result) {
+            map.put("success", true);
+            map.put("message", "添加成功！");
+        } else {
+            map.put("success", true);
+            map.put("message", "添加失败！");
         }
-        map.put("success", true);
-        map.put("message", "添加成功！");
         return map;
     }
 

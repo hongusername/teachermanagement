@@ -1,12 +1,16 @@
 package com.management.cn.yang.controller;
 
+import com.management.cn.entity.Classes;
 import com.management.cn.entity.Student;
+import com.management.cn.entity.Teacher;
 import com.management.cn.yang.services.StudentServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 @Controller
 public class LoginController {
@@ -33,9 +37,16 @@ public class LoginController {
 
     @RequestMapping("/Evaluation")
     public String Evaluation(Model model,String key,String grade){
-        model.addAttribute("teacher",studentServices.queryTeacherById(key,grade));
-        model.addAttribute("grade",studentServices.queryClassesById(Integer.parseInt(grade)));
-        return "yang_Evaluation";
+        Teacher teacher=studentServices.queryTeacherById(key,grade);
+        Classes classes=studentServices.queryClassesById(Integer.parseInt(grade));
+        System.out.println(teacher.getType());
+        System.out.println(classes.getClass_type());
+        Integer surveyTypeId = studentServices.querySurveyTypeById(teacher.getType(),classes.getClass_type()).getId();
+        model.addAttribute("teacher",teacher);
+        model.addAttribute("grade",classes);
+        model.addAttribute("surveyTypeId",surveyTypeId);
+        model.addAttribute("date",new Date());
+        return "survey_content";
     }
 
 }

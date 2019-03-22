@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface SurveyContentService {
     List<SurveyContentDTO> getContentBySurveyTypeId(Integer surveyType);
-    Boolean addSurveyContent(SurveyContent surveyContent);
+    Boolean addSurveyContent(List<SurveyContentDTO> surveyContentDTOList);
 }

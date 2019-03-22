@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 问卷内容
  * @author: GengHao
@@ -19,6 +22,4 @@ public class SurveyContent {
     private String content;
     /**问卷所属分类*/
     private Integer surveyType;
-    /**问卷选项*/
-    private String options;
 }

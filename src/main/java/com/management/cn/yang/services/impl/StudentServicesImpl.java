@@ -2,6 +2,7 @@ package com.management.cn.yang.services.impl;
 
 import com.management.cn.entity.Classes;
 import com.management.cn.entity.Student;
+import com.management.cn.entity.SurveyType;
 import com.management.cn.entity.Teacher;
 import com.management.cn.yang.dao.StudentDao;
 import com.management.cn.yang.services.StudentServices;
@@ -28,5 +29,10 @@ public class StudentServicesImpl implements StudentServices {
     @Override
     public Classes queryClassesById(Integer id) {
         return studentDao.queryClassesById(id);
+    }
+
+    @Override
+    public SurveyType querySurveyTypeById(Integer teacherid, Integer classesid) {
+        return studentDao.querySurveyTypeById(teacherid,classesid);
     }
 }

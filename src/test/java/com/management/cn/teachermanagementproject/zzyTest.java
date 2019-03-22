@@ -23,4 +23,9 @@ public class zzyTest {
     public void test2(){
         System.out.println(studentServices.queryTeacherById("class_jy","TCMP067"));
     }
+
+    @Test
+    public void test3() {
+        System.out.println(studentServices.querySurveyTypeById(1,2));
+    }
 }

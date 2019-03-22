@@ -11,6 +11,6 @@
        SELECT * FROM survey_type WHERE id= #{id}
     </select>
     <insert id="insertSurveyType" parameterType="SurveyType">
-      INSERT INTO survey_type(`name`) VALUES(#{name})
+      INSERT INTO survey_type(`name`,options) VALUES(#{name},#{options})
     </insert>
 </mapper>

@@ -8,14 +8,12 @@
     <script type="text/javascript" src="/js/vue-resource.js"></script>
     <style>
         * {
-             margin: 0;
-             padding: 0;
-         }
-
-        .table {
-            margin-top: 20px;
+            margin: 0;
+            padding: 0;
         }
-
+        .table-head{
+            margin: 20px 0 0 0;
+        }
         .table .title th {
             text-align: center;
         }
@@ -47,24 +45,25 @@
 </head>
 <body>
 <div class="container" id="app">
+    <table class="table table-bordered  table-condensed table-head">
+        <tr>
+            <th colspan="7" style="text-align: center;background-color: #f9f9f9;">学 员 满 意 度 调 查 表</th>
+        </tr>
+        <tr>
+            <th colspan="2"><label >班级编号：</label><span th:text="${grade.class_name}"></span></th>
+            <th colspan="2"><label >班主任老师：</label><span th:text="${teacher.name}"></span></th>
+            <th colspan="4"><label >调查日期：</label><span th:text="${#dates.format(date, 'yyyy-MM-dd')}"></span> </th>
+        </tr>
+        <tr>
+            <td colspan="7" class="tips">填表说明： 此调查表为匿名填写，请从五个选项中选择您认为最适合的一项填写在“选项”一栏：</td>
+        </tr>
+        <tr>
+            <td colspan="7" class="tips">在选项栏填写对应选项的数字，不需要填写总分项，如未填写，将视为选择第一项，满分100。</td>
+        </tr>
+    </table>
     <form>
         <table class="table table-striped table-bordered  table-condensed">
             <thead>
-            <tr>
-                <th colspan="7" style="text-align: center">学 员 满 意 度 调 查 表</th>
-            </tr>
-            <tr>
-                <th colspan="2"><label for="class">班级编号：</label><input id="class" type="text" class="text"></th>
-                <th colspan="2"><label for="bzr">班主任老师：</label><input id="bzr" type="text" class="text"></th>
-                <th colspan="4"><label for="date">调查日期：</label> <input id="date" type="date" class="text"></th>
-            </tr>
-            <tr>
-                <td colspan="7" class="tips">填表说明： 此调查表为匿名填写，请从五个选项中选择您认为最适合的一项填写在“选项”一栏：</td>
-            </tr>
-            <tr>
-                <td colspan="7" class="tips">在选项栏填写对应选项的数字，不需要填写总分项，如未填写，将视为选择第一项，满分100。</td>
-            </tr>
-
             <tr class="title">
                 <th>序号</th>
                 <th>调查内容</th>
@@ -73,44 +72,55 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item,index) in surveyContent">
+            <tr v-for="(item,index) in surveyContentList">
                 <td>{{index+1}}</td>
                 <td>{{item.content}}</td>
-                <td v-for="optionObj in item.options">
-                    {{optionObj.option}}
-                </td>
+                <td v-for="o in item.options">{{o.option}}</td>
                 <td>
-                    <select @change='sum(index,$event)' style="width: 70px" v-if="index != surveyContent.length">
+                    <select @change="sum(index,$event)" style="width: 70px">
                         <option value="0">请选择</option>
                         <option :value="item.score" v-for="item in select">{{item.value}}</option>
                     </select>
-                    <select style="width: 60px" v-else>
-                        <option value="是">是</option>
-                        <option value="否" selected>否</option>
-                    </select>
                 </td>
-
             </tr>
             <tr>
-                <td colspan="2" style="text-align: center">总 计</td>
-                <td colspan="4"></td>
+                <td>{{surveyContentList.length+1}}</td>
+                <td>老师是否对此测评有引导或要求给出高分？</td>
+
+                <td v-for="(item,index) in select">
+                    <span v-if="index == 0">是</span>
+                    <span v-if="index == select.length-1">否</span>
+                </td>
+                <td>
+                    <select>
+                        <option value="0">是</option>
+                        <option value="0" selected>否</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center" colspan="2">总 计</td>
+                <td v-for="item in select.length"></td>
                 <td style="text-align: center"> {{total}}</td>
             </tr>
             <tr>
-                <td colspan="7" style="padding: 0">
+                <td :colspan="select.length+3" style="padding: 0">
                 <textarea v-model="message" class="text" placeholder="你对班主任老师以及班级的意见、建议："
                           style="padding: 15px;width: 100%;height: 100%;border: none"></textarea>
                 </td>
             </tr>
             </tbody>
         </table>
-
         <div class="btn-box">
             <button type="button" title="提交">提交</button>
             <br>
             <button type="reset" title="重置" @click="total=0;selected=[]">重置</button>
         </div>
+
     </form>
+
+
+
 </div>
 </body>
 </html>
@@ -119,7 +129,7 @@
         el: '#app',
         data: {
             surveyTypeId: [[${surveyTypeId}]],
-            surveyContent: [],
+            surveyContentList: [],
             total: 0,
             select: [],
             selected: [],
@@ -143,7 +153,8 @@
         }
         ,
         mounted: function () {
-            /* 获取调查问卷问题选项模板 */
+            //TODO 代码冗余
+            /* 获取调查问卷问题选项格式 */
             this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById', {params: {id: [[${surveyTypeId}]]}}).then(function (res) {
                 var surveyType = res.body;
                 /* 页面title */
@@ -155,7 +166,7 @@
             });
             /* 获取调查问卷内容 */
             this.$http.get('http://localhost:8080/survey_content/getContentBySurveyTypeId', {params: {surveyTypeId: [[${surveyTypeId}]]}}).then(function (res) {
-                this.surveyContent = res.body;
+                this.surveyContentList = res.body;
             }, function (res) {
                 alert(res.status);
             });

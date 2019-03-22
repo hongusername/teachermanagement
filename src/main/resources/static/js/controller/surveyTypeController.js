@@ -13,9 +13,13 @@ app.controller('surveyTypeController', function ($scope, $controller, surveyType
 
     /* 获取问卷类型 */
     $scope.findById = function () {
-        surveyTypeService.findById($scope.entity.surveyType).success(function (response) {
+        surveyTypeService.findById($scope.surveyType).success(function (response) {
+            $scope.entity = [];
+            $scope.options = [];
+
             var surveyType = response;
             $scope.options = JSON.parse(surveyType.options);
+            $scope.addTableRow();
         });
     }
     /* 保存问卷 */
@@ -23,20 +27,32 @@ app.controller('surveyTypeController', function ($scope, $controller, surveyType
         surveyTypeService.add($scope.entity).success(function (response) {
             if (response.success) {
                 alert(response.message);
+                location.reload();
             } else {
                 alert("添加失败！");
             }
         });
     }
 
-    $scope.options=[];
-    $scope.entity = {surveyType: 1, surveyContentList: [{content:'',options: JSON.parse(JSON.stringify($scope.options))}]}
+    $scope.options = [];
+    $scope.surveyType = 1;
+    $scope.entity = [
+        {
+            content: '',
+            surveyType: 1,
+            options: []
+        }
+    ]
     // 增加一行
     $scope.addTableRow = function () {
-        $scope.entity.surveyContentList.push({content:'',options: JSON.parse(JSON.stringify($scope.options))})
+        $scope.entity.push({
+            content: '',
+            surveyType: $scope.surveyType,
+            options: JSON.parse(JSON.stringify($scope.options))
+        })
     }
     // 删除规格选项行
     $scope.delTableRow = function (index) {
-        $scope.entity.surveyContentList.splice(index, 1);
+        $scope.entity.splice(index, 1);
     }
 });
