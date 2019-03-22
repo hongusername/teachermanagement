@@ -5,6 +5,7 @@ import com.management.cn.entity.Teacher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +18,7 @@ public class ITeacherController {
     private ITeacherService iTeacherService;
 
 
-    @RequestMapping("/")
+    @RequestMapping("/Longs")
     public String index() {
         System.out.println(1);
         return "Long_index";
@@ -25,23 +26,24 @@ public class ITeacherController {
 
     @RequestMapping("tiao_Long_senate")
     public String tiao_Long_senate() {
-
         return "Long_senate";
     }
 
     @RequestMapping("checkLogin")
-    public String checkLogin(String username, String password, HttpServletResponse rs, Model model) throws IOException {
+    public String checkLogin(String username, String password, Model model) throws IOException {
         Teacher t = iTeacherService.getTeacher(username);
         model.addAttribute("username", username);
-
         if (t == null) {
+            System.out.println("t==null");
             model.addAttribute("LoginInfo", "账号或密码不正确!");
             return "Long_index";
         } else  {
             if (t.getPwd().equals(password)||t.getPwd()==password) {
+                System.out.println("tdui");
                 return "Long_senate";
             } else {
                 model.addAttribute("LoginInfo", "账号或密码不正确!");
+                System.out.println("t budui");
                 return "Long_index";
             }
         }
