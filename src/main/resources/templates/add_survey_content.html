@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/js/angular.min.js"></script>
+    <script type="text/javascript" src="/js/base.js"></script>
+    <script type="text/javascript" src="/js/service/surveyTypeService.js"></script>
+    <script type="text/javascript" src="/js/controller/baseController.js"></script>
+    <script type="text/javascript" src="/js/controller/surveyTypeController.js"></script>
+
+    <style>
+
+        .row {
+            margin-top: 20px;
+        }
+
+        .del-btn {
+            margin-left: 900px;
+        }
+    </style>
+</head>
+<body ng-app="teachermanagement" ng-controller="surveyTypeController" ng-init="findById();findAll();">
+<div class="container">
+    <select ng-model="surveyType" ng-change="findById()"
+            ng-options="x.id as x.name for x in surveyContentList"></select>
+    <br><br>
+    <button type="button" ng-click="addTableRow()">添加一列</button>
+    <button type="button" class="btn btn-default" ng-click="save()">保存</button>
+    <hr>
+    <div class="row" ng-repeat="pojo in entity">
+        调查内容：<input ng-model="pojo.content" type="text" style="width: 300px">
+        <ul style="list-style-type: none">
+            <li ng-repeat="item in options">
+                选项{{ item.value }}：<input ng-model="pojo.options[$index].option" type="text">
+            </li>
+        </ul>
+        <button type="button" class="btn btn-default del-btn" title="删除" ng-click="delTableRow($index)">
+            <i class="fa fa-trash-o"></i> 删除
+        </button>
+        <hr>
+    </div>
+</div>
+</body>
+</html>
