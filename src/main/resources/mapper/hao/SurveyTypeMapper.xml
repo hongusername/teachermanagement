@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.management.cn.hao.dao.SurveyTypeMapper">
+
+    <select id="selectSurveyTypeList" resultType="SurveyType">
+       SELECT * FROM survey_type
+    </select>
+
+    <select id="selectSurveyTypeById" parameterType="java.lang.Integer" resultType="SurveyType">
+       SELECT * FROM survey_type WHERE id= #{id}
+    </select>
+    <insert id="insertSurveyType" parameterType="SurveyType">
+      INSERT INTO survey_type(`name`,options) VALUES(#{name},#{options})
+    </insert>
+</mapper>

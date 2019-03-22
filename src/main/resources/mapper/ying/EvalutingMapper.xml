@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.management.cn.ying.dao.EvaluatingDao">
+
+	<resultMap type="Evaluating" id="EvaluatingMap" autoMapping="true" >
+		 <id column="id" property="id" />
+		<association property="teacher" resultMap="teacherMap"></association>
+
+	</resultMap>
+	<resultMap type="Teacher" id="teacherMap" autoMapping="true">
+		<id column="teacherid" property="teacherid" />
+	</resultMap>
+  	<select id="queryAllTeacher" resultMap="EvaluatingMap">
+  	SELECT * FROM `evaluating` e,`teacher` t WHERE e.teacherid=t.`teacherid` ORDER BY id DESC
+  	</select>
+
+  	
+
+
+
+
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+</mapper>
