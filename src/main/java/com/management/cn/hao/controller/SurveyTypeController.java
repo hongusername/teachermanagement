@@ -5,9 +5,12 @@ import com.management.cn.hao.service.SurveyTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: GengHao
@@ -26,9 +29,23 @@ public class SurveyTypeController {
     }
 
     @RequestMapping("/getSurveyTypeById")
-    public SurveyType getSurveyTypeById(Integer id){
+    public SurveyType getSurveyTypeById(Integer id) {
         SurveyType surveyType = surveyTypeService.getSurveyTypeById(id);
         return surveyType;
+    }
+
+    @RequestMapping("/addSurveyType")
+    public Map<String, Object> addSurveyType(@RequestBody SurveyType surveyType) {
+        Map<String, Object> map = new HashMap<>();
+        Boolean result = surveyTypeService.addSurveyType(surveyType);
+        if (result) {
+            map.put("success", true);
+            map.put("message", "添加成功！");
+        } else {
+            map.put("success", false);
+            map.put("message", "添加失败！");
+        }
+        return map;
     }
 
 }

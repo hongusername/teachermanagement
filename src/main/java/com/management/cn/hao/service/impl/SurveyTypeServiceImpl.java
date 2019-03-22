@@ -27,4 +27,9 @@ public class SurveyTypeServiceImpl implements SurveyTypeService {
     public SurveyType getSurveyTypeById(Integer id) {
         return surveyTypeMapper.selectSurveyTypeById(id);
     }
+
+    @Override
+    public Boolean addSurveyType(SurveyType surveyType) {
+        return surveyTypeMapper.insertSurveyType(surveyType);
+    }
 }

@@ -7,13 +7,12 @@
         <id property="id" column="id"></id>
         <result property="content" column="survey_content"/>
         <result property="surveyType" column="survey_type"/>
-        <result property="options" column="options"/>
     </resultMap>
 
     <select id="selectContentBySurveyTypeId" parameterType="java.lang.Integer" resultMap="resultMap">
         SELECT * FROM survey_content WHERE survey_type = #{surveyType}
     </select>
-    <insert id="insertSurveyContent" parameterType="SurveyContent">
-        INSERT INTO survey_content(survey_content,survey_type,`options`) VALUES(#{content},#{surveyType},#{options})
+    <insert id="insertSurveyContent" parameterType="SurveyContent" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO survey_content(survey_content,survey_type) VALUES(#{content},#{surveyType})
     </insert>
 </mapper>

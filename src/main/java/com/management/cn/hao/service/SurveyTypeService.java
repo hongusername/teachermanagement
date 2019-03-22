@@ -21,4 +21,11 @@ public interface SurveyTypeService {
      * @return
      */
     SurveyType getSurveyTypeById(Integer id);
+
+    /**
+     * 添加调查问卷类型
+     * @param surveyType
+     * @return
+     */
+    Boolean addSurveyType(SurveyType surveyType);
 }
