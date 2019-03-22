@@ -33,7 +33,6 @@ public class LoginController {
 
     @RequestMapping("/Evaluation")
     public String Evaluation(Model model,String key,String grade){
-        System.out.println(studentServices.queryTeacherById(key,grade));
         model.addAttribute("teacher",studentServices.queryTeacherById(key,grade));
         model.addAttribute("grade",studentServices.queryClassesById(Integer.parseInt(grade)));
         return "yang_Evaluation";

@@ -17,8 +17,10 @@ public class Evaluating {
     private Integer id;
     //老师id
     private Integer teacherid;
-    //评测事件
+    //评测时间
     private Date date;
     //平均分数
     private Float socore;
+
+    private Teacher teacher;
 }
