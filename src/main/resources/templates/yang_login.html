@@ -3,28 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/vue.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.js"></script>
+    <link rel="icon" href="/image/kgclogo.jpg" type="image/x-icon" />
+    <style type="text/css">
+        body {
+            width：100%;
+            height: 100%;
+            background-image: url("/image/kgcbg.jpg");
+            background-repeat: no-repeat;
+
+        }
+        #div {
+            position: relative;
+            left: 560px;
+            top: 150px;
+
+        }
+
+    </style>
 </head>
 <body>
-<form action="/toEvaluation" method="post">
-<table align="center">
-    <tr>
-        <td>班级：</td>
-        <td>
-            <input type="text" name="grade" >
-        </td>
-    </tr>
-    <tr>
-        <td>姓名：</td>
-        <td>
-            <input type="text" name="stuname" >
-        </td>
-    </tr>
-    <tr>
-        <td align="center" colspan="2">
-            <input type="submit" value="登录" >
-        </td>
-    </tr>
-</table>
+
+<div class="btn-group" align="center" id="div">
+    <form action="/toEvaluation" method="post">
+        <div class="btn-group" align="center">
+            <button type="button" class="btn btn-default">请选择班级</button>
+            <button type="button" class="btn btn-default dropdown-toggle"
+                    data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">切换下拉菜单</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">1班</a></li>
+                <li><a href="#">2班</a></li>
+                <li><a href="#">3班</a></li>
+
+            </ul>
+        </div>
+        <button class="btn btn-primary" style="align-content: center">登录</button>
+    </form>
+</div>
+
+
 </form>
 </body>
 </html>

@@ -36,6 +36,8 @@
         <th><input type="checkbox"></th>
         <th>序号</th>
         <th>问卷类型</th>
+        <th>教师类型</th>
+        <th>学期</th>
         <th>操作</th>
         </thead>
         <tbody>
@@ -43,6 +45,8 @@
             <td><input type="checkbox"></td>
             <td>{{index+1}}</td>
             <td>{{item.name}}</td>
+            <td>{{item.teacherType}}</td>
+            <td>{{item.gradeId}}</td>
             <td>
                 <button type="button" class="btn btn-primary btn-xs">修改</button>
                 <button type="button" class="btn btn-primary btn-xs">删除</button>
@@ -77,13 +81,31 @@
                         <td colspan="2"><input style="width: 400px" type="text" v-model="entity.name"></td>
                     </tr>
                     <tr>
+                        <td>教师类型：</td>
+                        <td colspan="2">
+                            <select v-model="entity.teacherType">
+                                <option value="1">教员</option>
+                                <option value="2">班主任</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>学期：</td>{{entity.options}}
+                        <td colspan="2">
+                            <select v-model="entity.gradeId">
+                                <option value="1" v-for="item in gradeList" :value="item.id">{{item.semester}}</option>
+                            </select>
+                            {{checkedList}}
+                        </td>
+                    </tr>
+                    <tr>
                         <td><input type="checkbox"></td>
                         <td>选项序号</td>
                         <td>选项分值</td>
                     </tr>
                     <tr v-for="(item,index) in entity.options">
                         <td><input type="checkbox" @click="checked($event,index)"></td>
-                        <td><input type="text" v-model="entity.options[index].value"></td>
+                        <td><input type="text" v-model="entity.options[index].index"></td>
                         <td><input type="text" v-model="entity.options[index].score"></td>
                     </tr>
                 </table>
@@ -110,11 +132,11 @@
         methods: {
             add: function () {
                 vmMyModal.$data.checkedList = [];
-                vmMyModal.$data.entity.options = [{value: '', score: ''}];
+                vmMyModal.$data.entity.options = [{index: '', score: ''}];
                 vmMyModal.$data.surveyType = '';
             },
             details: function (id) {
-                location.href="/survey_content_list_page?surveyTypeId="+id;
+                location.href = "/survey_content_list_page?surveyTypeId=" + id;
             }
         }
         ,
@@ -129,15 +151,18 @@
     var vmMyModal = new Vue({
         el: '#myModal',
         data: {
+            gradeList: [],
             entity: {
                 name: '',
-                options: [{value: '', score: ''}]
+                options: [{index: '', score: ''}],
+                teacherType: 1,
+                gradeId: 1
             },
             checkedList: []
         },
         methods: {
             addTableRow: function () {
-                this.entity.options.push({value: '', score: ''});
+                this.entity.options.push({index: '', score: ''});
             },
             delTableRow: function () {
                 for (var i = 0; i < this.checkedList.length; i++) {
@@ -153,7 +178,12 @@
                 }
             },
             add: function () {
-                var surveyType = {name: this.entity.name, options: JSON.stringify(this.entity.options).toString()}
+                var surveyType = {
+                    name: this.entity.name,
+                    options: JSON.stringify(this.entity.options).toString(),
+                    teacherType: this.entity.teacherType,
+                    gradeId: this.entity.gradeId,
+                }
                 this.$http.post('http://localhost:8080/survey_type/addSurveyType', surveyType).then(function (res) {
                     alert(res.body.message);
                     if (res.body.success) {
@@ -163,6 +193,14 @@
                     alert(res.status);
                 });
             }
+        }
+        ,
+        mounted: function () {
+            this.$http.get('http://localhost:8080/grade/getGradeList').then(function (res) {
+                this.gradeList = res.body;
+            }, function (res) {
+                alert(res.status);
+            });
         }
     })
 </script>

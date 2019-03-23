@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"
+    >
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <div style="margin-bottom: 20px;">
+        <form action="" class="form-inline" role="form">
+
+            <div class="form-group">
+                <label  for="name">名称</label>
+                <input type="text" class="form-control" id="name"
+                       placeholder="请输入名称">
+            </div>
+
+            <div class="form-group">
+                <label for="bsselect"  >
+                    教师职位:      </label>
+
+                    <select id="bsselect" class="form-control">
+                        <option>禁止选择</option>
+                    </select>
+               
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">登录</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <table class="table table-hover table-striped table-bordered table-condensed" >
+        <thread >
+            <th align="center">教师姓名</th>
+            <th align="center">所属类型</th>
+            <th align="center">选项</th>
+        </thread>
+
+        <tbody >
+        <tr th:each="teacher:${teacherList.list}" >
+            <td>[[${teacher.name}]]</td>
+            <td>[[${teacher.type}]]</td>
+            <td><a href="" class="btn btn-info btn-sm	">详情</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

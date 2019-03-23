@@ -1,5 +1,6 @@
 package com.management.cn.wei.controller;
 
+import com.management.cn.entity.Classes;
 import com.management.cn.entity.Student;
 import com.management.cn.wei.sevice.StuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 public class StuController {
@@ -34,12 +37,15 @@ public class StuController {
     }
 
     @RequestMapping("toupdateStu")
-    public String toupdateStu(Integer stu_id,Model model) {
-        model.addAttribute("detail",stuService.detailStu(stu_id));
-        model.addAttribute("listClass", stuService.queryAllClasses());
-        return "updateStu";
+    @ResponseBody
+    public Student toupdateStu(Integer stu_id) {
+        return stuService.detailStu(stu_id);
     }
-
+    @RequestMapping("toupdateStulist")
+    @ResponseBody
+    public List<Classes> toupdateStul() {
+        return stuService.queryAllClasses();
+    }
     @RequestMapping("updateStu")
     public String updateStu( Model model, Student student ) {
         model.addAttribute("list", stuService.updateStu(student));

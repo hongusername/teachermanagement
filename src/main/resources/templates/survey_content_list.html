@@ -16,6 +16,7 @@
 
         .container {
             margin-top: 50px;
+            width:1285px;
         }
 
         .btn-group {
@@ -36,7 +37,7 @@
             <th><input type="checkbox"></th>
             <th>序号</th>
             <th>调查内容</th>
-            <th v-for="item in select">选项{{item.value}}</th>
+            <th v-for="item in select">选项{{item.index}}</th>
             <th>操作</th>
         </thead>
         <tbody>

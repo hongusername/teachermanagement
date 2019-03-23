@@ -1,8 +1,10 @@
 package com.management.cn.hong.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.management.cn.entity.Teacher;
 import com.management.cn.hong.services.TeacherServices;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,11 +16,12 @@ public class TeacherController {
     @Resource
     private TeacherServices teacherServices;
 
-    @RequestMapping("/index")
-    @ResponseBody
-    public Object index(Teacher teacher, @RequestParam(defaultValue = "1", required = false) Integer pageNumber, @RequestParam(defaultValue = "5", required = false) Integer pageSize) {
-
-        return teacherServices.getAll(teacher, pageNumber, pageSize);
+    @RequestMapping("/teacherListController")
+    public String index(Model model, Teacher teacher, @RequestParam(defaultValue = "1", required = false) Integer pageNumber, @RequestParam(defaultValue = "5", required = false) Integer pageSize) {
+        PageInfo<Teacher> page = teacherServices.getAll(teacher, pageNumber, pageSize);
+        model.addAttribute("teacherList",page);
+        System.out.println(page);
+        return "hteacherlist";
     }
 
 }

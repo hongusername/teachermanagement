@@ -27,8 +27,8 @@ public class Test {
 
     @org.junit.Test
     public void deta(){
-        for (Student student:stuDao.detailStu(2))
-        System.out.println(student.getClasses().getClass_name());
+//        for (Student student:stuDao.detailStu(2))
+//        System.out.println(student.getClasses().getClass_name());
     }
 
     @org.junit.Test

@@ -22,4 +22,5 @@ public class SurveyContent {
     private String content;
     /**问卷所属分类*/
     private Integer surveyType;
+
 }
