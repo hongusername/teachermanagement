@@ -16,19 +16,19 @@
         <set>
             <if test="name!=null and name !=''">name  =name,</if>
             <if test="type!=0">type  =type,</if>
-            <if test="phone!=null and phone !=''">phone=phone,</if>
+
         </set>
         where teacherid = #{teacherid}
     </update>
 
     <insert id="insertTeacher">
-        insert into teacher values(null,#{name},#{type},#{phone},null)
+        insert into teacher values(null,#{name},#{type},null)
     </insert>
     
     <select id="getAll" resultType="Teacher">
         select * from teacher
         <where>
-            <if test="type !=0">
+            <if test="type !=0 and type !=null">
                 and type =#{type}
             </if>
         </where>

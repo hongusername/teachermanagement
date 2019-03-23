@@ -16,5 +16,6 @@ public class Option {
     private Integer id;
     private Integer surveyContentId;
     private String option;
+    private String index;
 
 }

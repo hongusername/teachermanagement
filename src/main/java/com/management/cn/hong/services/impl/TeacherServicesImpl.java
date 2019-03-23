@@ -17,9 +17,12 @@ public class TeacherServicesImpl implements TeacherServices {
 
     @Override
     public PageInfo<Teacher> getAll(Teacher teacher, Integer pageNumber, Integer pageSize) {
+        System.out.println("number"+pageNumber);
+        System.out.println("size"+pageSize);
+        System.out.println("teacher"+teacher);
         PageHelper.startPage(pageNumber, pageSize);
         List<Teacher> list = teacherDao.getAll(teacher);
-        PageInfo<Teacher> page = new PageInfo<Teacher>();
+        PageInfo<Teacher> page = new PageInfo<Teacher>(list);
         return page;
     }
 

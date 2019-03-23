@@ -32,7 +32,7 @@ public class AdminController {
     @RequestMapping("/dologin")
     public String dologin( HttpSession session, String name, String pwd ) {
         session.setAttribute("admin", adminService.login(name, pwd));
-        return "adminList";
+        return "redirect:queryAllEvaluatingController";
     }
 
     /*

@@ -14,6 +14,6 @@ public class Grade {
     //主键
     private Integer id;
     //学期名
-    private Integer semester;
+    private String semester;
 
 }

@@ -32,7 +32,7 @@
         调查内容：<input ng-model="pojo.content" type="text" style="width: 300px">
         <ul style="list-style-type: none">
             <li ng-repeat="item in options">
-                选项{{ item.value }}：<input ng-model="pojo.options[$index].option" type="text">
+                选项{{ item.index }}：<input ng-model="pojo.options[$index].option" type="text">
             </li>
         </ul>
         <button type="button" class="btn btn-default del-btn" title="删除" ng-click="delTableRow($index)">

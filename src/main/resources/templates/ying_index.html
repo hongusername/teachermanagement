@@ -3,73 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/vue.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.js"></script>
+    <link rel="icon" href="/image/kgclogo.jpg" type="image/x-icon" />
 </head>
 <body>
 <body>
-<!--<form action="toAddUserController.controller" method="post">-->
-   <!-- <table border="1" width="97%" align="center">
-        <tr>
-            <th align="right">用户名:</th>
-            <td>
-                <input type="text" name="username" >
-            </td>
-            <th align="right">用户角色:</th>
-            <td>
-                <select name="userroles" >
-                    <option value="">&#45;&#45;请选择&#45;&#45;</option>
-                    <option value="01">学生</option>
-                    <option value="02">老师</option>
-                    <option value="03">校长</option>
-                    <option value="04">管理员</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="4" align="center">
-                <input type="button" value="查询用户信息">
-            </td>
-        </tr>
-    </table>-->
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-
-    <table border="1" width="97%" align="center">
-        <tr>
-            <th>评测ID</th>
+    <table border="1" width="97%" align="center" class="table table-hover">
+        <tr class="success">
+            <th>排名</th>
             <th>教师姓名</th>
             <th>评测时间</th>
             <th>评测平均分</th>
         </tr>
-        <tr th:each="list : ${TeacherScore.list}">
-            <td th:text="${list.id}"></td>
+        <tr th:each="list,item: ${TeacherScore.list}">
+            <td th:text="${item.count}"></td>
             <td th:text="${list.teacher.name}"></td>
             <td th:text="${#dates.format(list.date,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${list.score}"></td>
         </tr>
-
-
-
-
-        <!--<tr>-->
-            <!--<td colspan="5" align="center">-->
-                <!--<input type="submit" value="新增用户信息">-->
-            <!--</td>-->
-        <!--</tr>-->
-
-
-
-
-
-
-
-
-
-
-
     </table>
-</form>
 </body>
 </body>
 </html>
