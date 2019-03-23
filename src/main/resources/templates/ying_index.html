@@ -3,29 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="/css/styleLogin.css">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
     <script type="text/javascript" src="/js/vue.js"></script>
     <script type="text/javascript" src="/js/vue-resource.js"></script>
     <link rel="icon" href="/image/kgclogo.jpg" type="image/x-icon" />
 </head>
+
 <body>
-<body>
-    <table border="1" width="97%" align="center" class="table table-hover">
-        <tr class="success">
-            <th>排名</th>
-            <th>教师姓名</th>
-            <th>评测时间</th>
-            <th>评测平均分</th>
-        </tr>
-        <tr th:each="list,item: ${TeacherScore.list}">
-            <td th:text="${item.count}"></td>
-            <td th:text="${list.teacher.name}"></td>
-            <td th:text="${#dates.format(list.date,'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td th:text="${list.score}"></td>
-        </tr>
-    </table>
-</body>
+
+<hgroup>
+    <h1>Material Design Form</h1>
+    <h3>By Josh Adamous</h3>
+</hgroup>
+<form>
+    <div class="group">
+        <input type="text"><span class="highlight"></span><span class="bar"></span>
+        <label>Name</label>
+    </div>
+    <div class="group">
+        <input type="email"><span class="highlight"></span><span class="bar"></span>
+        <label>Email</label>
+    </div>
+    <button type="button" class="button buttonBlue">Subscribe
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+    </button>
+</form>
 </body>
 </html>
