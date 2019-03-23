@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        li{list-style-type: none;width: 40%;background-color: aqua;line-height:50px}
+    </style>
+    <script src="./jquery-1.11.0.js"></script>
+</head>
+<body>
+       <div>
+           <h1 th:text="'欢迎'+${student.stu_name}+'同学对班级老师进行测评'"></h1><button>退出系统</button>
+           <input type="hidden" id="grade" th:value="${student.stu_class}">
+           <ul>
+               <li>教员<input style="right: 0"  type="button" onclick="jclick(1)" value="开始测评"></li>
+               <li>班主任<input style="right: 0" type="button" onclick="jclick(2)" value="开始测评"></li>
+           </ul>
+       </div>
+<script>
+    function jclick(index) {
+        var grade=$("#grade").val();
+        alert(grade)
+        if(index==1){
+            window.location="/Evaluation?key=class_jy&grade="+grade;
+        }else {
+            window.location="/Evaluation?key=class_bzr&grade="+grade;
+        }
+    }
+</script>
+</body>
+</html>

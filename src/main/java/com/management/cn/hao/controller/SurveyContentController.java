@@ -21,7 +21,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/survey_content")
 @Slf4j
-public class SurveyContentController {
+public class
+SurveyContentController {
 
     @Autowired
     private SurveyContentService surveyContentService;

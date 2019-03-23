@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../static/js/vue.js"></script>
+    <script type="text/javascript" src="../static/js/vue-resource.js"></script>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    table{
+        text-align: center;
+    }
+
+    #div1{
+        margin-top: 200px;
+    }
+
+</style>
+<script>
+
+</script>
+<body>
+    <div align="center" id="div1">
+        <form action="checkLogin" >
+            <table border="1">
+                <tr>
+                    <td>用户名:</td>
+                    <td><input v-model="username" name="username" th:value="${username}"><span id="usernameInfo" ></span></td>
+                </tr>
+                <tr>
+                    <td>密码:</td>
+                    <td><input v-model="password" name="password"><span id="passwordInfo" >{{pwdInfo}}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h3 id="LoginInfo"></h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button @click="sub()">登录</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    // $(function(){
+    //
+    //     $("from").submit(function(){
+    //         var username =$("#username").val();
+    //         var password=$("#passowrd").val();
+    //         // if(usenrmae==""||username==null){
+    //         //     $("usernameInfo").html("用户名不能为空!");
+    //         //     return false;
+    //         // }
+    //         alert(1);
+    //         $.get("check",{"username":username,"passowrd":password},function(r){
+    //             alert(r);
+    //
+    //         });
+    //     });
+    //
+    //
+    // });
+    var vm1=new Vue({
+        el:'#div1',
+        data:{
+            username:'',
+            password:'',
+            bool:false,
+            pwdInfo:'',
+            userInfo:'',
+        },
+        methods:{
+            // sub:function(){
+            //     this.$http.get('checkLogin',{params:{'username':this.username,'password':this.password}}).then(
+            //         function (res) { window.alert(1)},/*请求成功返回文本文件的身体*/
+            //         function (res) { alert(res.status )} /*请求失败返回的是请求的状态码*/
+            //     );
+            // },
+        },
+
+    });
+
+</script>

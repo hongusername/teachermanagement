@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.management.cn.wei.dao.StuDao">
+    <resultMap id="stuMap" type="com.management.cn.entity.Student" autoMapping="true">
+        <id column="stu_id" property="stu_id"></id>
+        <association property="classes" resultMap="calssMap"></association>
+    </resultMap>
+    <resultMap id="calssMap" type="com.management.cn.entity.Classes" autoMapping="true">
+        <id column="class_id" property="class_id"></id>
+    </resultMap>
+    <resultMap id="detailMap" type="com.management.cn.entity.Student" autoMapping="true">
+        <id column="stu_id" property="stu_id"></id>
+        <association property="classes" resultMap="calssMap1"></association>
+    </resultMap>
+    <resultMap id="calssMap1" type="com.management.cn.entity.Classes" autoMapping="true">
+        <id column="class_id" property="class_id"></id>
+    </resultMap>
+    <select id="queryStuAll" resultMap="stuMap">
+     SELECT * FROM `student` s ,`classes` c WHERE s.stu_class=c.class_id
+    </select>
+
+    <insert id="addStu" parameterType="com.management.cn.entity.Student">
+        INSERT INTO student VALUES(NULL,#{stu_name},#{stu_phone},#{stu_class})
+    </insert>
+    <delete id="delStu" parameterType="java.lang.Integer">
+        delete from student where stu_id=#{stu_id}
+    </delete>
+
+    <update id="updateStu" parameterType="com.management.cn.entity.Student">
+      UPDATE student SET stu_name=#{stu_name},stu_phone=#{stu_phone},stu_class=#{classes.class_id} WHERE stu_id=#{stu_id}
+    </update>
+
+
+    <select id="queryAllClasses" resultType="com.management.cn.entity.Classes">
+      SELECT * FROM `classes`
+    </select>
+
+    <select id="detailStu" resultMap="detailMap">
+     SELECT * FROM `student` s,`classes` c WHERE s.stu_class=c.class_type AND s.stu_id=#{stu_id}
+    </select>
+</mapper>

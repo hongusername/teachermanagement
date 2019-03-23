@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.cn.hong.dao.TeacherDao">
+    <select id="queryTeacherById" resultType="Teacher">
+  select * from teacher where teacherid = #{teacherid}
+    </select>
+    
+    <delete id="deleteTeacher">
+        delete from teacher where teacherid = #{teacherid}
+    </delete>
+    
+    <update id="updateTeacher">
+        update teacher
+        <set>
+            <if test="name!=null and name !=''">name  =name,</if>
+            <if test="type!=0">type  =type,</if>
+
+        </set>
+        where teacherid = #{teacherid}
+    </update>
+
+    <insert id="insertTeacher">
+        insert into teacher values(null,#{name},#{type},null)
+    </insert>
+    
+    <select id="getAll" resultType="Teacher">
+        select * from teacher
+        <where>
+            <if test="type !=0 and type !=null">
+                and type =#{type}
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>

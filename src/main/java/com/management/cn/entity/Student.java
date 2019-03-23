@@ -3,6 +3,9 @@ package com.management.cn.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+
 /*
 * 学生表
 *
@@ -19,4 +22,7 @@ public class Student {
     private String stu_phone;
     //学生所属班级
     private Integer stu_class;
+    //班级表
+    private Classes classes;
+
 }
