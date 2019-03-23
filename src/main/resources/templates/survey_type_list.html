@@ -90,11 +90,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>学期：</td>
+                        <td>学期：</td>{{entity.options}}
                         <td colspan="2">
                             <select v-model="entity.gradeId">
                                 <option value="1" v-for="item in gradeList" :value="item.id">{{item.semester}}</option>
                             </select>
+                            {{checkedList}}
                         </td>
                     </tr>
                     <tr>

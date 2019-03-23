@@ -19,4 +19,5 @@ public class ResultDTO {
     private Integer classId;
     private Integer surveyTypeId;
     private List<Map<String,String>> checkedList;
+    private String opinion;
 }

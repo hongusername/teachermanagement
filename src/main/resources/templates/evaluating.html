@@ -11,6 +11,12 @@
     <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/js/vue.js"></script>
     <script type="text/javascript" src="/js/vue-resource.js"></script>
+    <style>
+        .textarea{
+            padding-left: 15px;
+            padding-top: 15px;
+        }
+    </style>
 </head>
 <body>
 <header id="basic-header">
@@ -112,7 +118,7 @@
                         </div>
                     </div>
                     <div class="test_content_nr message_content">
-                        <div class="textarea" contenteditable="true"><br/></div>
+                        <textarea class="textarea" v-model="opinion" placeholder="意见、建议："></textarea>
                     </div>
                 </form>
             </div>
@@ -141,8 +147,7 @@
                             <ul>
                                 <li v-for="(item,index) in surveyContentList">
                                     <a :href="'#qu_0_'+index">{{index+1}}</a>
-                                </li>
-                                <li>
+                                </li><li>
                                     <a href="#qu_0_end">{{surveyContentList.length+1}}</a>
                                 </li>
                             </ul>
@@ -204,7 +209,9 @@
             surveyContentList: [],
             message: '',
             teacherType: 0,
-            checkedList: []
+            checkedList: [],
+            opinion:'',
+            classId: 1
         },
         methods: {
             checked: function (id, option) {
@@ -217,27 +224,24 @@
             },
             submit:function () {
                 if (this.checkedList.length < this.surveyContentList.length+1){
-                    alert("请回答完整！")
+                    alert("请回答完整！");
                 }else{
                     var entity = {
-                        classId: 1,
+                        classId: this.classId,
                         surveyTypeId: this.surveyTypeId,
-                        checkedList: this.checkedList
+                        checkedList: this.checkedList,
+                        opinion: this.opinion
                     }
                     this.$http.post('http://localhost:8080/result/addResult', entity).then(function (res) {
                         alert(res.body.message);
                     }, function (res) {
                         alert(res.body.message);
                     });
-
-
-
                 }
             }
         }
         ,
         mounted: function () {
-            //TODO 代码冗余
             /* 获取调查问卷问题选项格式 */
             this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById', {params: {id: 1}}).then(function (res) {
                 var surveyType = res.body;
