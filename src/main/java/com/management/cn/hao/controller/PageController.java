@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -40,5 +39,10 @@ public class PageController {
     public String surveyContentListPage(Integer surveyTypeId, Model model){
         model.addAttribute("surveyTypeId", surveyTypeId);
         return "survey_content_list";
+    }
+
+    @RequestMapping("/evaluating")
+    public String evaluating(){
+        return "evaluating";
     }
 }

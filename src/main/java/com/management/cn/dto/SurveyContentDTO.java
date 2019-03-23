@@ -1,13 +1,11 @@
 package com.management.cn.dto;
 
 import com.management.cn.entity.Option;
-import com.management.cn.entity.SurveyContent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author: GengHao

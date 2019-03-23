@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>jQuery在线答题考试系统下载 - 站长素材</title>
+
+    <link href="/css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/iconfont.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/test.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="/js/vue.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.js"></script>
+</head>
+<body>
+<header id="basic-header">
+    <!-- header -->
+    <div class="header-content">
+        <div class="img-1"></div>
+        <ul class="header-nav">
+            <li seq="0">
+                <a href="http://tiku.kgc.cn:80/testing/index/120531/e71bdbe409654181b1dd64817711c868"
+                   title="我的自测">我的自测</a>
+            </li>
+            <li seq="1">
+                <a href="http://tiku.kgc.cn:80/testing/classExam" title="统一测试">统一测试</a>
+            </li>
+            <li seq="2">
+                <a href="http://tiku.kgc.cn:80/testing/history" title="我的历史">我的历史</a>
+            </li>
+            <li><a href="http://tiku.kgc.cn:80/testing/kgcLogin" title="试题广场" target="_blank">试题广场</a></li>
+            <li><a href="http://www.ekgc.cn/" title="课程" target="_blank">课程</a></li>
+        </ul>
+        <div class="right">
+            <a class="message" href="http://tiku.kgc.cn:80/testing/announcementPage"><span id="noReadCount"
+                                                                                           style="display:none;"></span></a>
+            <a class="user-info" id="userName">耿豪</a>
+            <div class="esc"><a href="http://tiku.kgc.cn:80/testing/logout" title="">退出</a></div>
+        </div>
+    </div>
+</header>
+<div class="main" id="app">
+    <div class="test_main">
+        <div class="nr_left">
+            <div class="test">
+                <form action="" method="post">
+                    <div class="test_title">
+                        <p class="test_time">
+                            <!--<i class="icon iconfont">&#xe6fb;</i><b class="alt-1">01:40</b>-->
+                        </p>
+                        <font><input type="button" @click="submit()" name="test_jiaojuan" value="交卷"></font>
+                    </div>
+
+                    <div class="test_content">
+                        <div class="test_content_title" style="text-align: center">
+                            <h2>学 员 满 意 度 调 查 表</h2>
+                        </div>
+                    </div>
+                    <div class="test_content_nr">
+                        <ul>
+
+                            <li v-for="(item,index) in surveyContentList" :id="'qu_0_'+index">
+                                <div class="test_content_nr_tt">
+                                    <i>{{index+1}}</i><font>{{item.content}}</font>
+                                    <!--<b class="icon iconfont">&#xe881;</b>-->
+                                </div>
+                                <div class="test_content_nr_main">
+                                    <ul>
+                                        <li class="option" v-for="option in item.options">
+                                            <input type="radio" class="radioOrCheck" :name="'answer'+index"
+                                                   :id="'0_answer_1_option_'+option.id"/>
+                                            <label @click="checked(item.id,option.index)" onclick="chk(this)"
+                                                   :for="'0_answer_1_option_'+option.id">
+                                                {{option.index}}. <p class="ue" style="display: inline;">
+                                                {{option.option}}</p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li id="qu_0_end">
+                                <div class="test_content_nr_tt">
+                                    <i>{{surveyContentList.length+1}}</i><font>老师是否对此测评有引导或要求给出高分？</font>
+                                    <!--<b class="icon iconfont">&#xe881;</b>-->
+                                </div>
+                                <div class="test_content_nr_main">
+                                    <ul>
+                                        <li class="option">
+                                            <input type="radio" class="radioOrCheck" name="answer_end"
+                                                   id="0_answer_1_option_end_0"/>
+                                            <label @click="checked(0,'A')" onclick="chk(this)" for="0_answer_1_option_end_0">
+                                                A. <p class="ue" style="display: inline;">是</p>
+                                            </label>
+                                        </li>
+                                        <li class="option">
+                                            <input type="radio" class="radioOrCheck" name="answer_end"
+                                                   id="0_answer_1_option_end_1"/>
+                                            <label @click="checked(0,'B')" onclick="chk(this)" for="0_answer_1_option_end_1">B. <p class="ue"
+                                                                                                           style="display: inline;">
+                                                否</p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="test_content">
+                        <div class="test_content_title">
+                            <h2 style="float: left" v-show="teacherType == 2">你对班主任老师以及班级的意见、建议：</h2>
+                            <h2 style="float: left" v-show="teacherType == 1">你对教员以及班级的意见、建议：</h2>
+                        </div>
+                    </div>
+                    <div class="test_content_nr message_content">
+                        <div class="textarea" contenteditable="true"><br/></div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="nr_right">
+            <div class="nr_rt_main">
+                <div class="rt_nr1">
+                    <div class="rt_nr1_title">
+                        <h1>
+                            <!--<i class="icon iconfont">&#xe692;</i>-->答题卡
+                        </h1>
+                        <p class="test_time">
+                            <!--<i class="icon iconfont">&#xe6fb;</i>--><b class="alt-1">01:40</b>
+                        </p>
+                    </div>
+
+                    <div class="rt_content">
+                        <div class="rt_content_tt">
+                            <h2>单选题</h2>
+                            <p>
+                                <span>共</span><i class="content_lit">60</i><span>题</span>
+                            </p>
+                        </div>
+                        <div class="rt_content_nr answerSheet">
+                            <ul>
+                                <li v-for="(item,index) in surveyContentList">
+                                    <a :href="'#qu_0_'+index">{{index+1}}</a>
+                                </li>
+                                <li>
+                                    <a href="#qu_0_end">{{surveyContentList.length+1}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="rt_content">
+                        <div class="rt_content_nr answerSheet details" style="height: 275px">
+                            <p>班级编号：TCMP071</p>
+                            <p v-show="teacherType == 2">班主任老师：钟婷</p>
+                            <p v-show="teacherType == 1">课程名称：ACCP8.0</p>
+                            <p v-show="teacherType == 1">任课教员：何子龙</p>
+                            <p>调查日期：2019-03-22</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--nr end-->
+    <div class="foot"></div>
+</div>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easy-pie-chart.js"></script>
+<!--时间js-->
+<script type="text/javascript" src="/js/jquery.countdown.js"></script>
+<script>
+    window.jQuery(function ($) {
+        "use strict";
+
+        $('time').countDown({
+            with_separators: false
+        });
+        $('.alt-1').countDown({
+            css_class: 'countdown-alt-1'
+        });
+        $('.alt-2').countDown({
+            css_class: 'countdown-alt-2'
+        });
+
+    });
+
+
+    function chk(obj) {
+        var examId = $(obj).closest('.test_content_nr_main').closest('li').attr('id'); // 得到题目ID
+        var cardLi = $('a[href=#' + examId + ']'); // 根据题目ID找到对应答题卡
+        // 设置已答题
+        if (!cardLi.hasClass('hasBeenAnswer')) {
+            cardLi.addClass('hasBeenAnswer');
+        }
+    }
+</script>
+</body>
+</html>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            surveyTypeId: 1,
+            surveyContentList: [],
+            message: '',
+            teacherType: 0,
+            checkedList: []
+        },
+        methods: {
+            checked: function (id, option) {
+                for (var i = 0; i < this.checkedList.length; i++) {
+                    if (this.checkedList[i].id == id) {
+                        this.checkedList.splice(this.checkedList.indexOf(this.checkedList[i]), 1);
+                    }
+                }
+                this.checkedList.push({id: id, option: option});
+            },
+            submit:function () {
+                if (this.checkedList.length < this.surveyContentList.length+1){
+                    alert("请回答完整！")
+                }else{
+                    var entity = {
+                        classId: 1,
+                        surveyTypeId: this.surveyTypeId,
+                        checkedList: this.checkedList
+                    }
+                    this.$http.post('http://localhost:8080/result/addResult', entity).then(function (res) {
+                        alert(res.body.message);
+                    }, function (res) {
+                        alert(res.body.message);
+                    });
+
+
+
+                }
+            }
+        }
+        ,
+        mounted: function () {
+            //TODO 代码冗余
+            /* 获取调查问卷问题选项格式 */
+            this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById', {params: {id: 1}}).then(function (res) {
+                var surveyType = res.body;
+                /* 页面title */
+                document.title = surveyType.name;
+                /* 调查问卷类型  班主任/教员 */
+                this.teacherType = surveyType.teacherType;
+            }, function (res) {
+                alert(res.status);
+            });
+            /* 获取调查问卷内容 */
+            this.$http.get('http://localhost:8080/survey_content/getContentBySurveyTypeId', {params: {surveyTypeId: 1}}).then(function (res) {
+                this.surveyContentList = res.body;
+            }, function (res) {
+                alert(res.status);
+            });
+        }
+    });
+</script>

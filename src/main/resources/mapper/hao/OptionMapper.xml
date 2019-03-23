@@ -9,6 +9,6 @@
 
 
     <insert id="insertOption" parameterType="Option">
-        INSERT INTO `options`(survey_content_id,`option`) VALUES(#{surveyContentId},#{option})
+        INSERT INTO `options`(survey_content_id,`option`,`index`) VALUES(#{surveyContentId},#{option},#{index})
     </insert>
 </mapper>
