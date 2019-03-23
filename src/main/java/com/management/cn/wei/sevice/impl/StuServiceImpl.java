@@ -42,7 +42,7 @@ public class StuServiceImpl implements StuService {
     }
 
     @Override
-    public List<Student> detailStu( Integer stu_id ) {
+    public Student detailStu( Integer stu_id ) {
         return stuDao.detailStu(stu_id);
     }
 

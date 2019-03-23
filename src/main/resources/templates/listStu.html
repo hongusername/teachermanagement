@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="./wei/jquery.min.js"></script>
-    <link href="./wei/bootstrap.min.js" rel="stylesheet">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./wei/bootstrap.min.js"></script>
     <link href="./wei/bootstrap.css" rel="stylesheet">
     <link href="./wei/style.css" rel="stylesheet">
     <link rel="stylesheet" href="./wei/layui/css/layui.css" media="all">
@@ -40,11 +40,104 @@
             <td th:text="${list.stu_name}"></td>
             <td th:text="${list.stu_phone}"></td>
             <td th:text="${list.getClasses().getClass_name()}"></td>
-            <td><a th:href="@{'/toupdateStu?stu_id='+${list.stu_id}}"><span class="glyphicon glyphicon-edit"></span>
-            </a>编辑
+            <td>
+                <button type="button" onclick="bottom(this)" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content='<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script src="./js/jquery.min.js"></script>
+     <script src="./wei/bootstrap.min.js"></script>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./wei/style.css" rel="stylesheet">
+
+    <title>学生管理页面 - 编辑页面</title>
+</head>
+
+<body>
+
+<div class="editDIV">
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">编辑学生</h3>
+        </div>
+        <div class="panel-body">
+
+            <form method="post" action="/updateStu" role="form">
+                <table class="editTable" th:each="detail : ${detail}">
+                    <tr>
+                        <td><input type="hidden" name="stu_id" id="student_id"
+                                   placeholder="请在这里输入学号"></td>
+                    </tr>
+                    <tr>
+                        <td>姓名：</td>
+                        <td><input type="text" name="stu_name" id="stu_name"
+                                   placeholder="请在这里输入名字">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>手机号 ：</td>
+                        <td><input type="text" name="stu_phone" id="stu_phone"
+                                   placeholder="请在这里输入手机号">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>班级：</td>
+                        <td>
+                            <select id="selectcla" name="classes.class_id"  >
+
+
+                            </select>
+                    </tr>
+                    <tr class="submitTR">
+                        <td colspan="2" align="center">
+                            <input type="hidden" name="id" value="${student.id}">
+                            <button type="submit" class="btn btn-success">提 交</button>
+                        </td>
+
+                    </tr>
+
+                </table>
+            </form>
+        </div>
+    </div>
+
+'>
+
+
+                    <span class="glyphicon glyphicon-edit"></span>
+                </button>
+
+                <script>
+                    function bottom(b) {
+                       var id = $(b).parent().prev().prev().prev().prev().html();
+                       var claid = 0;
+                       $.post("/toupdateStu",{"stu_id":id},function (r,s) {
+                           if(s=="success"){
+                              claid=r.stu_class;
+                              $("#stu_name").val(r.stu_name);
+                               $("#stu_phone").val(r.stu_phone);
+                               $("#student_id").val(r.stu_id);
+                           }
+                       },"json");
+                        $.post("/toupdateStulist",{},function (r,s) {
+                            if(s=="success"){
+                                var html="";
+                                for (var i =0;i<r.length;i++){
+                                    if(claid==r[i].class_id){
+                                        html+="<option selected='selected' value='"+r[i].class_id+"' >"+r[i].class_name+"</option>"
+                                    }else{
+                                        html+="<option value='"+r[i].class_id+"'>"+r[i].class_name+"</option>"
+                                    }
+                                }
+                                $("#selectcla").html(html)
+                            }
+                        },"json");
+                    }
+                </script>
             </td>
             <td><a href="#" th:onclick="'javascript:del(\''+${list.stu_id}+'\',this)'"><span
-                    class="glyphicon glyphicon-trash"></span> </a>删除
+                    class="glyphicon glyphicon-trash"></span> </a>
             </td>
         </tr>
         </tbody>
@@ -104,6 +197,13 @@
 </html>
 <script src="./wei/layui/layui.js" charset="utf-8"></script>
 <script>
+    $(function() {
+        $("[data-toggle='popover']").popover({
+            html: true
+        });
+    });
+</script>
+<script>
     layui.use(['laypage', 'layer'], function () {
         var laypage = layui.laypage
             , layer = layui.layer;
@@ -130,9 +230,9 @@
             , limit: [[${list.pageSize}]]
             , curr: [[${list.pageNum}]]
             , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-            , jump: function (obj,first) {
-                if(!first){
-                    location.href="/queryStuAll?pageNum="+obj.curr+"&pageSize="+obj.limit;
+            , jump: function (obj, first) {
+                if (!first) {
+                    location.href = "/queryStuAll?pageNum=" + obj.curr + "&pageSize=" + obj.limit;
                 }
             }
         });
