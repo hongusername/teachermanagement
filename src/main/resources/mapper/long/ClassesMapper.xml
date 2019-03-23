@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.management.cn.chen.dao.IClassesDao">
+
+    <resultMap id="a" type="com.management.cn.entity.Classes">
+        <id  property="class_id" column="class_id"/>
+        <result property="class_name" column="class_name"></result>
+        <result property="class_type" column="class_type"></result>
+        <result property="class_jy" column="class_jy"></result>
+        <result property="class_bzr" column="class_bzr"></result>
+        <association property="teacher1" javaType="com.management.cn.entity.Teacher">
+            <result property="name" column="bzr"/>
+        </association>
+        <!--
+        <result property="bzr" column="bzr"></result>
+        <result property="jy" column="jy"></result>
+        -->
+        <association property="teacher2"  javaType="com.management.cn.entity.Teacher">
+            <result property="name" column="jy"/>
+        </association>
+        <association property="grade" javaType="com.management.cn.entity.Grade">
+            <result property="id" column="id"/>
+            <result property="semester" column="semester"/>
+        </association>
+    </resultMap>
+
+    <select id="getClasses" resultMap="a">
+
+        SELECT c.class_id,c.class_name,g.semester,t1.name AS bzr,t2.name AS jy
+
+        FROM classes c ,grade  g , teacher t1 ,teacher t2
+
+        WHERE c.class_type=g.id AND c.class_bzr=t1.teacherid AND c.class_jy=t2.teacherid
+
+    </select>
+
+
+</mapper>

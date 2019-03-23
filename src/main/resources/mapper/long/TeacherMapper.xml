@@ -3,8 +3,14 @@
 
 <mapper namespace="com.management.cn.chen.dao.ITeacherDao">
 
+
+
     <select id="getTeacher" resultType="com.management.cn.entity.Teacher">
         select * from teacher where name=#{username}
+    </select>
+
+    <select id="getTea" resultType="com.management.cn.entity.Teacher">
+        select * from teacher where type=#{type}
     </select>
 
 </mapper>

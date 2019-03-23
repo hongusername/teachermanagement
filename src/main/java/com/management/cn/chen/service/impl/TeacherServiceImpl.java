@@ -6,6 +6,7 @@ import com.management.cn.entity.Teacher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class TeacherServiceImpl implements ITeacherService {
@@ -17,4 +18,9 @@ public class TeacherServiceImpl implements ITeacherService {
     public Teacher getTeacher(String username) {
             return iTeacherDao.getTeacher(username);
         }
+
+    @Override
+    public List<Teacher> getTea(int type) {
+        return iTeacherDao.getTea(type);
+    }
 }
