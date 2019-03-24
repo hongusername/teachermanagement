@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>课工场</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/vue.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.js"></script>
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+<!-- .box-body -->
+<div class="box-header with-border">
+    <h3 class="box-title">调查问卷内容</h3>
+</div>
+
+<div class="box-body" id="app">
+
+    <div class="table-box">
+        <div class="pull-left">
+            <div class="form-group form-inline">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default">删除</button>
+                    <button type="button" class="btn btn-default" onclick="window.location.href=''">添加</button>
+                    <button type="button" class="btn btn-default" onclick="window.location.reload()">刷新</button>
+                    <button type="button" class="btn btn-default" onclick="window.history.back()">返回</button>
+                </div>
+            </div>
+        </div>
+        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+            <thead>
+                <th><input type="checkbox"></th>
+                <th>序号</th>
+                <th>调查内容</th>
+                <th v-for="item in select">选项{{item.index}}</th>
+                <th>操作</th>
+            </thead>
+            <tbody>
+            <tr v-for="(item,index) in surveyContentList">
+                <td><input type="checkbox"></td>
+                <td>{{index+1}}</td>
+                <td>{{item.content}}</td>
+                <td v-for="o in item.options">{{o.option}}</td>
+                <td>
+                    <button type="button" class="btn bg-olive btn-xs">修改</button>
+                    <button type="button" class="btn bg-olive btn-xs">删除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- /.box-body -->
+<!-- 分页 -->
+</body>
+</html>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            surveyContentList: [],
+            select: [],
+        },
+        mounted: function () {
+            //TODO 代码冗余
+            /* 获取调查问卷问题选项格式 */
+            this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById', {params: {id: [[${surveyTypeId}]]}}).then(function (res) {
+                var surveyType = res.body;
+                /* 页面title */
+                document.title = surveyType.name;
+                /* 问题选项select */
+                this.select = JSON.parse(surveyType.options);
+            }, function (res) {
+                alert(res.status);
+            });
+            /* 获取调查问卷内容 */
+            this.$http.get('http://localhost:8080/survey_content/getContentBySurveyTypeId', {params: {surveyTypeId: [[${surveyTypeId}]]}}).then(function (res) {
+                this.surveyContentList = res.body;
+            }, function (res) {
+                alert(res.status);
+            });
+        }
+    })
+</script>
