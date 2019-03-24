@@ -116,7 +116,7 @@
 
                 <script>
                     function bottom(b) {
-                        var id = $(b).parent().prev().prev().prev().prev().html();
+                        var id = $(b).parent().prev().prev().prev().prev().prev().html();
                         var claid = 0;
                         $.post("/toupdateStu", {"stu_id": id}, function (r, s) {
                             if (s == "success") {
