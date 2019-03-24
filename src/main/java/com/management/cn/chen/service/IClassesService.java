@@ -8,4 +8,6 @@ public interface IClassesService {
 
     List<Classes> getClasses();
 
+    int addClass(Classes classes);
+
 }
