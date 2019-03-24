@@ -22,7 +22,7 @@ public class LoginController {
     @Resource
     private StudentServices studentServices;
 
-    @RequestMapping("/login2")
+    @RequestMapping("/user/login")
     public String login(){
         return "yang_login";
     }
