@@ -36,7 +36,6 @@ public class IClassesController {
         model.addAttribute("bzr", bzr);
         model.addAttribute("classType", classType);
 
-        for (Classes g : list){}
         return "Long_classes";
     }
 
@@ -50,6 +49,25 @@ public class IClassesController {
         c.setClass_bzr(classesBzr);
         c.setClass_jy(classesJy);
         iClassesService.addClass(c);
+        return "redirect:/getClasses";
+    }
+
+    @RequestMapping("updClasses")
+    public String updClasses(int id,String classesName,int classesType,int classesBzr,int classesJy){
+
+        Classes c=new Classes();
+        c.setClass_id(id);
+        c.setClass_name(classesName);
+        c.setClass_bzr(classesBzr);
+        c.setClass_type(classesType);
+        c.setClass_jy(classesJy);
+       int i= iClassesService.updClass(c);
+        System.out.println("UPD"+i);
+       return "redirect:/getClasses";
+    }
+    @RequestMapping("delClasses")
+    public String delClasses(int id){
+        int i=iClassesService.delClass(id);
         return "redirect:/getClasses";
     }
 }
