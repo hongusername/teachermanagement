@@ -16,4 +16,8 @@
         select * from survey_type where teacher_type=#{teacherid} and grade_id=#{classesid}
     </select>
 
+    <select id="queryResultAll" resultType="Result">
+        select *  from result where classid=#{classid} and teachertype=#{queryResultAll} and createData=#{createData} order by totalScore desc
+    </select>
+
 </mapper>
