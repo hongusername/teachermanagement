@@ -7,4 +7,6 @@ import java.util.List;
 public interface IClassesDao {
 
     List<Classes>  getClasses();
+
+    int addClass(Classes classes);
 }
