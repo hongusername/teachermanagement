@@ -6,4 +6,9 @@
     <insert id="addResult" parameterType="Result">
           INSERT INTO result(classid,totalScore,teacherType,surveyType,`options`,createDate,opinion) VALUES (#{classid},#{totalScore},#{teacherType},#{surveyType},#{options},#{createDate},#{opinion})
     </insert>
+
+    <select id="queryResultAll" resultType="Result">
+        select *  from result where classid=#{classid} and teachertype=#{teacherType} and createData=#{createData} order by totalScore desc
+    </select>
+
 </mapper>

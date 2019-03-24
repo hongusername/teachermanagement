@@ -1,6 +1,7 @@
 package com.management.cn.hao.service;
 
 import com.management.cn.dto.ResultDTO;
+import com.management.cn.entity.Result;
 
 /**
  * @author: GengHao
@@ -14,4 +15,6 @@ public interface ResultService {
      * @return
      */
     int addResult(ResultDTO resultDTO);
+
+    Integer queryResultAVG( Result result);
 }

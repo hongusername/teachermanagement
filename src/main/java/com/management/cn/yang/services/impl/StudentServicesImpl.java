@@ -34,19 +34,6 @@ public class StudentServicesImpl implements StudentServices {
         return studentDao.querySurveyTypeById(teacherid,classesid);
     }
 
-    @Override
-    public Integer queryResultAVG( Result result ) {
-        List<Result> results=studentDao.queryResultAll(result);
-        int count = 0;
-        int index=0;
-        for (Result i:results){
-            if(index!=0||index!=results.size()){
-                count += i.getTotalScore();
-            }
-        }
-        int avg = count/(results.size()-2);
-        System.out.println("平均分："+avg);
-        return 0;
-    }
+
 
 }
