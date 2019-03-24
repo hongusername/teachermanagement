@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <script src="./js/jquery.min.js"></script>
     <script src="./wei/bootstrap.min.js"></script>
@@ -24,8 +24,9 @@
 
         <thead>
         <tr class="success">
-            <th><input type="checkbox" onclick="allcheck(this)"></th>
-            <th>学号</th>
+            <th><input type="checkbox" id="SelectAll"
+                       onclick="selectAll();"/> 全选
+            </th>
             <th>姓名</th>
             <th>手机号</th>
             <th>班级</th>
@@ -37,8 +38,10 @@
 
         <tbody>
         <tr th:each="list : ${list.list}">
-            <td><input type="checkbox"></td>
-            <td th:text="${list.stu_id}"></td>
+            <td style="display:none" th:text="${list.stu_id}"></td>
+            <td><input type="checkbox" id="subcheck"
+                       name="check" th:text="${list.stu_id}" th:value="${list.stu_id}"/>
+            </td>
             <td th:text="${list.stu_name}"></td>
             <td th:text="${list.stu_phone}"></td>
             <td th:text="${list.getClasses().getClass_name()}"></td>
@@ -113,7 +116,7 @@
 
                 <script>
                     function bottom(b) {
-                        var id = $(b).parent().prev().prev().prev().prev().html();
+                        var id = $(b).parent().prev().prev().prev().prev().prev().html();
                         var claid = 0;
                         $.post("/toupdateStu", {"stu_id": id}, function (r, s) {
                             if (s == "success") {
@@ -145,6 +148,11 @@
         </tr>
         </tbody>
     </table>
+
+
+    <button class="btn btn-primary btn-md" type="button"
+            id="deleteButton">删除
+    </button>
 
 </div>
 <div id="demo7"></div>
@@ -276,4 +284,56 @@
             }
         })
     }
+</script>
+
+<!--
+全选删除
+-->
+<script>
+    //全选
+    function selectAll() {
+        if ($("#SelectAll").is(":checked")) {
+            $(":checkbox").prop("checked", true);//所有选择框都选中
+        } else {
+            $(":checkbox").prop("checked", false);
+        }
+    }
+
+    //批量删除
+    $("#deleteButton").on("click", function () {
+        //判断至少写了一项
+        var checkedNum = $("input[name='check']:checked").length;
+        if (checkedNum == 0) {
+            layer.alert("请至少选择一项!");
+            return false;
+        }
+        var checkedList = new Array();
+        $("input[name='check']:checked").each(function () {
+            checkedList.push($(this).val());
+        });
+        if (confirm('确定删除所选项目?')) {
+            /*   function(index) {
+
+                   $("body").mLoading('show'); //加遮罩*/
+
+            $.ajax({
+                type: "POST",
+                url: '/batchDeletes',
+                data: {
+                    "delitems": checkedList.toString()
+                },
+                datatype: "html",
+                success: function (data) {
+                    $(":checkbox").attr("checked", false);
+                    layer.close();
+                    window.location.reload();
+                },
+                error: function (data) {
+                    art.dialog.tips('删除失败!');
+                }
+            });
+
+        }
+        /*   layer.confirm('确定删除所选项目?', {});*/
+    })
 </script>

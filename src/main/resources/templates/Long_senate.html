@@ -35,9 +35,9 @@
         </tr>
 
         <tr  th:each="c,i : ${classes}" align="center" style="background-color: #E8EDFF;color: #706B99;">
-            <td width="10%" th:text="${i.index}">1</td>
-            <td width="15%" th:text="${c.class_name}">TCMP067</td>
-            <td width="10%" th:text="${c.grade.semester}">ACCP8.0</td>
+            <td width="10%" th:text="${i.index}"></td>
+            <td width="15%" th:text="${c.class_name}"></td>
+            <td width="10%" th:text="${c.grade.semester}"></td>
             <td width="30%" class="teach" >
                 <span th:text="${c.teacher1.name}"></span>
                 <!--何子龙-&#45;&#45;钟婷-->
@@ -61,13 +61,12 @@
             </td>
         </tr>
     </table>
-</div>
-<div align="center">
 
-    <select name='gradeid'>
+    <select>
+
     </select>
-
 </div>
+<div align="center"></div>
 </body>
 <script type="text/javascript" src="../static/js/jquery-1.7.2.min.js"></script>
 <script>

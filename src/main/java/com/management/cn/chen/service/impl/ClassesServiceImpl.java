@@ -19,4 +19,9 @@ public class ClassesServiceImpl implements IClassesService {
     public List<Classes> getClasses() {
         return iClassesDao.getClasses();
     }
+
+    @Override
+    public int addClass(Classes classes) {
+        return iClassesDao.addClass(classes);
+    }
 }
