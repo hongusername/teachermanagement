@@ -10,4 +10,8 @@ public interface IClassesService {
 
     int addClass(Classes classes);
 
+    int updClass(Classes classes);
+
+    int delClass(int id);
+
 }

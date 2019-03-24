@@ -24,4 +24,14 @@ public class ClassesServiceImpl implements IClassesService {
     public int addClass(Classes classes) {
         return iClassesDao.addClass(classes);
     }
+
+    @Override
+    public int updClass(Classes classes) {
+        return iClassesDao.updClass(classes);
+    }
+
+    @Override
+    public int delClass(int id) {
+        return iClassesDao.delClass(id);
+    }
 }

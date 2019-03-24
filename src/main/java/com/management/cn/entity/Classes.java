@@ -27,5 +27,7 @@ public class Classes {
     private Teacher teacher2;
     //班级
     private Grade grade;
+    //考核
+    private int status;
 
 }
