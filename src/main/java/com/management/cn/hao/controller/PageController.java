@@ -24,27 +24,12 @@ public class PageController {
     }
 
 
-    @RequestMapping("/addSurveyContentPage")
-    public String addSurveyContentPage() {
-        return "add_survey_content";
-    }
 
 
-    @RequestMapping("/survey_type_list")
-    public String surveyTypeListPage() {
-        return "survey_type_list";
-    }
-
+    /** 调查问卷内容列表*/
     @RequestMapping("/survey_content_list_page")
     public String surveyContentListPage(Integer surveyTypeId, Model model) {
         model.addAttribute("surveyTypeId", surveyTypeId);
-        return "survey_content_list";
+        return "admin/survey_content_list";
     }
-
-    @RequestMapping("/evaluating")
-    public String evaluating() {
-        return "evaluating";
-    }
-
-
 }
