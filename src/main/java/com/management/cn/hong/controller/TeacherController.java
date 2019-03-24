@@ -76,7 +76,6 @@ public class TeacherController {
     @RequestMapping("ajaxUpdateTeacher")
     @ResponseBody
     public Object[] ajaxUpdateTeacher(Teacher teacher) {
-        System.out.println(teacher+"aaaaa");
         Object[] arr = new Object[2];
         Integer result = teacherServices.updateTeacher(teacher);
         if (result != 0) {
