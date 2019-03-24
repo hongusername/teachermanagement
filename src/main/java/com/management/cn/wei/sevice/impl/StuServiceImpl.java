@@ -52,7 +52,9 @@ public class StuServiceImpl implements StuService {
     }
 
     @Override
-    public int falseDelete( String checkedId ) {
-        return stuDao.falseDelete(checkedId);
+    public void batchDeletes( List delList ) {
+        stuDao.batchDeletes(delList);
     }
+
+
 }

@@ -24,7 +24,7 @@ public interface StuService {
     List<Classes> queryAllClasses();
 
 
-    int falseDelete(String checkedId);
+    void batchDeletes(List delList);
 
 
 }

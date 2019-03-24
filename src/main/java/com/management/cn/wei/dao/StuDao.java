@@ -19,8 +19,7 @@ public interface StuDao {
 
     List<Classes> queryAllClasses();
 
-
-    int falseDelete(String checkedId);
+    void batchDeletes(List delList);
 
 
 }

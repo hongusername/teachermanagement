@@ -3,72 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="../static/wei/layui/lay/modules/layer.js"></script>
 </head>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./wei/layui/lay/modules/layer.js"></script>
+<!--<script src="${ctx}/static/js/plugins/mloading/jquery.mloading.js"></script>-->
 <body>
 
-<table class="table table-border table-bordered table-bg">
-    <thead>
+<table class="tb_list">
     <tr>
-        <th scope="col" colspan="10">管理员列表</th>
-    </tr>
-    <tr class="text-c">
-        <!--全选按钮 -->
-        <th width="25"><input type="checkbox" name="" id="allSelect" class="allSelect" value=""></th>
-        <th width="120">ID</th>
-        <th width="80">真是姓名</th>
-    </tr>
-    </thead>
+        <td align="center"><input type="checkbox" id="SelectAll"
+                                  onclick="selectAll();"/> 全选
+        </td>
+        <th>序号</th>
 
-    <tbody>
-    <c:forEach items="${page.list}" var="user">
-        <tr class="text-c">
-            <td><input type="checkbox" value="${user.id }" name="id"></td>
-            <td>${user.id }</td>
-            <td>${user.userName}</td>
-        </tr>
-    </c:forEach>
-    </tbody>
+    </tr>
+        <tr th:each="list : ${list.list}">
+            <td style="display:none" th:text="${list.stu_id}"></td>
+            <td align="center"><input type="checkbox" id="subcheck"
+                                      name="subcheck" th:text="${list.stu_id}" th:value="${list.stu_id}"/>
+            </td>
+            <td></td>
+        <tr>
 </table>
-
+<button class="btn btn-primary btn-md" type="button"
+        id="deleteButton">删除
+</button>
 </body>
 </html>
-<script type="text/javascript" src="./wei/layui/lay/modules/layer.js"></script>
 <script>
-    function datadel(){
-        layer.confirm('确认要删除吗？',function(index){
-            // 获取所有选中的checked框
-            var option = $(":checked");
-            var checkedId = "";
-            var boo=true;
-            //拼接除全选框外,所有选中的id,
-            for (var i = 0, len = option.length; i < len; i++) {
-                if (boo) {
-                    if (option[i].id=='allSelect') {
-                        boo=true;
-                    }else {
-                        boo=false;
-                        checkedId += option[i].value;
-                    }
-                }else{
-                    checkedId += ","+option[i].value;
-                }
-            }
-            $.ajax({
-                type: "post",
-                url:'${base}admin/doFalseDelete',
-                data : {
-                    "checkedId":checkedId
-                },
-                dataType:"json",
-                success : function(map) {
-                    parent.layer.msg(map.message,{icon: 6,time:1000});
-                    setTimeout("serachFromSubmit()", 1000);
-                },error:function(code){
-                    parent.layer.msg('操作失败!',{icon: 5,time:1000});
-                }
-            });
-        });
+    //全选
+    function selectAll(){
+        if ($("#SelectAll").is(":checked")) {
+            $(":checkbox").prop("checked", true);//所有选择框都选中
+        } else {
+            $(":checkbox").prop("checked", false);
+        }
     }
 
+    //批量删除
+    $("#deleteButton").on("click", function() {
+        //判断至少写了一项
+        var checkedNum = $("input[name='check']:checked").length;
+        if (checkedNum == 0) {
+            layer.alert("请至少选择一项!");
+            return false;
+        }
+        var checkedList = new Array();
+        $("input[name='check']:checked").each(function() {
+            checkedList.push($(this).val());
+        });
+        layer.confirm('确定删除所选项目?', {
+            title : '提示'
+        }, function(index) {
+
+            $("body").mLoading('show'); //加遮罩
+
+            $.ajax({
+                type : "POST",
+                url : '${ctx}/manage/banner/delete',
+                data : {
+                    "delitems" : checkedList.toString()
+                },
+                datatype : "html",
+                success : function(data) {
+                    $(":checkbox").attr("checked", false);
+                    layer.close();
+                    window.location.reload();
+                },
+                error : function(data) {
+                    art.dialog.tips('删除失败!');
+                }
+            });
+
+        });
+    })
 </script>
