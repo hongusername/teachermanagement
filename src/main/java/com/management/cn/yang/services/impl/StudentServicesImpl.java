@@ -40,9 +40,10 @@ public class StudentServicesImpl implements StudentServices {
         int count = 0;
         int index=0;
         for (Result i:results){
-            if(index!=0||index!=results.size()){
+            if(index!=0&&index!=results.size()){
                 count += i.getTotalScore();
             }
+            index++;
         }
         int avg = count/(results.size()-2);
         System.out.println("平均分："+avg);
