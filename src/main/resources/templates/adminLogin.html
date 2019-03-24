@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="/css/styleLogin.css">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
     <script type="text/javascript" src="/js/vue.js"></script>
     <script type="text/javascript" src="/js/vue-resource.js"></script>
     <link rel="icon" href="/image/kgclogo.jpg" type="image/x-icon" />
@@ -13,7 +13,7 @@
         body {
             width：100%;
             height: 100%;
-            background-image: url("/image/kgcbg.jpg");
+            background-image: url("/image/kgcbg2.png");
             background-repeat: no-repeat;
 
         }
@@ -23,22 +23,22 @@
 
 </head>
 <body id="body">
-<h3 align="center" style="padding: 60px 400px 10px;">亲爱的管理员，您好！</h3>
-<div style="padding: 10px 400px 10px;">
-<form action="/dologin" method="post" class="bs-example bs-example-form" role="form">
-
-    <div class="input-group">
-        <span class="input-group-addon">姓名:</span>
-
-        <input type="text" class="form-control" name="name" placeholder="请输入姓名">
+<hgroup>
+    <h1>Welcome to the evaluation system</h1>
+    <h3>亲爱的管理员，您好！</h3>
+</hgroup>
+<form action="/dologin" method="post">
+    <div class="group">
+        <input type="text" name="name"><span class="highlight"></span><span class="bar"></span>
+        <label>Name</label>
     </div>
-    <div class="input-group">
-        <span class="input-group-addon">密码:</span>
-        <input type="password" class="form-control" name="pwd" placeholder="请输入密码">
+    <div class="group">
+        <input type="password" name="pwd"><span class="highlight"></span><span class="bar"></span>
+        <label>Password</label>
     </div>
-
-     <button class="btn btn-primary  btn-block" style="align-content: center">登录</button>
+    <button class="button buttonBlue">登录
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+    </button>
 </form>
-</div>
 </body>
 </html>
