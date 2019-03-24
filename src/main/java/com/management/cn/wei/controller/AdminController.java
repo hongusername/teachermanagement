@@ -21,9 +21,9 @@ public class AdminController {
     /*
      * 去登录
      * */
-    @RequestMapping("/tologin")
+    @RequestMapping("/login")
     public String tologin() {
-        return "adminLogin";
+        return "admin/adminLogin";
     }
 
     /*
@@ -33,12 +33,11 @@ public class AdminController {
     public String dologin( HttpSession session, String name, String pwd, Model model) {
         Teacher login = adminService.login(name, pwd);
         if(login==null){
-            model.addAttribute("msg","用户名或者密码输入不正确");
-            return "adminLogin";
-
+            model.addAttribute("msg","用户名或者密码错误");
+            return "admin/adminLogin";
         }else{
             session.setAttribute("admin", adminService.login(name, pwd));
-            return "redirect:queryAllEvaluatingController";
+            return "redirect:admin/index";
         }
 
     }
@@ -55,6 +54,6 @@ public class AdminController {
             System.out.println(user);
             session.invalidate();//关闭session
         }
-        return "adminLogin";
+        return "redirect:/login";
     }
 }
