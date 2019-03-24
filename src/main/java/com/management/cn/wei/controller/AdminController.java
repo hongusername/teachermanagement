@@ -30,9 +30,17 @@ public class AdminController {
      * 登录
      * */
     @RequestMapping("/dologin")
-    public String dologin( HttpSession session, String name, String pwd ) {
-        session.setAttribute("admin", adminService.login(name, pwd));
-        return "redirect:queryAllEvaluatingController";
+    public String dologin( HttpSession session, String name, String pwd, Model model) {
+        Teacher login = adminService.login(name, pwd);
+        if(login==null){
+            model.addAttribute("msg","用户名或者密码输入不正确");
+            return "adminLogin";
+
+        }else{
+            session.setAttribute("admin", adminService.login(name, pwd));
+            return "redirect:queryAllEvaluatingController";
+        }
+
     }
 
     /*
