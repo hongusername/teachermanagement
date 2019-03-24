@@ -1,20 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title></title>
 </head>
-<body>
-    <div>2
-        <table>
-            <tr>
-                <td>班级信息</td>
-            </tr>
-        </table>
-    </div>
+<style>
+    .a {
+        padding: 30px;
+    }
 
-    <div>
-        3
-    </div>
+    .btn {
+        margin: 20px;
+    }
+
+    td a {
+        margin: 10px;
+        text-decoration: none;
+    }
+</style>
+
+<body>
+<div align="center" style="margin-top: 100px;">
+
+    <h2>班级管理</h2>
+
+    <table id="class_size" style="border-color: ghostwhite;" border="1px solid black" cellpadding="8px" cellspacing="0px" width="800px">
+        <tr align="center" style="background-color: #9FC105;color: whitesmoke;">
+            <td width="15%">班级编号</td>
+            <td width="18%">班级名称</td>
+            <td width="15%">班级类型</td>
+            <td width="30%">带班教师</td>
+            <td width="22%">操作</td>
+        </tr>
+
+        <tr  th:each="c,i : ${classes}" align="center" style="background-color: #E8EDFF;color: #706B99;">
+            <td width="10%" th:text="${i.index}">1</td>
+            <td width="15%" th:text="${c.class_name}">TCMP067</td>
+            <td width="10%" th:text="${c.grade.semester}">ACCP8.0</td>
+            <td width="30%" class="teach" >
+                <span th:text="${c.teacher1.name}"></span>
+                <!--何子龙-&#45;&#45;钟婷-->
+                <span th:text="${c.teacher2.name}"></span>
+            </td>
+            <td width="35%">
+                <a href="#" class="edit" style="color: blue;">编辑</a>
+                <a href="#" style="color: red;">删除</a>
+            </td>
+
+        </tr>
+
+    </table>
+
+    <!--第二个 -->
+
+    <table style="border-color: ghostwhite; border-top: 0px;" border="1px solid black" cellpadding="8px" cellspacing="0px" width="800px">
+        <tr>
+            <td align="center">
+                <a href="#" flag="add" style="text-decoration: none;font-weight: bold;color: black;">+</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<div align="center">
+
+    <select name='gradeid'>
+    </select>
+
+</div>
 </body>
+<script type="text/javascript" src="../static/js/jquery-1.7.2.min.js"></script>
+<script>
+    $(function() {
+        $(document).on("click", ".edit", function() {
+            $(this).css("color", "blue");
+            var str = $(this).text() == "编辑" ? "确定" : "编辑";
+            $(this).text(str);
+            if(str == "确定") {
+                $(this).css("color", "green");
+            }
+            $(this).parent().siblings("td:eq(1)").each(function() { // 获取当前行的其他单元格
+                obj_text = $(this).find("input:text"); // 判断单元格下是否有文本框
+                if(!obj_text.length) // 如果没有文本框，则添加文本框使之可以编辑
+
+                    $(this).html("<input type='text' style='width:90px;height:20px' value='" + $(this).text() + "'>");
+
+                else
+                    $(this).html(obj_text.val());
+            });
+
+            $(this).parent().siblings("td:eq(2)").each(function() {
+                obt_text2 = $(this).find("select");
+                if(!obt_text2.length) {
+                    $(this).html("<select name='gradeid'><option value='1'>S1</optin><option value='2'>ACCP8.0</optin></select>");
+                } else {
+                    var gty = obt_text2.find("option:selected").text();
+                    $(this).html(gty);
+
+                }
+
+            });
+            $(this).parent().siblings("td:eq(3)").each(function() {
+                obt_text3 = $(this).find("select:eq(0)");
+                obt_text4 = $(this).find("select:eq(1)");
+                if(!obt_text2.length) {
+                    $(this).html("<select name='teacher2_id'><option value='1'>何子龙</optin><option value='2'>张远</optin></select>---<select name='teacher1_id'><option value='1'>刘晓兰</optin><option value='2'>钟婷</optin></select>");
+                } else {
+                    var gty1 = obt_text3.find("option:selected").text();
+                    var gty2 = obt_text4.find("option:selected").text();
+                    $(this).html(gty1+"---"+gty2);
+
+                }
+
+            });
+
+        });
+
+        //add
+        $("a[flag=add]").click(function() {
+
+            var cla = $("#class_size tr:last").css("backgroundColor");
+            var bianhao=$("#class_size tr:last").find("td:eq(0)").text()-0+1;
+            var str = "";
+            if(cla=="rgb(239, 243, 245)"){
+
+                str="<tr align='center' style='background-color: #E8EDFF;color: #706B99;'><td width='10%'>"+bianhao+"</td><td width='15%'></td><td width='10%'>ACCP8.0</td><td width='30%' class='teach'>何子龙---钟婷</td><td width='35%'><a href='#' class='edit' style='color: blue;'>编辑</a><a href='#' style='color: red;'>删除</a></td></tr>";
+
+            }else{
+                str="<tr align='center' style='background-color: #EFF3F5;color: #706B99;'><td width='10%'>"+bianhao+"</td><td width='15%'></td><td width='10%'>ACCP8.0</td><td width='30%' class='teach'>何子龙---钟婷</td><td width='35%'><a href='#' class='edit' style='color: blue;'>编辑</a><a href='#' style='color: red;'>删除</a></td></tr>";
+
+            }
+
+
+            $("#class_size").append(str);
+
+            $("#class_size tr:last td:last a:eq(0)").click();
+
+
+        });
+
+    })
+</script>
+
 </html>

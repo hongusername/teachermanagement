@@ -14,12 +14,18 @@ public class Classes {
     private Integer class_id;
     //班级名称
     private String class_name;
-    //班级类型
-    private Integer class_type;
+
+    private Integer class_type; //班级类型
     //教员
     private Integer class_jy;
     //班主任
     private Integer class_bzr;
 
+    //教师
+    private Teacher teacher1;
+    //教师
+    private Teacher teacher2;
+    //班级
+    private Grade grade;
 
 }
