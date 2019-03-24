@@ -21,4 +21,9 @@ public class GradeServiceImpl implements GradeService {
     public List<Grade> getGradeList() {
         return gradeMapper.selectGradeList();
     }
+
+    @Override
+    public Grade getGradeBId(Integer id) {
+        return gradeMapper.selectGradeBId(id);
+    }
 }

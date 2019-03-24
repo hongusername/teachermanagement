@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>jQuery在线答题考试系统下载 - 站长素材</title>
+    <title>学 员 满 意 度 调 查</title>
 
     <link href="/css/main.css" rel="stylesheet" type="text/css"/>
     <link href="/css/iconfont.css" rel="stylesheet" type="text/css"/>
@@ -94,14 +94,14 @@
                                         <li class="option">
                                             <input type="radio" class="radioOrCheck" name="answer_end"
                                                    id="0_answer_1_option_end_0"/>
-                                            <label @click="checked(0,'A')" onclick="chk(this)" for="0_answer_1_option_end_0">
+                                            <label @click="checked(0,'是')" onclick="chk(this)" for="0_answer_1_option_end_0">
                                                 A. <p class="ue" style="display: inline;">是</p>
                                             </label>
                                         </li>
                                         <li class="option">
                                             <input type="radio" class="radioOrCheck" name="answer_end"
                                                    id="0_answer_1_option_end_1"/>
-                                            <label @click="checked(0,'B')" onclick="chk(this)" for="0_answer_1_option_end_1">B. <p class="ue"
+                                            <label @click="checked(0,'否')" onclick="chk(this)" for="0_answer_1_option_end_1">B. <p class="ue"
                                                                                                            style="display: inline;">
                                                 否</p>
                                             </label>
@@ -113,8 +113,8 @@
                     </div>
                     <div class="test_content">
                         <div class="test_content_title">
-                            <h2 style="float: left" v-show="teacherType == 2">你对班主任老师以及班级的意见、建议：</h2>
-                            <h2 style="float: left" v-show="teacherType == 1">你对教员以及班级的意见、建议：</h2>
+                            <h2 style="float: left" th:if="${teacher.type == 2}">你对班主任老师以及班级的意见、建议：</h2>
+                            <h2 style="float: left" th:if="${teacher.type == 1}">你对教员以及班级的意见、建议：</h2>
                         </div>
                     </div>
                     <div class="test_content_nr message_content">
@@ -155,11 +155,11 @@
                     </div>
                     <div class="rt_content">
                         <div class="rt_content_nr answerSheet details" style="height: 275px">
-                            <p>班级编号：TCMP071</p>
-                            <p v-show="teacherType == 2">班主任老师：钟婷</p>
-                            <p v-show="teacherType == 1">课程名称：ACCP8.0</p>
-                            <p v-show="teacherType == 1">任课教员：何子龙</p>
-                            <p>调查日期：2019-03-22</p>
+                            <p>班级编号：<span th:text="${grade.class_name}"></span></p>
+                            <p th:if="${teacher.type == 2}">班主任老师：<span th:text="${teacher.name}"></span></p>
+                            <p th:if="${teacher.type == 1}">课程名称：ACCP8.0</p>
+                            <p th:if="${teacher.type == 1}">任课教员：<span th:text="${teacher.name}"></span></p>
+                            <p>调查日期：<span th:text="${#dates.format(date, 'yyyy-MM-dd')}"></span></p>
                         </div>
                     </div>
                 </div>
@@ -205,13 +205,10 @@
     var vm = new Vue({
         el: '#app',
         data: {
-            surveyTypeId: 1,
             surveyContentList: [],
             message: '',
-            teacherType: 0,
             checkedList: [],
             opinion:'',
-            classId: 1
         },
         methods: {
             checked: function (id, option) {
@@ -227,10 +224,11 @@
                     alert("请回答完整！");
                 }else{
                     var entity = {
-                        classId: this.classId,
-                        surveyTypeId: this.surveyTypeId,
+                        classId: [[${grade.class_id}]],
+                        surveyTypeId: [[${surveyTypeId}]],
                         checkedList: this.checkedList,
-                        opinion: this.opinion
+                        opinion: this.opinion,
+                        teacherType:[[${teacher.type}]]
                     }
                     this.$http.post('http://localhost:8080/result/addResult', entity).then(function (res) {
                         alert(res.body.message);
@@ -243,7 +241,7 @@
         ,
         mounted: function () {
             /* 获取调查问卷问题选项格式 */
-            this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById', {params: {id: 1}}).then(function (res) {
+            this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById?id='+[[${surveyTypeId}]]).then(function (res) {
                 var surveyType = res.body;
                 /* 页面title */
                 document.title = surveyType.name;
@@ -253,7 +251,7 @@
                 alert(res.status);
             });
             /* 获取调查问卷内容 */
-            this.$http.get('http://localhost:8080/survey_content/getContentBySurveyTypeId', {params: {surveyTypeId: 1}}).then(function (res) {
+            this.$http.get('http://localhost:8080/survey_content/getContentBySurveyTypeId?surveyTypeId='+[[${surveyTypeId}]]).then(function (res) {
                 this.surveyContentList = res.body;
             }, function (res) {
                 alert(res.status);

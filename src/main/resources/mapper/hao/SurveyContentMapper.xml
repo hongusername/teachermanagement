@@ -15,4 +15,7 @@
     <insert id="insertSurveyContent" parameterType="SurveyContent" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO survey_content(survey_content,survey_type) VALUES(#{content},#{surveyType})
     </insert>
+    <delete id="deleteSurveyContentBySurveyTypeId" parameterType="java.lang.Integer">
+        DELETE FROM survey_content WHERE survey_type = #{surveyType}
+    </delete>
 </mapper>

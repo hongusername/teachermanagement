@@ -1,6 +1,5 @@
 package com.management.cn.hao.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.management.cn.dto.SurveyContentDTO;
 import com.management.cn.entity.Option;
 import com.management.cn.entity.SurveyContent;
@@ -68,5 +67,10 @@ public class SurveyContentServiceImpl implements SurveyContentService {
             }
         }
         return true;
+    }
+
+    @Override
+    public int deleteSurveyContentBySurveyTypeId(Integer surveyTypeId) {
+        return surveyContentMapper.deleteSurveyContentBySurveyTypeId(surveyTypeId);
     }
 }

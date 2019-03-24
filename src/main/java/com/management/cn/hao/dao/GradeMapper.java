@@ -13,4 +13,6 @@ import java.util.List;
 public interface GradeMapper {
 
     List<Grade> selectGradeList();
+
+    Grade selectGradeBId(Integer id);
 }

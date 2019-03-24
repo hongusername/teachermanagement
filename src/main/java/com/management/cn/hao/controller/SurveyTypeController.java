@@ -1,12 +1,10 @@
 package com.management.cn.hao.controller;
 
+import com.management.cn.dto.SurveyTypeDTO;
 import com.management.cn.entity.SurveyType;
 import com.management.cn.hao.service.SurveyTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,27 +21,69 @@ public class SurveyTypeController {
     private SurveyTypeService surveyTypeService;
 
     @RequestMapping("/getSurveyTypeList")
-    public List<SurveyType> getSurveyTypeList() {
-        List<SurveyType> surveyTypeList = surveyTypeService.getSurveyTypeList();
-        return surveyTypeList;
+    public List<SurveyTypeDTO> getSurveyTypeList() {
+        List<SurveyTypeDTO> surveyTypeDTOList = surveyTypeService.getSurveyTypeList();
+        return surveyTypeDTOList;
     }
 
     @RequestMapping("/getSurveyTypeById")
-    public SurveyType getSurveyTypeById(Integer id) {
-        SurveyType surveyType = surveyTypeService.getSurveyTypeById(id);
-        return surveyType;
+    public SurveyTypeDTO getSurveyTypeById(Integer id) {
+        SurveyTypeDTO surveyTypeDTO = surveyTypeService.getSurveyTypeById(id);
+        return surveyTypeDTO;
     }
 
-    @RequestMapping("/addSurveyType")
-    public Map<String, Object> addSurveyType(@RequestBody SurveyType surveyType) {
+    /**
+     * 保存调查问卷类型
+     *
+     * @param surveyType
+     * @return
+     */
+    @RequestMapping("/saveSurveyType")
+    public Map<String, Object> saveSurveyType(@RequestBody SurveyType surveyType) {
+
+        System.out.println(surveyType);
         Map<String, Object> map = new HashMap<>();
-        Boolean result = surveyTypeService.addSurveyType(surveyType);
+        Boolean result = false;
+        /* 如果没有id就执行添加 */
+        if (surveyType.getId() == 0 || surveyType.getId() == null) {
+            if (surveyTypeService.addSurveyType(surveyType)) {
+                result = true;
+            } else {
+                result = false;
+            }
+        } else { /* 如果有id就执行修改 */
+            if (surveyTypeService.updateSurveyTypebId(surveyType) > 0) {
+                result = true;
+            } else {
+                result = false;
+            }
+        }
+
+
         if (result) {
             map.put("success", true);
-            map.put("message", "添加成功！");
+            map.put("message", "保存成功！");
         } else {
             map.put("success", false);
-            map.put("message", "添加失败！");
+            map.put("message", "保存失败！");
+        }
+        return map;
+    }
+
+    @RequestMapping(value = "/deleteSurveyTypeId")
+    public Map<String, Object> deleteSurveyTypeId(@RequestParam("ids") String ids) {
+        Map<String, Object> map = new HashMap<>();
+        String [] idArray = ids.split(",");
+        try {
+            for (String id : idArray) {
+                surveyTypeService.deleteSurveyTypeId(Integer.parseInt(id));
+            }
+            map.put("success", true);
+            map.put("message", "删除成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("success", false);
+            map.put("message", "删除失败！");
         }
         return map;
     }
