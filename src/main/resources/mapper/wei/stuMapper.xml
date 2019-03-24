@@ -42,7 +42,7 @@
 
     <!--批量删除 -->
     <delete id="batchDeletes" parameterType="java.util.List">
-        DELETE FROM student where uname in
+        DELETE FROM student where stu_id in
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
