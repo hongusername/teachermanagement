@@ -3,6 +3,9 @@ package com.management.cn.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
 /*
 * 结果表
 * */
@@ -15,9 +18,15 @@ public class Result {
     //所属班级
     private Integer classid;
     //分数
-    private Integer score;
+    private Integer totalScore;
     //类型  1.教员 2.班主任
-    private Integer type;
-
-
+    private Integer teacherType;
+    //调查问卷类型
+    private Integer surveyType;
+    //创建日期
+    private Date createDate;
+    //选项
+    private String options;
+    //意见、建议
+    private String opinion;
 }

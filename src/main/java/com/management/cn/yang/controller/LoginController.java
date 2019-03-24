@@ -7,10 +7,13 @@ import com.management.cn.yang.services.StudentServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class LoginController {
@@ -19,7 +22,7 @@ public class LoginController {
     @Resource
     private StudentServices studentServices;
 
-    @RequestMapping("/login")
+    @RequestMapping("/login2")
     public String login(){
         return "yang_login";
     }
@@ -35,18 +38,16 @@ public class LoginController {
         }
     }
 
-    @RequestMapping("/Evaluation")
-    public String Evaluation(Model model,String key,String grade){
+    @RequestMapping("/evaluation")
+    public  String Evaluation(Model model,String key,String grade){
         Teacher teacher=studentServices.queryTeacherById(key,grade);
         Classes classes=studentServices.queryClassesById(Integer.parseInt(grade));
-        System.out.println(teacher.getType());
-        System.out.println(classes.getClass_type());
         Integer surveyTypeId = studentServices.querySurveyTypeById(teacher.getType(),classes.getClass_type()).getId();
         model.addAttribute("teacher",teacher);
         model.addAttribute("grade",classes);
         model.addAttribute("surveyTypeId",surveyTypeId);
         model.addAttribute("date",new Date());
-        return "survey_content";
+        return "evaluating";
     }
 
 }

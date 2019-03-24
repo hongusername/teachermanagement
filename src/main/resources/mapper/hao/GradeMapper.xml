@@ -6,4 +6,8 @@
     <select id="selectGradeList" resultType="Grade">
         SELECT * FROM grade
     </select>
+
+    <select id="selectGradeBId" resultType="Grade">
+        SELECT * FROM grade WHERE id = #{id}
+    </select>
 </mapper>

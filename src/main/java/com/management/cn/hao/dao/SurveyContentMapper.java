@@ -12,6 +12,24 @@ import java.util.List;
  */
 @Component
 public interface SurveyContentMapper {
+    /**
+     * 根据调查问卷类型id查询 问题
+     * @param surveyType
+     * @return
+     */
     List<SurveyContent> selectContentBySurveyTypeId(Integer surveyType);
+
+    /**
+     * 添加问题
+     * @param surveyContent
+     * @return
+     */
     Boolean insertSurveyContent(SurveyContent surveyContent);
+
+    /**
+     * 根据调查问卷id 删除问题
+     * @param surveyType
+     * @return
+     */
+    int deleteSurveyContentBySurveyTypeId(Integer surveyType);
 }
