@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../static/wei/layui/lay/modules/layer.js"></script>
+</head>
+<body>
+
+<table class="table table-border table-bordered table-bg">
+    <thead>
+    <tr>
+        <th scope="col" colspan="10">管理员列表</th>
+    </tr>
+    <tr class="text-c">
+        <!--全选按钮 -->
+        <th width="25"><input type="checkbox" name="" id="allSelect" class="allSelect" value=""></th>
+        <th width="120">ID</th>
+        <th width="80">真是姓名</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <c:forEach items="${page.list}" var="user">
+        <tr class="text-c">
+            <td><input type="checkbox" value="${user.id }" name="id"></td>
+            <td>${user.id }</td>
+            <td>${user.userName}</td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
+
+</body>
+</html>
+<script type="text/javascript" src="./wei/layui/lay/modules/layer.js"></script>
+<script>
+    function datadel(){
+        layer.confirm('确认要删除吗？',function(index){
+            // 获取所有选中的checked框
+            var option = $(":checked");
+            var checkedId = "";
+            var boo=true;
+            //拼接除全选框外,所有选中的id,
+            for (var i = 0, len = option.length; i < len; i++) {
+                if (boo) {
+                    if (option[i].id=='allSelect') {
+                        boo=true;
+                    }else {
+                        boo=false;
+                        checkedId += option[i].value;
+                    }
+                }else{
+                    checkedId += ","+option[i].value;
+                }
+            }
+            $.ajax({
+                type: "post",
+                url:'${base}admin/doFalseDelete',
+                data : {
+                    "checkedId":checkedId
+                },
+                dataType:"json",
+                success : function(map) {
+                    parent.layer.msg(map.message,{icon: 6,time:1000});
+                    setTimeout("serachFromSubmit()", 1000);
+                },error:function(code){
+                    parent.layer.msg('操作失败!',{icon: 5,time:1000});
+                }
+            });
+        });
+    }
+
+</script>

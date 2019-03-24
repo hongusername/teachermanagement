@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StuController {
@@ -61,7 +63,15 @@ public class StuController {
         return "redirect:/queryStuAll";
     }
 
+    @RequestMapping("doFalseDelete")
+    @ResponseBody
+    public Map<String, Object> doFalseDelete( String checkedId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        stuService.falseDelete(checkedId);
+        map.put("message", "删除成功");
+        return map;
 
+    }
   /*  @RequestMapping(value = "/queryAllStudent")
     public void query( HttpServletResponse resp ) {
         try {

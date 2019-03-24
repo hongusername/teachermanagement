@@ -24,6 +24,7 @@
 
         <thead>
         <tr class="success">
+            <th><input type="checkbox" onclick="allcheck(this)"></th>
             <th>学号</th>
             <th>姓名</th>
             <th>手机号</th>
@@ -32,16 +33,23 @@
             <th>编辑</th>
             <th>删除</th>
         </tr>
+        <script>
+            function allcheck(a) {
+
+            }
+        </script>
         </thead>
 
         <tbody>
         <tr th:each="list : ${list.list}">
+            <td><input type="checkbox"></td>
             <td th:text="${list.stu_id}"></td>
             <td th:text="${list.stu_name}"></td>
             <td th:text="${list.stu_phone}"></td>
             <td th:text="${list.getClasses().getClass_name()}"></td>
             <td>
-                <button type="button" onclick="bottom(this)" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content='<!DOCTYPE html>
+                <button type="button" onclick="bottom(this)" class="btn btn-default" data-container="body"
+                        data-toggle="popover" data-placement="left" data-content='<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -110,29 +118,29 @@
 
                 <script>
                     function bottom(b) {
-                       var id = $(b).parent().prev().prev().prev().prev().html();
-                       var claid = 0;
-                       $.post("/toupdateStu",{"stu_id":id},function (r,s) {
-                           if(s=="success"){
-                              claid=r.stu_class;
-                              $("#stu_name").val(r.stu_name);
-                               $("#stu_phone").val(r.stu_phone);
-                               $("#student_id").val(r.stu_id);
-                           }
-                       },"json");
-                        $.post("/toupdateStulist",{},function (r,s) {
-                            if(s=="success"){
-                                var html="";
-                                for (var i =0;i<r.length;i++){
-                                    if(claid==r[i].class_id){
-                                        html+="<option selected='selected' value='"+r[i].class_id+"' >"+r[i].class_name+"</option>"
-                                    }else{
-                                        html+="<option value='"+r[i].class_id+"'>"+r[i].class_name+"</option>"
+                        var id = $(b).parent().prev().prev().prev().prev().html();
+                        var claid = 0;
+                        $.post("/toupdateStu", {"stu_id": id}, function (r, s) {
+                            if (s == "success") {
+                                claid = r.stu_class;
+                                $("#stu_name").val(r.stu_name);
+                                $("#stu_phone").val(r.stu_phone);
+                                $("#student_id").val(r.stu_id);
+                            }
+                        }, "json");
+                        $.post("/toupdateStulist", {}, function (r, s) {
+                            if (s == "success") {
+                                var html = "";
+                                for (var i = 0; i < r.length; i++) {
+                                    if (claid == r[i].class_id) {
+                                        html += "<option selected='selected' value='" + r[i].class_id + "' >" + r[i].class_name + "</option>"
+                                    } else {
+                                        html += "<option value='" + r[i].class_id + "'>" + r[i].class_name + "</option>"
                                     }
                                 }
                                 $("#selectcla").html(html)
                             }
-                        },"json");
+                        }, "json");
                     }
                 </script>
             </td>
@@ -197,7 +205,7 @@
 </html>
 <script src="./wei/layui/layui.js" charset="utf-8"></script>
 <script>
-    $(function() {
+    $(function () {
         $("[data-toggle='popover']").popover({
             html: true
         });

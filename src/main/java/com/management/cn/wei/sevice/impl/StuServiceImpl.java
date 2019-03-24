@@ -50,4 +50,9 @@ public class StuServiceImpl implements StuService {
     public List<Classes> queryAllClasses() {
         return stuDao.queryAllClasses();
     }
+
+    @Override
+    public int falseDelete( String checkedId ) {
+        return stuDao.falseDelete(checkedId);
+    }
 }
