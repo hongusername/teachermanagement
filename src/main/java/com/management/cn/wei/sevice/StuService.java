@@ -19,9 +19,12 @@ public interface StuService {
 
     Integer delStu(Integer stu_id);
 
-    List<Student> detailStu(Integer stu_id);
+    Student detailStu(Integer stu_id);
 
     List<Classes> queryAllClasses();
+
+
+    void batchDeletes(List delList);
 
 
 }

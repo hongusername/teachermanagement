@@ -1,13 +1,22 @@
 package com.management.cn.wei.controller;
 
+import com.management.cn.entity.Classes;
 import com.management.cn.entity.Student;
 import com.management.cn.wei.sevice.StuService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StuController {
@@ -34,12 +43,15 @@ public class StuController {
     }
 
     @RequestMapping("toupdateStu")
-    public String toupdateStu(Integer stu_id,Model model) {
-        model.addAttribute("detail",stuService.detailStu(stu_id));
-        model.addAttribute("listClass", stuService.queryAllClasses());
-        return "updateStu";
+    @ResponseBody
+    public Student toupdateStu(Integer stu_id) {
+        return stuService.detailStu(stu_id);
     }
-
+    @RequestMapping("toupdateStulist")
+    @ResponseBody
+    public List<Classes> toupdateStul() {
+        return stuService.queryAllClasses();
+    }
     @RequestMapping("updateStu")
     public String updateStu( Model model, Student student ) {
         model.addAttribute("list", stuService.updateStu(student));
@@ -55,7 +67,26 @@ public class StuController {
         return "redirect:/queryStuAll";
     }
 
+    /**
+     * 批量删除 batch
+     */
 
+    @RequestMapping("/delAll")
+    public String del(Model model, @RequestParam(defaultValue = "1",required = false) Integer pageNum, @RequestParam(defaultValue = "5",required = false)Integer pageSize){
+        model.addAttribute("list", stuService.queryStuAll(pageNum,pageSize));
+        return "ceshi";
+    }
+    @RequestMapping("/batchDeletes")
+    @ResponseBody
+    public void batchDeletes( HttpServletRequest request, HttpServletResponse response){
+        String items = request.getParameter("delitems");
+        List<String> delList = new ArrayList<String>();
+        String[] strs = items.split(",");
+        for (String str : strs) {
+            delList.add(str);
+        }
+        stuService.batchDeletes(delList);
+    }
   /*  @RequestMapping(value = "/queryAllStudent")
     public void query( HttpServletResponse resp ) {
         try {

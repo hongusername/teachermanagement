@@ -34,16 +34,13 @@ public class ITeacherController {
         Teacher t = iTeacherService.getTeacher(username);
         model.addAttribute("username", username);
         if (t == null) {
-            System.out.println("t==null");
             model.addAttribute("LoginInfo", "账号或密码不正确!");
             return "Long_index";
         } else  {
             if (t.getPwd().equals(password)||t.getPwd()==password) {
-                System.out.println("tdui");
-                return "Long_senate";
+                return "redirect:getClasses";
             } else {
                 model.addAttribute("LoginInfo", "账号或密码不正确!");
-                System.out.println("t budui");
                 return "Long_index";
             }
         }

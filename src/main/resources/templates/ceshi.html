@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./wei/layui/lay/modules/layer.js"></script>
+<!--<script src="${ctx}/static/js/plugins/mloading/jquery.mloading.js"></script>-->
+<body>
+
+<table class="tb_list">
+    <tr>
+        <td align="center"><input type="checkbox" id="SelectAll"
+                                  onclick="selectAll();"/> 全选
+        </td>
+        <th>序号</th>
+
+    </tr>
+        <tr th:each="list : ${list.list}">
+            <td style="display:none" th:text="${list.stu_id}"></td>
+            <td align="center"><input type="checkbox" id="subcheck"
+                                      name="subcheck" th:text="${list.stu_id}" th:value="${list.stu_id}"/>
+            </td>
+            <td></td>
+        <tr>
+</table>
+<button class="btn btn-primary btn-md" type="button"
+        id="deleteButton">删除
+</button>
+</body>
+</html>
+<script>
+    //全选
+    function selectAll(){
+        if ($("#SelectAll").is(":checked")) {
+            $(":checkbox").prop("checked", true);//所有选择框都选中
+        } else {
+            $(":checkbox").prop("checked", false);
+        }
+    }
+
+    //批量删除
+    $("#deleteButton").on("click", function() {
+        //判断至少写了一项
+        var checkedNum = $("input[name='check']:checked").length;
+        if (checkedNum == 0) {
+            layer.alert("请至少选择一项!");
+            return false;
+        }
+        var checkedList = new Array();
+        $("input[name='check']:checked").each(function() {
+            checkedList.push($(this).val());
+        });
+        layer.confirm('确定删除所选项目?', {
+            title : '提示'
+        }, function(index) {
+
+            $("body").mLoading('show'); //加遮罩
+
+            $.ajax({
+                type : "POST",
+                url : '${ctx}/manage/banner/delete',
+                data : {
+                    "delitems" : checkedList.toString()
+                },
+                datatype : "html",
+                success : function(data) {
+                    $(":checkbox").attr("checked", false);
+                    layer.close();
+                    window.location.reload();
+                },
+                error : function(data) {
+                    art.dialog.tips('删除失败!');
+                }
+            });
+
+        });
+    })
+</script>

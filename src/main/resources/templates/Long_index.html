@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="/css/styleLogin.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
     <script type="text/javascript" src="../static/js/vue.js"></script>
     <script type="text/javascript" src="../static/js/vue-resource.js"></script>
+    <link rel="icon" href="/image/kgclogo.jpg" type="image/x-icon" />
 </head>
+
 <style>
     *{
         margin: 0;
@@ -16,15 +21,20 @@
     }
 
     #div1{
-        margin-top: 200px;
+        margin-top: 100px;
     }
+    body {
+        width：100%;
+        height: 100%;
+        background-image: url("/image/kgcbg2.png");
+        background-repeat: no-repeat;
+          }
+
 
 </style>
-<script>
 
-</script>
 <body>
-    <div align="center" id="div1">
+    <!--<div align="center" id="div1">
         <form action="checkLogin" >
             <table border="1">
                 <tr>
@@ -33,7 +43,7 @@
                 </tr>
                 <tr>
                     <td>密码:</td>
-                    <td><input v-model="password" name="password"><span id="passwordInfo" >{{pwdInfo}}</span></td>
+                    <td><input v-model="password" name="password"><span id="passwordInfo" ></span></td>
                 </tr>
                 <tr>
                     <td colspan="2">
@@ -45,10 +55,50 @@
                 </tr>
             </table>
         </form>
-    </div>
+    </div>-->
+
+
+ <!--   <div style="padding: 10px 400px 10px;" id="div1">
+        <form action="/checkLogin" method="post" class="bs-example bs-example-form" role="form">
+
+            <div class="input-group">
+                <span class="input-group-addon">姓名:</span>
+
+                <input type="text" class="form-control" name="username" placeholder="请输入姓名" v-model="username" th:value="${username}">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">密码:</span>
+                <input type="password" class="form-control" name="password" placeholder="请输入密码" v-model="password">
+            </div>
+
+            <button class="btn btn-primary  btn-block" style="align-content: center">登录</button>
+        </form>
+    </div>-->
+    <hgroup>
+        <h1>Welcome to the evaluation system</h1>
+        <h3>教务管理员，您好！</h3>
+    </hgroup>
+    <form action="/checkLogin" method="post">
+        <div class="group">
+            <input type="text" name="username" v-model="username" th:value="${username}"><span class="highlight"></span><span class="bar"></span>
+            <label>Name</label>
+        </div>
+        <div class="group">
+            <input type="password" name="password" v-model="password"><span class="highlight"></span><span class="bar"></span>
+            <label>Password</label>
+        </div>
+        <button class="button buttonBlue">登录
+            <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+        </button>
+    </form>
 </body>
+
+
+
+
 </html>
 <script>
+
     // $(function(){
     //
     //     $("from").submit(function(){
@@ -67,6 +117,7 @@
     //
     //
     // });
+
     var vm1=new Vue({
         el:'#div1',
         data:{

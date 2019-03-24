@@ -42,7 +42,7 @@ public class StuServiceImpl implements StuService {
     }
 
     @Override
-    public List<Student> detailStu( Integer stu_id ) {
+    public Student detailStu( Integer stu_id ) {
         return stuDao.detailStu(stu_id);
     }
 
@@ -50,4 +50,11 @@ public class StuServiceImpl implements StuService {
     public List<Classes> queryAllClasses() {
         return stuDao.queryAllClasses();
     }
+
+    @Override
+    public void batchDeletes( List delList ) {
+        stuDao.batchDeletes(delList);
+    }
+
+
 }
