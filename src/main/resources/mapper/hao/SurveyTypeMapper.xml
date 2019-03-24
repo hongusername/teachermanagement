@@ -16,4 +16,10 @@
     <insert id="insertSurveyType" parameterType="SurveyType">
       INSERT INTO survey_type(`name`,options,teacher_type,grade_id) VALUES(#{name},#{options},#{teacherType},#{gradeId})
     </insert>
+    <update id="updateSurveyTypebId" parameterType="SurveyType">
+      UPDATE survey_type set name = #{name},`options`= #{options},teacher_type= #{teacherType},grade_id=#{gradeId} where id = #{id}
+    </update>
+    <delete id="deleteSurveyTypeId" parameterType="java.lang.Integer">
+        DELETE FROM survey_type WHERE id = #{id}
+    </delete>
 </mapper>

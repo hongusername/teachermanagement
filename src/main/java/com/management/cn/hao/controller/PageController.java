@@ -1,9 +1,8 @@
 package com.management.cn.hao.controller;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -14,16 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PageController {
 
 
-    @RequestMapping("/pingce")
-    public String page(Integer surveyTypeId, Model model) {
-        model.addAttribute("surveyTypeId", surveyTypeId);
-        return "survey_content";
+    @RequestMapping("/{page}")
+    public String page(@PathVariable String page) {
+        return page;
     }
+
+    @RequestMapping("/admin/{page}")
+    public String adminPage(@PathVariable String page) {
+        return "admin/" + page;
+    }
+
 
     @RequestMapping("/addSurveyContentPage")
     public String addSurveyContentPage() {
         return "add_survey_content";
     }
+
 
     @RequestMapping("/survey_type_list")
     public String surveyTypeListPage() {
@@ -40,4 +45,6 @@ public class PageController {
     public String evaluating() {
         return "evaluating";
     }
+
+
 }

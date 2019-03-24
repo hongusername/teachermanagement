@@ -1,116 +1,144 @@
-* {
-    padding: 0;
-    margin: 0;
+/* tab 1*/
+.double {
+	line-height: 58px;
 }
-.hasBeenAnswer {
-    background: #5d9cec;
+.title .glyphicon{
+	padding: 3px;
+	font-size: 13px;
+    border-radius: 8px;
     color: #fff;
+	
+}
+.data span.arrowup {
+	color: #d88918;
+}
+.data span.arrowdown {
+	color: #6bb10a;
+}
+.item-blue .glyphicon{
+	background-color: #39a9ea;
+}
+.item-green {
+	line-height: 58px;
+}
+.item-green .glyphicon{
+	background-color: #6bb10a;
+	line-height: 12px;
+}
+.item-orange .glyphicon{
+	background-color:#d88918;
+}
+.item-red .glyphicon{
+	background-color: #f14f4f;
+}
+.chart .chart-box {
+	margin: 10px;
 }
 
-.answerSheet {
-    text-align: left;
+/* 数据表格label */
+.content-wrapper .data-type {
+	/*width: 90%;*/
+	margin: 10px 5px;
+	border:1px solid #d4d4d4;
+	border-radius: 2px;
 }
-.answerSheet ul li{
-    margin: 2px;
+.data-type .title,
+.data-type .data {
+	padding: 3px 12px;
+	border-top: 1px solid #d4d4d4;
+	overflow: hidden;
+    height: 42px;
+}
+.data-type .title {
+    line-height: 34px;
+	border-right: 1px solid #d4d4d4;
 }
 
-.answerSheet p {
+.data-type .data:last-child{
+	border-right: 0;
+}
+.data-type .title{
+	text-align: center;
+	background: #ececec;
+}
+.data-type .data .line{
+	vertical-align: middle;
+	overflow: hidden;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+/* label行高度 */
+.data-type .data > label {
+	line-height:36px;
+}
+.data-type .data > .form-group {
+	line-height:36px;
+}
+.data-type .data.text {
+	line-height:36px;
+}
+/* label行分隔符 */
+.data-type .data.border-right {
+	border-right: 1px solid #d4d4d4;
+}
+
+/* 表格双倍高度 */
+.data-type .title.rowHeight2x,
+.data-type .data.rowHeight2x {
+	height:84px;
+}
+.data-type .title.rowHeight2x {
+	line-height:78px;
+}
+/*.data-type .data.rowHeight2x > label {
+	line-height:78px;
+}*/
+.data-type .title.editer,
+.data-type .data.editer {
+	height:320px;
+}
+.data-type .title.editer {
+	line-height:300px;
+}
+
+/*清除parding*/
+.padding-clear {
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+/* 文件上传 */
+/*a  upload */
+.a-upload {
+    padding: 4px 10px;
+    height: 35px;
     line-height: 25px;
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
 }
-.details{
-    padding: 15px;
+.a-upload  input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+.a-upload:hover {
+    color: #444;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none
 }
 
-.textarea{
-    width: 95%;
-    min-height: 20px;
-    max-height: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    outline: 0;
-    font-size: 12px;
-    line-height: 24px;
-    padding: 10px;
-    word-wrap: break-word;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-header {
-    /*position: fixed;*/
-    top: 0;
-    z-index: 99;
-}
-header, footer {
-    background: #333333;
-    height: 70px;
-    width: 100%;
-}
-.header-content {
-    width: 1000px;
-    margin: 0 auto;
-    height: 70px;
-}
-.img-1 {
-    height: 100%;
-    width: 81px;
-    background: url(/images/logo.png) no-repeat center;
-    float: left;
-    margin-top: -5px;
-}
-.rec {
-    height: 26px;
-    border-left: 3px solid #ffffff;
-    float: left;
-    margin: 22px 20px;
-}
-.text-1 {
-    font-size: 18px;
-    color: #fff;
-    height: 100%;
-    line-height: 70px;
-    float: left;
-}
-.header-nav {
-    float: left;
-    margin-left: 20px;
-}
-.header-nav li {
-    float: left;
-    list-style-type: none;
-    height: 70px;
-    line-height: 70px;
-    padding: 0 15px;
-}
-.right {
-    float: right;
-}
-.header-content a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 14px;
-}
-.user-info {
-    display: block;
-    padding: 0 15px;
-    height: 70px;
-    line-height: 70px;
-    background: url(/images/user.png) no-repeat left center;
-    float: left;
-    margin-left: 20px;
-    text-indent: 10px;
-}
-.esc {
-    height: 70px;
-    line-height: 70px;
-    float: left;
-    margin-left: 10px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 14px;
-}
-.esc a {
-    display: inline-block;
-    min-width: 30px;
-    height: 100%;
-    padding: 0 10px;
-}
+

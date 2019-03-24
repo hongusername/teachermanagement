@@ -1,6 +1,7 @@
 package com.management.cn.hao.service;
 
 import com.management.cn.entity.Grade;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -10,4 +11,5 @@ import java.util.List;
  */
 public interface GradeService {
     List<Grade> getGradeList();
+    Grade getGradeBId(Integer id);
 }
