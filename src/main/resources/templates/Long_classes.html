@@ -29,8 +29,10 @@
     function t1(){
         $("#form1").submit();
     }
-    function t2(id){
-        alert(id);
+    function t2(obj){
+        alert(obj.class_id);
+
+
     }
 </script>
 <body class="hold-transition skin-red sidebar-mini">
@@ -79,8 +81,8 @@
             <tbody>
             <tr th:each="c,i : ${classes}" align="center">
                 <td th:text="${i.index+1}"></td>
-                <td  th:text="${c.class_name}"></td>
-                <td   th:text="${c.grade.semester}"></td>
+                <td th:text="${c.class_name}"></td>
+                <td th:text="${c.grade.semester}"></td>
                 <td  class="teach">
                     <span  th:text="${c.teacher1.name}"></span>
                     <!--何子龙-&#45;&#45;钟婷-->-------
@@ -90,9 +92,10 @@
                     <span>本月未考核</span>
                 </td>
                 <td class="text-center">
-                    <button onclick="t2()" type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2">修改</button>
+                    <button th:onclick="t2([[${c}]])"  type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2" >修改</button>
                     <button type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button>
                 </td>
+                <!--data-toggle="modal" data-target="#editModa2"-->
             </tr>
 
             </tbody>
@@ -125,8 +128,7 @@
                             <td>班级类型</td>
                             <td>
                                 <select name="classesType">
-                                    <option th:each="c:${classType}" th:value="${c.id}"
-                                            th:text="${c.semester}"></option>
+                                    <option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
                                 </select>
                             </td>
                         </tr>
