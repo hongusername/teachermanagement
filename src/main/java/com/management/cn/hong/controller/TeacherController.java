@@ -32,7 +32,7 @@ public class TeacherController {
             model.addAttribute("type", 0);
         }
 
-        return "hteacherlist";
+        return "admin/hteacherlist";
     }
 
     @RequestMapping("/ajaxteacherListController")
