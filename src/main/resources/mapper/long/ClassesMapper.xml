@@ -28,15 +28,51 @@
         </association>
     </resultMap>
 
-    <select id="getClasses" resultMap="a">
 
+    <sql id="sql">
         SELECT c.class_id,c.class_name,g.id,c.status,g.semester,t1.name AS bzr,t2.name AS jy,t1.teacherid as t1Id,t2.teacherid as t2Id
 
         FROM classes c ,grade  g , teacher t1 ,teacher t2
 
-        WHERE c.class_type=g.id AND c.class_bzr=t1.teacherid AND c.class_jy=t2.teacherid ORDER BY c.status desc
+        WHERE c.class_type=g.id AND c.class_bzr=t1.teacherid AND c.class_jy=t2.teacherid
+    </sql>
 
+    <select id="getClasses" resultMap="a">
+        <include refid="sql" />  ORDER BY c.status desc
     </select>
+
+    <select id="selClassName" resultMap="a">
+        <include refid="sql"/>
+        AND c.class_name LIKE  CONCAT('%',#{key},'%')  ORDER BY c.status desc
+    </select>
+
+    <select id="selClassType" resultMap="a">
+        <include refid="sql"/>
+        AND g.semester LIKE  CONCAT('%',#{key},'%')  ORDER BY c.status desc
+    </select>
+
+    <select id="selClassJy" resultMap="a">
+        <include refid="sql"/>
+        AND  t2.name LIKE  CONCAT('%',#{key},'%')  ORDER BY c.status desc
+    </select>
+
+    <select id="selClassBzr" resultMap="a">
+        <include refid="sql"/>
+        AND t1.name LIKE  CONCAT('%',#{key},'%')  ORDER BY c.status desc
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <insert id="addClass">
