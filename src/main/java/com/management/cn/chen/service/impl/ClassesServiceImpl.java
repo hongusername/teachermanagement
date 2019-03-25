@@ -34,4 +34,24 @@ public class ClassesServiceImpl implements IClassesService {
     public int delClass(int id) {
         return iClassesDao.delClass(id);
     }
+
+    @Override
+    public List<Classes> selClassName(String key) {
+        return iClassesDao.selClassName(key);
+    }
+
+    @Override
+    public List<Classes> selClassType(String key) {
+        return iClassesDao.selClassType(key);
+    }
+
+    @Override
+    public List<Classes> selClassJy(String key) {
+        return iClassesDao.selClassJy(key);
+    }
+
+    @Override
+    public List<Classes> selClassBzr(String key) {
+        return iClassesDao.selClassBzr(key);
+    }
 }

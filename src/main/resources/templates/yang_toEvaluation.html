@@ -6,12 +6,12 @@
     <style>
         li{list-style-type: none;width: 40%;background-color: aqua;line-height:50px}
     </style>
-    <script src="./jquery-1.11.0.js"></script>
+    <script src="/js/jquery.min.js"></script>
 </head>
 <body>
        <div>
-           <h1 th:text="'欢迎'+${student.stu_name}+'同学对班级老师进行测评'"></h1><button>退出系统</button>
-           <input type="hidden" id="grade" th:value="${student.stu_class}">
+           <h1 th:text="'欢迎使用评测系统，您将对'+${grade.class_name}+'班级老师进行测评'"></h1><button>退出系统</button>
+           <input type="hidden" id="grade" th:value="${grade.class_id}">
            <ul>
                <li>教员<input style="right: 0"  type="button" onclick="jclick(1)" value="开始测评"></li>
                <li>班主任<input style="right: 0" type="button" onclick="jclick(2)" value="开始测评"></li>
@@ -22,9 +22,9 @@
         var grade=$("#grade").val();
         alert(grade)
         if(index==1){
-            window.location="/Evaluation?key=class_jy&grade="+grade;
+            window.location="/evaluation?key=class_jy&grade="+grade;
         }else {
-            window.location="/Evaluation?key=class_bzr&grade="+grade;
+            window.location="/evaluation?key=class_bzr&grade="+grade;
         }
     }
 </script>

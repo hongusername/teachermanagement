@@ -19,6 +19,7 @@ public interface SurveyContentMapper {
      */
     List<SurveyContent> selectContentBySurveyTypeId(Integer surveyType);
 
+
     /**
      * 添加问题
      * @param surveyContent
