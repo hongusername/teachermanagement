@@ -10,22 +10,33 @@
     <script type="text/javascript" src="/js/vue-resource.js"></script>
     <link rel="icon" href="/image/kgclogo.jpg" type="image/x-icon" />
     <style type="text/css">
-        body {
-            width：100%;
-            height: 100%;
-            background-image: url("/image/kgcbg2.png");
-            background-repeat: no-repeat;
+        #kgcbiglogo{
+            margin-left: 550px;
+        }
+        /*#loginlogin{
+            width: 120px;
+            height: 33px;
+            border-radius: 66px;
+            background-color: #00ff00;
+            border: 0;
+            color: #fff;
+            font-weight: bold;
 
         }
+
+        #loginlogin:hover {
+            -webkit-animation-name: shake-slow;
+                     -ms-animation-name: shake-slow;
+         }*/
 
     </style>
 
 
 </head>
 <body>
+<img src="/image/kgcbiglogo.png" style="padding: 20px" id="kgcbiglogo">
 <hgroup>
     <h1>Welcome to the evaluation system</h1>
-    <h3>亲爱的管理员，您好！</h3>
 </hgroup>
 <form action="/dologin" method="post">
     <div class="group">
@@ -36,7 +47,7 @@
         <input type="password" name="pwd"><span class="highlight"></span><span class="bar"></span>
         <label>Password</label>
     </div>
-    <button class="button buttonBlue">登录
+    <button class="button buttonBlue" id="loginlogin">登录
         <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
     </button>
 </form>
@@ -63,10 +74,10 @@
         })
     })
 </script>
-<script type="text/javascript">
-   var msg='[[${msg}]]';
-   if (msg.length>0){
-       alert(msg);
-   }
+        <script type="text/javascript">
+               var msg='[[${msg}]]';
+               if (msg.length>0){
+                   alert(msg);
+               }
 
-</script>
+        </script>

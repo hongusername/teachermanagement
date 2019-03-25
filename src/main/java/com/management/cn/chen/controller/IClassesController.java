@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,29 +28,120 @@ public class IClassesController {
 
     @RequestMapping("getClasses")
     public String getClasses(Model model) {
+        List<Classes> list = iClassesService.getClasses();
         List<Teacher> jy = iTeacherService.getTea(1);
         List<Teacher> bzr = iTeacherService.getTea(2);
-        List<Classes> list = iClassesService.getClasses();
-        List<Grade> classType=longIGradeService.getGrade();
+        List<Grade> classType = longIGradeService.getGrade();
         model.addAttribute("classes", list);
         model.addAttribute("jy", jy);
         model.addAttribute("bzr", bzr);
         model.addAttribute("classType", classType);
 
-        for (Classes g : list){}
         return "Long_classes";
     }
 
     @RequestMapping("l_addClass")
-    public String l_addClass(String classesName,int classesType,int classesBzr,int classesJy){
+    public String l_addClass(String classesName, int classesType, int classesBzr, int classesJy) {
 
-        System.out.println( classesName+"-"+classesType+"-"+classesBzr+"-"+classesJy);
-        Classes c=new Classes();
+        System.out.println(classesName + "-" + classesType + "-" + classesBzr + "-" + classesJy);
+        Classes c = new Classes();
         c.setClass_name(classesName);
         c.setClass_type(classesType);
         c.setClass_bzr(classesBzr);
         c.setClass_jy(classesJy);
         iClassesService.addClass(c);
         return "redirect:/getClasses";
+    }
+
+    @RequestMapping("updClasses")
+    public String updClasses(int id, String classesName, int classesType, int classesBzr, int classesJy) {
+
+        Classes c = new Classes();
+        c.setClass_id(id);
+        c.setClass_name(classesName);
+        c.setClass_bzr(classesBzr);
+        c.setClass_type(classesType);
+        c.setClass_jy(classesJy);
+        int i = iClassesService.updClass(c);
+        return "redirect:/getClasses";
+    }
+
+    @RequestMapping("delClasses")
+    public String delClasses(int id) {
+        int i = iClassesService.delClass(id);
+        return "redirect:/getClasses";
+    }
+
+    @RequestMapping("Long_sel")
+    public String sel(String key, Model model) {
+
+        if(key.trim()==null||key.trim()==""){
+            return "redirect:/getClasses";
+        }
+        List<Teacher> jy = iTeacherService.getTea(1);
+        List<Teacher> bzr = iTeacherService.getTea(2);
+        List<Grade> classType = longIGradeService.getGrade();
+        model.addAttribute("jy", jy);
+        model.addAttribute("bzr", bzr);
+        model.addAttribute("classType", classType);
+        model.addAttribute("key", key);
+
+        List<Classes> c1 = iClassesService.selClassBzr(key);
+        List<Classes> c2 = iClassesService.selClassJy(key);
+        List<Classes> c3 = iClassesService.selClassType(key);
+        List<Classes> c4 = iClassesService.selClassName(key);
+
+        List<Classes> list = new ArrayList<Classes>();
+        for(Classes c : c1){
+            list.add(c);
+        }
+        for(Classes c : c2){
+            list.add(c);
+        }
+        for(Classes c : c3){
+            list.add(c);
+        }
+        for(Classes c : c4){
+            list.add(c);
+        }
+//        list.addAll(c1);
+//        for (Classes c : list) {
+//            System.out.println(c.getClass_name());
+//        }
+//        System.out.println("---------------------------------------------------------");
+//        list.addAll(c2);
+//        for (Classes c : list) {
+//            System.out.println(c.getClass_name());
+//        }
+//        System.out.println("---------------------------------------------------------");
+//        list.addAll(c3);
+//        for (Classes c : list) {
+//            System.out.println(c.getClass_name());
+//        }
+//        list.addAll(c4);
+
+//        for (Classes c : list) {
+//            Teacher t1 = new Teacher();
+//            Teacher t2 = new Teacher();
+//            Grade g = new Grade();
+//            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
+//
+////            t1.setName(c.getTeacher1().getName().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
+////            c.setTeacher1(t1);
+////
+////
+////            t2.setName(c.getTeacher2().getName().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
+////            c.setTeacher2(t2);
+////
+////
+////            g.setSemester(c.getGrade().getSemester().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
+////            c.setGrade(g);
+////
+////            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
+////            System.out.println(c.getClass_name());
+//        }
+
+             model.addAttribute("classes", list);
+        return "Long_classes";
     }
 }
