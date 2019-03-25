@@ -28,16 +28,12 @@
 </head>
 <body>
 <img src="/image/kgcbiglogo.png" style="padding: 20px" id="kgcbiglogo">
-<form action="/dologin" method="post">
+<form action="/toEvaluation" method="post">
 
     <div class="group">
-        <select>
+        <select name="grade">
             <option>请选择班级</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option th:each="cla:${classes}" th:value="${cla.class_id}" th:text="${cla.class_name}"></option>
         </select>
 
     </div>

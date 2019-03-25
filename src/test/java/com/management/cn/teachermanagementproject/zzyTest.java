@@ -17,7 +17,7 @@ public class zzyTest {
 
     @Test
     public void test(){
-        System.out.println(studentServices.queryStudentLogin("TCMP068","赵子洋"));
+//        System.out.println(studentServices.queryStudentLogin("TCMP068","赵子洋"));
     }
     @Test
     public void test2(){

@@ -1,5 +1,6 @@
 package com.management.cn.yang.controller;
 
+import com.management.cn.chen.service.IClassesService;
 import com.management.cn.entity.Classes;
 import com.management.cn.entity.Student;
 import com.management.cn.entity.Teacher;
@@ -22,18 +23,24 @@ public class LoginController {
     @Resource
     private StudentServices studentServices;
 
+    @Resource
+    private IClassesService classesService;
     @RequestMapping("/user/login")
-    public String login(){
+    public String login(Model model){
+        model.addAttribute("classes",classesService.getClasses());
         return "yang_login";
     }
 
     @RequestMapping("/toEvaluation")
-    public String toEvaluation(Model model, String grade, String stuname){
-        Student student =studentServices.queryStudentLogin(grade,stuname);
+    public String toEvaluation(Model model, Integer grade){
+        Classes student =studentServices.queryStudentLogin(grade);
+        System.out.println(student);
         if(student!=null){
-            model.addAttribute("student",student);
+            System.out.println("----------1111");
+            model.addAttribute("grade",student);
             return "yang_toEvaluation";
         }else{
+            model.addAttribute("classes",classesService.getClasses());
             return "yang_login";
         }
     }
