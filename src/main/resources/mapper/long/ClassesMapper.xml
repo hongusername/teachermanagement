@@ -4,7 +4,7 @@
 <mapper namespace="com.management.cn.chen.dao.IClassesDao">
 
     <resultMap id="a" type="com.management.cn.entity.Classes">
-        <id  property="class_id" column="class_id"/>
+        <id property="class_id" column="class_id"/>
         <result property="class_name" column="class_name"></result>
         <result property="class_type" column="class_type"></result>
         <result property="class_jy" column="class_jy"></result>
@@ -16,7 +16,7 @@
         <result property="bzr" column="bzr"></result>
         <result property="jy" column="jy"></result>
         -->
-        <association property="teacher2"  javaType="com.management.cn.entity.Teacher">
+        <association property="teacher2" javaType="com.management.cn.entity.Teacher">
             <result property="name" column="jy"/>
         </association>
         <association property="grade" javaType="com.management.cn.entity.Grade">
@@ -26,16 +26,15 @@
     </resultMap>
 
     <select id="getClasses" resultMap="a">
-
         SELECT c.class_id,c.class_name,g.semester,t1.name AS bzr,t2.name AS jy
-
         FROM classes c ,grade  g , teacher t1 ,teacher t2
-
         WHERE c.class_type=g.id AND c.class_bzr=t1.teacherid AND c.class_jy=t2.teacherid
 
     </select>
 
-
+    <select id="getClassByClassId" resultType="Classes" parameterType="java.lang.Integer">
+        SELECT * FROM classes WHERE class_id = #{classId}
+    </select>
     <insert id="addClass">
         insert into classes values(null,#{class_name},#{class_type},#{class_jy},#{class_bzr},2)
     </insert>

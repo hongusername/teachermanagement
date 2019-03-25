@@ -23,5 +23,7 @@ public class SurveyContentDTO {
     private Integer surveyType;
     /**问卷选项*/
     private List<Option> options;
+    /** 这个题的平均分*/
+    private Integer avg;
 
 }

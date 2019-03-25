@@ -3,6 +3,7 @@ package com.management.cn.yang.services.impl;
 import com.management.cn.entity.*;
 import com.management.cn.yang.dao.StudentDao;
 import com.management.cn.yang.services.StudentServices;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
