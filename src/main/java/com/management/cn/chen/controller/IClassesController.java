@@ -104,42 +104,31 @@ public class IClassesController {
         for(Classes c : c4){
             list.add(c);
         }
-//        list.addAll(c1);
-//        for (Classes c : list) {
-//            System.out.println(c.getClass_name());
-//        }
-//        System.out.println("---------------------------------------------------------");
-//        list.addAll(c2);
-//        for (Classes c : list) {
-//            System.out.println(c.getClass_name());
-//        }
-//        System.out.println("---------------------------------------------------------");
-//        list.addAll(c3);
-//        for (Classes c : list) {
-//            System.out.println(c.getClass_name());
-//        }
-//        list.addAll(c4);
 
-//        for (Classes c : list) {
-//            Teacher t1 = new Teacher();
-//            Teacher t2 = new Teacher();
-//            Grade g = new Grade();
-//            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-//
-////            t1.setName(c.getTeacher1().getName().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            c.setTeacher1(t1);
-////
-////
-////            t2.setName(c.getTeacher2().getName().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            c.setTeacher2(t2);
-////
-////
-////            g.setSemester(c.getGrade().getSemester().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            c.setGrade(g);
-////
-////            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            System.out.println(c.getClass_name());
-//        }
+        for (Classes c : list) {
+            Teacher t1 = new Teacher();
+            Teacher t2 = new Teacher();
+            Grade g = new Grade();
+            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;'>" + key + "</span>"));
+
+            t1.setName(c.getTeacher1().getName().replace(key, "<span style='color:red;'>" + key + "</span>"));
+            t1.setTeacherid(c.getTeacher2().getTeacherid());
+            c.setTeacher1(t1);
+
+
+            t2.setName(c.getTeacher2().getName().replace(key, "<span style='color:red;'>" + key + "</span>"));
+            t2.setTeacherid(c.getTeacher1().getTeacherid());
+            c.setTeacher2(t2);
+
+
+            g.setSemester(c.getGrade().getSemester().replace(key, "<span style='color:red;'>" + key + "</span>"));
+            g.setId(c.getGrade().getId());
+            c.setGrade(g);
+
+
+            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;'>" + key + "</span>"));
+            System.out.println(c.getClass_name());
+        }
 
              model.addAttribute("classes", list);
         return "Long_classes";
