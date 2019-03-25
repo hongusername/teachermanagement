@@ -14,7 +14,6 @@ public interface StudentDao {
     SurveyType querySurveyTypeById(@Param("teacherid") Integer teacherid,@Param("classesid") Integer classesid);
 
 
-    List<Result> queryResultAll(Result result);
 
 
 }

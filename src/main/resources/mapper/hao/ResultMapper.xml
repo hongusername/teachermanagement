@@ -6,4 +6,12 @@
     <insert id="addResult" parameterType="Result">
           INSERT INTO result(classid,totalScore,teacherType,surveyType,`options`,createDate,opinion) VALUES (#{classid},#{totalScore},#{teacherType},#{surveyType},#{options},#{createDate},#{opinion})
     </insert>
+
+    <select id="queryResultAll" resultType="Result">
+        select *  from result where classid=#{classid} and teachertype=#{teacherType} and createDate=#{createDate} order by totalScore desc
+    </select>
+
+    <select id="queryResultByClassIdAndDate" resultType="Result">
+        SELECT * FROM result WHERE classid = #{classId} AND DATE_FORMAT(createDate,'%Y-%m') = #{createDate}
+    </select>
 </mapper>

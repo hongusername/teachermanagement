@@ -47,6 +47,8 @@
             <th>问卷类型</th>
             <th>教师类型</th>
             <th>学期</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
             <th>操作</th>
             </thead>
             <tbody>
@@ -56,6 +58,8 @@
                 <td>{{item.name}}</td>
                 <td>{{item.teacherType == 1 ? '教员' : '班主任'}}</td>
                 <td>{{item.grade.semester}}</td>
+                <td>{{item.startTime  }}</td>
+                <td>{{item.endTime  }}</td>
                 <td>
                     <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
                             @click="getSurveyTypeById(item.id);edit('修改问卷类型')" data-target="#myModal">修改
@@ -109,6 +113,14 @@
                                 <option value="1" v-for="item in gradeList" :value="item.id">{{item.semester}}</option>
                             </select>
                         </td>
+                    </tr>
+                    <tr>
+                        <td>开始时间：</td>
+                        <td colspan="2"><input type="datetime-local" v-model="entity.startTime"></td>
+                    </tr>
+                    <tr>
+                        <td>结束时间：</td>
+                        <td colspan="2"><input type="datetime-local" v-model="entity.endTime"></td>
                     </tr>
                     <tr>
                         <td><input type="checkbox" id="quan2" @click="checkAll($event)"></td>
@@ -182,6 +194,8 @@
                 vmMyModal.$data.entity.teacherType = 1;
                 vmMyModal.$data.entity.gradeId = 1;
                 vmMyModal.$data.entity.name = '';
+                vmMyModal.$data.entity.startTime = '';
+                vmMyModal.$data.entity.endTime = '';
             },
             del: function (ids) {
                 this.$http.post('http://localhost:8080/survey_type/deleteSurveyTypeId', {ids: ids.toString()}, {emulateJSON: true}).then(function (res) {
@@ -203,6 +217,8 @@
                     vmMyModal.$data.entity.teacherType = res.body.teacherType;
                     vmMyModal.$data.entity.gradeId = res.body.grade.id;
                     vmMyModal.$data.entity.id = res.body.id;
+                    vmMyModal.$data.entity.startTime = res.body.startTime;
+                    vmMyModal.$data.entity.endTime = res.body.endTime;
                 }, function (res) {
                     alert("请稍后再试！");
                 });
@@ -228,7 +244,9 @@
                 name: '',
                 options: [],
                 teacherType: 1,
-                gradeId: 1
+                gradeId: 1,
+                startTime: '',
+                endTime: ''
             },
             checkedList: []
         },
@@ -300,5 +318,5 @@
                 alert(res.status);
             });
         }
-    })
+    });
 </script>

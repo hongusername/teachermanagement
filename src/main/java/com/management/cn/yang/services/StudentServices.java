@@ -10,5 +10,5 @@ public interface StudentServices {
     Teacher queryTeacherById(@Param("key") String key, @Param("grade") String grade);
     Classes queryClassesById(@Param("id")Integer id);
     SurveyType querySurveyTypeById(@Param("teacherid") Integer teacherid, @Param("classesid") Integer classesid);
-    Integer queryResultAVG( Result result);
+
 }
