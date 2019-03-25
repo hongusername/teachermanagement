@@ -29,8 +29,21 @@
     function t1(){
         $("#form1").submit();
     }
-    function t2(id){
-        alert(id);
+    function t2(obj){
+        $("#updId").val(obj.class_id);
+        $("#updName").val(obj.class_name);
+        $("#updClassType").val(obj.grade.id);
+        $("#classesJy").val(obj.teacher2.teacherid);
+        $("#classesBzr").val(obj.teacher1.teacherid);
+    }
+    function t3(){
+        $("#form2").submit();
+    }
+
+    function t4(obj){
+        if(confirm("确认删除吗?")){
+            location.href="delClasses?id="+obj.class_id;
+        }
     }
 </script>
 <body class="hold-transition skin-red sidebar-mini">
@@ -50,8 +63,7 @@
 					<button type="button" class="btn btn-default" title="新建" data-toggle="modal"
 							data-target="#editModal"><i class="fa fa-file-o"></i> 新建
 					</button>
-					<button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i
-							class="fa fa-refresh"></i> 刷新
+					<button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新
 					</button>
 				</div>
 			</div>
@@ -79,20 +91,26 @@
 			<tbody>
 			<tr th:each="c,i : ${classes}" align="center">
 				<td th:text="${i.index+1}"></td>
-				<td  th:text="${c.class_name}"></td>
-				<td   th:text="${c.grade.semester}"></td>
+				<td th:text="${c.class_name}"></td>
+				<td th:text="${c.grade.semester}"></td>
 				<td  class="teach">
 					<span  th:text="${c.teacher1.name}"></span>
 					<!--何子龙-&#45;&#45;钟婷-->-------
 					<span  th:text="${c.teacher2.name}"></span>
 				</td>
+				<!--
+                    [[${c.status}]]
+                -->
 				<td>
-					<span>本月未考核</span>
+					<span  th:if="${c.status == 1} ">以考核</span>
+
+					<span  th:if="${c.status == 2} ">未考核</span>
 				</td>
 				<td class="text-center">
-					<button onclick="t2()" type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2">修改</button>
-					<button type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button>
+					<button th:onclick="t2([[${c}]])"  type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2" >修改</button>
+					<button th:onclick="t4([[${c}]])" type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button>
 				</td>
+				<!--data-toggle="modal" data-target="#editModa2"-->
 			</tr>
 
 			</tbody>
@@ -125,8 +143,7 @@
 							<td>班级类型</td>
 							<td>
 								<select name="classesType">
-									<option th:each="c:${classType}" th:value="${c.id}"
-											th:text="${c.semester}"></option>
+									<option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
 								</select>
 							</td>
 						</tr>
@@ -165,51 +182,59 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				<h3>修改信息</h3>
 			</div>
-			<div class="modal-body">
+			<form action="updClasses" id="form2">
+				<div class="modal-body">
 
-				<table class="table table-bordered table-striped" width="800px">
-					<tr>
-						<td>班级名称</td>
-						<td><input name="classesName" class="form-control" placeholder="班级名称"></td>
-					</tr>
-					<tr>
-						<td>班级类型</td>
-						<td>
-							<select name="classesType">
-								<option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>班主任</td>
-						<td>
-							<select name="classesBzr">
-								<option th:each="b:${bzr}" th:value="${b.type}" th:text="${b.name}"></option>
-							</select>
-						</td>
+					<table class="table table-bordered table-striped" width="800px">
+						<tr>
+							<td>班级名称</td>
+							<td>
+								<input  name="classesName" id="updName" class="form-control" placeholder="班级名称">
+								<input type="hidden" id="updId" name="id">
+							</td>
+						</tr>
+						<tr>
+							<td>班级类型</td>
+							<td>
+								<select id="updClassType" name="classesType">
+									<option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>班主任</td>
+							<td>
+								<select id="classesBzr" name="classesBzr">
+									<option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
+								</select>
+							</td>
 
-					</tr>
-					<tr>
-						<td>教员</td>
-						<td>
-							<select name="classesJy">
-								<option th:each="b:${jy}" th:value="${b.type}" th:text="${b.name}"></option>
-							</select>
-						</td>
-					</tr>
+						</tr>
+						<tr>
+							<td>教员</td>
+							<td>
+								<select id="classesJy" name="classesJy">
+									<option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
+								</select>
+							</td>
+						</tr>
 
-				</table>
+					</table>
 
-			</div>
-			<div class="modal-footer">
-				<button onclick="" class="btn btn-success" data-dismiss="modal" aria-hidden="true">修改</button>
-				<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-			</div>
+				</div>
+				<div class="modal-footer">
+					<button  onclick="t3()" class="btn btn-success" data-dismiss="modal" aria-hidden="true">修改</button>
+					<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
 
 
 </body>
+<script>
+    $("#admin-login").attr("class", "active");
+</script>
 
 </html>
