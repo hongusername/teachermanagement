@@ -15,53 +15,12 @@
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 
 </head>
-<style>
-    .long-center {
-        margin-left: 50px;
-    }
-</style>
-<script>
-    $(function(){
-        var key=$("#key").val();
-        $('#StrColor').html(function(i,oldHTML){
-            return oldHTML.replace("/"+key+"/g","<font color='red'>"+key+"</font>");
-        })
-    $("#form3").submit(function(){
 
-    });
-
-    });
-
-
-    function t1(){
-        $("#form1").submit();
-    }
-    function t2(obj){
-        $("#updId").val(obj.class_id);
-        $("#updName").val(obj.class_name);
-        $("#updClassType").val(obj.grade.id);
-         $("#classesJy").val(obj.teacher2.teacherid);
-        $("#classesBzr").val(obj.teacher1.teacherid);
-    }
-    function t3(){
-        $("#form2").submit();
-    }
-
-    function t4(obj){
-        if(confirm("确认删除吗?")){
-            location.href="delClasses?id="+obj.class_id;
-        }
-    }
-
-    function t5(key){
-
-    }
-</script>
 <body class="hold-transition skin-red sidebar-mini">
 <!-- .box-body -->
 
 <div class="box-header with-border">
-    <h3 class="box-title">班级管理</h3>
+    <h3 class="box-title">教师管理</h3>
 </div>
 
 <div class="box-body">
@@ -80,12 +39,10 @@
             </div>
         </div>
         <div class="box-tools pull-right">
-            <form action="Long_sel" id="form3">
-                <div class="has-feedback">
-                    名称：<input id="key" th:value="${key}" name="key">
-                    <button  class="btn btn-default">查询</button>
-                </div>
-            </form>
+            <div class="has-feedback">
+                名称：<input>
+                <button class="btn btn-default">查询</button>
+            </div>
         </div>
         <!--工具栏/-->
 
@@ -101,7 +58,7 @@
                 <th class="text-center">操作</th>
             </tr>
             </thead>
-            <tbody id="StrColor">
+            <tbody>
             <tr th:each="c,i : ${classes}" align="center">
                 <td th:text="${i.index+1}"></td>
                 <td th:text="${c.class_name}"></td>
@@ -195,56 +152,57 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h3>修改信息</h3>
             </div>
-        <form action="updClasses" id="form2">
-            <div class="modal-body">
+            <form action="updClasses" id="form2">
+                <div class="modal-body">
 
-                <table class="table table-bordered table-striped" width="800px">
-                    <tr>
-                        <td>班级名称</td>
-                        <td>
-                            <input  name="classesName" id="updName" class="form-control" placeholder="班级名称">
-                            <input type="hidden" id="updId" name="id">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>班级类型</td>
-                        <td>
-                            <select id="updClassType" name="classesType">
-                                <option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>班主任</td>
-                        <td>
-                            <select id="classesBzr" name="classesBzr">
-                                <option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-                            </select>
-                        </td>
+                    <table class="table table-bordered table-striped" width="800px">
+                        <tr>
+                            <td>班级名称</td>
+                            <td>
+                                <input  name="classesName" id="updName" class="form-control" placeholder="班级名称">
+                                <input type="hidden" id="updId" name="id">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>班级类型</td>
+                            <td>
+                                <select id="updClassType" name="classesType">
+                                    <option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>班主任</td>
+                            <td>
+                                <select id="classesBzr" name="classesBzr">
+                                    <option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
+                                </select>
+                            </td>
 
-                    </tr>
-                    <tr>
-                        <td>教员</td>
-                        <td>
-                            <select id="classesJy" name="classesJy">
-                                <option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-                            </select>
-                        </td>
-                    </tr>
+                        </tr>
+                        <tr>
+                            <td>教员</td>
+                            <td>
+                                <select id="classesJy" name="classesJy">
+                                    <option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
+                                </select>
+                            </td>
+                        </tr>
 
-                </table>
+                    </table>
 
-            </div>
-            <div class="modal-footer">
-                <button  onclick="t3()" class="btn btn-success" data-dismiss="modal" aria-hidden="true">修改</button>
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-            </div>
-        </form>
+                </div>
+                <div class="modal-footer">
+                    <button  onclick="t3()" class="btn btn-success" data-dismiss="modal" aria-hidden="true">修改</button>
+                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 
 </body>
+
 
 </html>

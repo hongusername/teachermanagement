@@ -3,50 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="/css/styleLogin.css">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
     <script type="text/javascript" src="/js/vue.js"></script>
     <script type="text/javascript" src="/js/vue-resource.js"></script>
     <link rel="icon" href="/image/kgclogo.jpg" type="image/x-icon" />
     <style type="text/css">
-        body {
-            width：100%;
-            height: 100%;
-            background-image: url("/image/kgcbg.jpg");
-            background-repeat: no-repeat;
-
+        #kgcbiglogo{
+            margin-left: 550px;
         }
-        #div {
-            position: relative;
-            left: 560px;
-            top: 150px;
-
+        select{
+            border: 1px solid #3f729b;
+            outline: none;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding-left: 60px;
         }
-
     </style>
 </head>
 <body>
+<img src="/image/kgcbiglogo.png" style="padding: 20px" id="kgcbiglogo">
+<form action="/toEvaluation" method="post">
 
-<div class="btn-group" align="center" id="div">
-    <form action="/toEvaluation" method="post">
-        <div class="btn-group" align="center">
-            <button class="btn btn-default">请选择班级</button>
-            <button class="btn btn-default dropdown-toggle"
-                    data-toggle="dropdown">
-                <span class="caret"></span>
-                <span class="sr-only">切换下拉菜单</span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#">1班</a></li>
-                <li><a href="#">2班</a></li>
-                <li><a href="#">3班</a></li>
+    <div class="group">
+        <select name="grade">
+            <option>请选择班级</option>
+            <option th:each="cla:${classes}" th:value="${cla.class_id}" th:text="${cla.class_name}"></option>
+        </select>
 
-            </ul>
-        </div>
-        <button class="btn btn-primary" style="align-content: center">登录</button>
-    </form>
-</div>
+    </div>
+
+    <button class="button buttonBlue">登录
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+    </button>
+</form>
 
 
 </form>

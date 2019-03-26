@@ -43,6 +43,6 @@ public class TeacherServicesImpl implements TeacherServices {
 
     @Override
     public Integer insertTeacher(Teacher teacher) {
-        return null;
+        return teacherDao.insertTeacher(teacher);
     }
 }

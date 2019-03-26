@@ -9,7 +9,9 @@
         <result property="class_type" column="class_type"></result>
         <result property="class_jy" column="class_jy"></result>
         <result property="class_bzr" column="class_bzr"></result>
+        <result property="status" column="status"></result>
         <association property="teacher1" javaType="com.management.cn.entity.Teacher">
+            <id column="t1Id" property="teacherid"></id>
             <result property="name" column="bzr"/>
         </association>
         <!--
@@ -17,6 +19,7 @@
         <result property="jy" column="jy"></result>
         -->
         <association property="teacher2"  javaType="com.management.cn.entity.Teacher">
+            <id column="t2Id" property="teacherid"></id>
             <result property="name" column="jy"/>
         </association>
         <association property="grade" javaType="com.management.cn.entity.Grade">
@@ -25,19 +28,67 @@
         </association>
     </resultMap>
 
-    <select id="getClasses" resultMap="a">
 
-        SELECT c.class_id,c.class_name,g.semester,t1.name AS bzr,t2.name AS jy
+    <sql id="sql">
+        SELECT c.class_id,c.class_name,g.id,c.status,g.semester,t1.name AS bzr,t2.name AS jy,t1.teacherid as t1Id,t2.teacherid as t2Id
 
         FROM classes c ,grade  g , teacher t1 ,teacher t2
 
         WHERE c.class_type=g.id AND c.class_bzr=t1.teacherid AND c.class_jy=t2.teacherid
+    </sql>
 
+    <select id="getClasses" resultMap="a">
+        <include refid="sql" />  ORDER BY c.status desc
     </select>
+
+    <select id="selClassName" resultMap="a">
+        <include refid="sql"/>
+        AND c.class_name LIKE  CONCAT('%',#{key},'%')  ORDER BY c.status desc
+    </select>
+
+    <select id="selClassType" resultMap="a">
+        <include refid="sql"/>
+        AND g.semester LIKE  CONCAT('%',#{key},'%')  ORDER BY c.status desc
+    </select>
+
+    <select id="selClassJy" resultMap="a">
+        <include refid="sql"/>
+        AND  t2.name LIKE  CONCAT('%',#{key},'%')  ORDER BY c.status desc
+    </select>
+
+    <select id="selClassBzr" resultMap="a">
+        <include refid="sql"/>
+        AND t1.name LIKE  CONCAT('%',#{key},'%')  ORDER BY c.status desc
+    </select>
+
+    <select id="getClassByClassId" resultType="Classes" parameterType="java.lang.Integer">
+        SELECT * FROM classes WHERE class_id = #{classId}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <insert id="addClass">
         insert into classes values(null,#{class_name},#{class_type},#{class_jy},#{class_bzr},2)
     </insert>
+
+    <update id="updClass">
+        UPDATE classes SET class_name=#{class_name},class_type=#{class_type},class_jy=#{class_jy},class_bzr=#{class_bzr},STATUS=1 WHERE class_id=#{class_id}
+    </update>
+
+    <delete id="delClass">
+        delete from classes where class_id=#{id}
+    </delete>
 
 </mapper>

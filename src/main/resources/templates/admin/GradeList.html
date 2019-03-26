@@ -68,47 +68,25 @@
 				</div>
 			</div>
 		</div>
-		<div class="box-tools pull-right">
-			<div class="has-feedback">
-				名称：<input>
-				<button class="btn btn-default">查询</button>
-			</div>
-		</div>
+
 		<!--工具栏/-->
 
 		<!--数据列表-->
 		<table id="dataList" class="table table-bordered table-striped table-hover dataTable">
 			<thead>
 			<tr>
-				<th class="sorting_asc">班级ID</th>
-				<th class="sorting">班级名称</th>
-				<th class="sorting">班级类型</th>
-				<th class="sorting">带班教师</th>
-				<th class="sorting">状态</th>
-				<th class="text-center">操作</th>
+				<th class="sorting_asc"><center>学期ID</center></th>
+				<th class="sorting"><center>学期名称</center></th>
+				<th class="text-center"><center>操作</center></th>
 			</tr>
 			</thead>
 			<tbody>
-			<tr th:each="c,i : ${classes}" align="center">
-				<td th:text="${i.index+1}"></td>
-				<td th:text="${c.class_name}"></td>
-				<td th:text="${c.grade.semester}"></td>
-				<td  class="teach">
-					<span  th:text="${c.teacher1.name}"></span>
-					<!--何子龙-&#45;&#45;钟婷-->-------
-					<span  th:text="${c.teacher2.name}"></span>
-				</td>
-				<!--
-                    [[${c.status}]]
-                -->
-				<td>
-					<span  th:if="${c.status == 1} ">以考核</span>
-
-					<span  th:if="${c.status == 2} ">未考核</span>
-				</td>
+			<tr th:each="list : ${listGrade}" align="center">
+				<td th:text="${list.id}"></td>
+				<td th:text="${list.semester}"></td>
 				<td class="text-center">
-					<button th:onclick="t2([[${c}]])"  type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2" >修改</button>
-					<button th:onclick="t4([[${c}]])" type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button>
+					<button th:onclick="bianji([[${list.id}]])" type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2" >修改</button>
+					<a th:href="@{/deleteGradeController(id=${list.id})}" onclick="return confirm('确认删除该学期吗?');" ><button type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button></a>
 				</td>
 				<!--data-toggle="modal" data-target="#editModa2"-->
 			</tr>
@@ -123,45 +101,21 @@
 <!-- 分页 -->
 
 
-<!-- 编辑窗口 -->
+<!-- 新增窗口 -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel">新建班级</h3>
+				<h3 id="myModalLabel">新建学期</h3>
 			</div>
-			<form action="l_addClass" id="form1">
+			<form action="doAddGradeController" id="form1">
 				<div class="modal-body">
 
 					<table class="table table-bordered table-striped" width="800px">
 						<tr>
-							<td>班级名称</td>
-							<td><input name="classesName" class="form-control" placeholder="班级名称"></td>
-						</tr>
-						<tr>
-							<td>班级类型</td>
-							<td>
-								<select name="classesType">
-									<option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>班主任</td>
-							<td>
-								<select name="classesBzr">
-									<option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>教员</td>
-							<td>
-								<select name="classesJy">
-									<option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-								</select>
-							</td>
+							<td>学期名称</td>
+							<td><input name="semester" class="form-control" placeholder="学期名称"></td>
 						</tr>
 					</table>
 
@@ -174,49 +128,24 @@
 		</div>
 	</div>
 </div>
-
+<!--修改学期-->
 <div class="modal fade" id="editModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3>修改信息</h3>
+				<h3>修改学期</h3>
 			</div>
-			<form action="updClasses" id="form2">
+			<form action="doUpdateGradeController" id="form2">
 				<div class="modal-body">
 
 					<table class="table table-bordered table-striped" width="800px">
 						<tr>
-							<td>班级名称</td>
-							<td>
-								<input  name="classesName" id="updName" class="form-control" placeholder="班级名称">
-								<input type="hidden" id="updId" name="id">
-							</td>
-						</tr>
-						<tr>
-							<td>班级类型</td>
-							<td>
-								<select id="updClassType" name="classesType">
-									<option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>班主任</td>
-							<td>
-								<select id="classesBzr" name="classesBzr">
-									<option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-								</select>
-							</td>
+							<td>学期名称</td>
 
-						</tr>
-						<tr>
-							<td>教员</td>
 							<td>
-								<select id="classesJy" name="classesJy">
-									<option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-								</select>
-							</td>
+								<input type="hidden" id="gradeid" name="id">
+								<input name="semester" id="gradename" class="form-control" placeholder="学期名称"></td>
 						</tr>
 
 					</table>
@@ -233,6 +162,20 @@
 
 
 </body>
+<script type="text/javascript">
+	function bianji(id){
+	    $.post("detailGradeController",{id:id},function (r,s) {
+			if(s=="success"){
+			    $("#gradename").val(r.semester);
+			    $("#gradeid").val(r.id);
+			}
+        },"json");
+
+
+	}
+
+
+</script>
 
 
 </html>

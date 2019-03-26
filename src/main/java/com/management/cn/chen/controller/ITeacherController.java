@@ -17,7 +17,6 @@ public class ITeacherController {
     @Resource
     private ITeacherService iTeacherService;
 
-
     @RequestMapping("/Longs")
     public String index() {
         System.out.println(1);

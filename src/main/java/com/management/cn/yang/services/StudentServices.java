@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface StudentServices {
-    Student queryStudentLogin(String grade, String name);
+    Classes queryStudentLogin(Integer grade);
     Teacher queryTeacherById(@Param("key") String key, @Param("grade") String grade);
     Classes queryClassesById(@Param("id")Integer id);
     SurveyType querySurveyTypeById(@Param("teacherid") Integer teacherid, @Param("classesid") Integer classesid);
-    Integer queryResultAVG( Result result);
+
 }
