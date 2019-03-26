@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface StudentDao {
-    Student queryStudentLogin(@Param("grade") String grade,@Param("name") String name);
+    Classes queryStudentLogin(@Param("grade") Integer grade);
 
     Teacher queryTeacherById(@Param("key") String key, @Param("grade") String grade);
     Classes queryClassesById(@Param("id")Integer id);
@@ -14,7 +14,6 @@ public interface StudentDao {
     SurveyType querySurveyTypeById(@Param("teacherid") Integer teacherid,@Param("classesid") Integer classesid);
 
 
-    List<Result> queryResultAll(Result result);
 
 
 }

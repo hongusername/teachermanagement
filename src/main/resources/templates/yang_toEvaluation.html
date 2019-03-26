@@ -1,32 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        li{list-style-type: none;width: 40%;background-color: aqua;line-height:50px}
-    </style>
-    <script src="./jquery-1.11.0.js"></script>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>班级管理</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+
 </head>
-<body>
-       <div>
-           <h1 th:text="'欢迎'+${student.stu_name}+'同学对班级老师进行测评'"></h1><button>退出系统</button>
-           <input type="hidden" id="grade" th:value="${student.stu_class}">
-           <ul>
-               <li>教员<input style="right: 0"  type="button" onclick="jclick(1)" value="开始测评"></li>
-               <li>班主任<input style="right: 0" type="button" onclick="jclick(2)" value="开始测评"></li>
-           </ul>
-       </div>
+<style>
+    .long-center {
+        margin-left: 50px;
+    }
+</style>
 <script>
     function jclick(index) {
         var grade=$("#grade").val();
         alert(grade)
         if(index==1){
-            window.location="/Evaluation?key=class_jy&grade="+grade;
+            window.location="/evaluation?key=class_jy&grade="+grade;
         }else {
-            window.location="/Evaluation?key=class_bzr&grade="+grade;
+            window.location="/evaluation?key=class_bzr&grade="+grade;
         }
     }
 </script>
+<body class="hold-transition skin-red sidebar-mini">
+<!-- .box-body -->
+
+<div class="box-header with-border">
+    <h3 class="box-title">班级管理</h3>
+
+</div>
+
+<div class="box-body">
+    <!-- 数据表格 -->
+
+    <div class="table-box">
+        <!--工具栏-->
+        <div class="pull-left">
+            <div class="form-group form-inline">
+                <div class="btn-group">
+                    <h2 th:text="'欢迎使用评测系统，您将对'+${grade.class_name}+'班级老师进行测评'"></h2>
+                </div>
+            </div>
+        </div>
+
+        <!--工具栏/-->
+
+        <!--数据列表-->
+        <div>
+        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+            <input type="hidden" id="grade" th:value="${grade.class_id}">
+            <thead>
+            <tr>
+                <th class="sorting_asc" colspan="2"><center>名称</center></th>
+                <th class="text-center" colspan="2"><center>操作</center></th>
+            </tr>
+            <tr>
+                <td>班主任</td><td><input style="right: 0"  type="button" onclick="jclick(1)" value="开始测评"></td>
+                <td>教员</td><td><input style="right: 0"  type="button" onclick="jclick(1)" value="开始测评"></td>
+
+            </tr>
+            </thead>
+            <tbody>
+
+
+            </tbody>
+        </table>
+        </div>
+        <!--数据列表/-->
+    </div>
+    <!-- 数据表格 /-->
+</div>
+<!-- /.box-body -->
 </body>
+
+
 </html>

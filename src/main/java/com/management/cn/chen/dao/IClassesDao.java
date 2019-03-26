@@ -14,6 +14,7 @@ public interface IClassesDao {
     int updClass(Classes classes);
     //删除班级
     int delClass(int id);
+    Classes getClassByClassId(Integer classId);
 
     //模糊查询
     List<Classes> selClassName(String key);

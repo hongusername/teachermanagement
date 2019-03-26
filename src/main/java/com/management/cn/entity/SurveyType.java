@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * 问卷类型表
  * @author: GengHao
@@ -23,4 +25,8 @@ public class SurveyType {
     private Integer teacherType;
     /**学期*/
     private Integer gradeId;
+    /** 开始时间*/
+    private Date startTime;
+    /** 结束时间*/
+    private Date endTime;
 }

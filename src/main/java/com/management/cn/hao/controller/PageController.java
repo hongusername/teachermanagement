@@ -1,9 +1,18 @@
 package com.management.cn.hao.controller;
 
+import com.management.cn.dto.SurveyContentDTO;
+import com.management.cn.entity.Result;
+import com.management.cn.hao.service.ResultService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * @author: GengHao
@@ -12,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PageController {
 
+    @Autowired
+    private ResultService resultService;
 
     @RequestMapping("/{page}")
     public String page(@PathVariable String page) {
@@ -24,9 +35,9 @@ public class PageController {
     }
 
 
-
-
-    /** 调查问卷内容列表*/
+    /**
+     * 调查问卷内容列表
+     */
     @RequestMapping("/survey_content_list_page")
     public String surveyContentListPage(Integer surveyTypeId, Model model) {
         model.addAttribute("surveyTypeId", surveyTypeId);

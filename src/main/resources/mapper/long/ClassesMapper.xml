@@ -61,6 +61,10 @@
         AND t1.name LIKE  CONCAT('%',#{key},'%')  ORDER BY c.status desc
     </select>
 
+    <select id="getClassByClassId" resultType="Classes" parameterType="java.lang.Integer">
+        SELECT * FROM classes WHERE class_id = #{classId}
+    </select>
+
 
 
 
