@@ -4,4 +4,8 @@
     <select id="login" resultType="com.management.cn.entity.Teacher">
         select * from teacher where name=#{name} and pwd=#{pwd}
     </select>
+
+    <select id="queryType" resultType="com.management.cn.entity.Teacher">
+        select type from teacher
+    </select>
 </mapper>

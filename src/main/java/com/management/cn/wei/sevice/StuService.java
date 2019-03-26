@@ -3,6 +3,7 @@ package com.management.cn.wei.sevice;
 import com.github.pagehelper.PageInfo;
 import com.management.cn.entity.Classes;
 import com.management.cn.entity.Student;
+import com.management.cn.entity.Teacher;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,6 +26,9 @@ public interface StuService {
 
 
     void batchDeletes(List delList);
+
+
+
 
 
 }

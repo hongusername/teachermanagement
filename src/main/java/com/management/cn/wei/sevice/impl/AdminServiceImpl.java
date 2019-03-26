@@ -7,6 +7,7 @@ import com.management.cn.wei.sevice.AdminService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -18,5 +19,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Teacher login(String name,String pwd) {
         return adminDao.login(name,pwd);
+    }
+
+    @Override
+    public List<Teacher> queryType() {
+        return adminDao.queryType();
     }
 }
