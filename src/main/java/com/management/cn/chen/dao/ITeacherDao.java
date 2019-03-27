@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ITeacherDao {
     //教务登录
-    Teacher getTeacher(String username);
+    Teacher getTeacher(String name);
     //查询教师
     List<Teacher> getTea(int type);
 }

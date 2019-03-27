@@ -33,9 +33,9 @@ public class AdminController {
         return "admin/adminLogin";
     }
 
-    /*
+ /*   *//*
      * 登录
-     * */
+     * *//*
     @RequestMapping("/dologin")
     public String dologin( HttpSession session, String name, String pwd, Model model) {
         Teacher login = adminService.login(name, pwd);
@@ -47,29 +47,33 @@ public class AdminController {
             return "redirect:admin/index";
         }
 
-    }
+    }*/
 
-   /* *//*
-     * 权限登陆
-     * *//*
+
+    /*
+     权限登陆
+     */
     @RequestMapping("/checkLogin")
-    public String checkLogin(String username, String password, Model model) throws IOException {
-        Teacher t = iTeacherService.getTeacher(username);
-        model.addAttribute("username", username);
-        model.addAttribute("teacher",t);
+    public String checkLogin(HttpSession session,String name, String pwd, Model model) throws IOException {
+        Teacher t = iTeacherService.getTeacher(name);
+
+        session.setAttribute("username", name);
+
 
         if (t == null) {
-            model.addAttribute("LoginInfo", "账号或密码不正确!");
-            return "Long_index";
+            model.addAttribute("msg", "账号或密码不正确!");
+            return "adminLogin";
         } else  {
-            if (t.getPwd().equals(password)||t.getPwd()==password) {
+            if (t.getPwd().equals(pwd)||t.getPwd()==pwd) {
+                session.setAttribute("teacher",t);
+                System.out.println(t);
                 return "redirect:admin/index";
-            }else {
-                model.addAttribute("LoginInfo", "账号或密码不正确!");
-                return "Long_index";
+            }else{
+                model.addAttribute("msg", "账号或密码不正确!");
+                return "adminLogin";
             }
         }
-    }*/
+    }
 
     /*
      * 管理员登录

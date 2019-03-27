@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ITeacherService {
 
-    Teacher getTeacher(String username);
+    Teacher getTeacher(String name);
 
 
     List<Teacher> getTea(int type);
