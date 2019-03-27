@@ -16,8 +16,8 @@ public class StudentServicesImpl implements StudentServices {
     private StudentDao studentDao;
 
     @Override
-    public Student queryStudentLogin(String grade,String name) {
-        return studentDao.queryStudentLogin(grade,name);
+    public Classes queryStudentLogin(Integer grade) {
+        return studentDao.queryStudentLogin(grade);
     }
 
     @Override

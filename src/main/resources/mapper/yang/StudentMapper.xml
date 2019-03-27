@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.management.cn.yang.dao.StudentDao">
-    <select id="queryStudentLogin" resultType="Student">
-        select * from student where stu_class=(select class_id from  classes where class_name=#{grade}) and stu_name=#{name}
+    <select id="queryStudentLogin" resultType="Classes">
+        select * from classes where class_id=#{grade}
     </select>
 
     <select id="queryTeacherById" resultType="Teacher">
