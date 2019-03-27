@@ -36,11 +36,6 @@ public class ClassesServiceImpl implements IClassesService {
     }
 
     @Override
-    public int updStatus(int status) {
-        return iClassesDao.updStatus(status);
-    }
-
-    @Override
     public List<Classes> selClassName(String key) {
         return iClassesDao.selClassName(key);
     }
@@ -58,10 +53,5 @@ public class ClassesServiceImpl implements IClassesService {
     @Override
     public List<Classes> selClassBzr(String key) {
         return iClassesDao.selClassBzr(key);
-    }
-
-    @Override
-    public List<Classes> selClassByTypeId(Integer typeId) {
-        return iClassesDao.selClassByTypeId(typeId);
     }
 }
