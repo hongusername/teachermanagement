@@ -22,10 +22,21 @@
 </style>
 <script>
     $(function(){
-    $("#form3").submit(function(){
+        $("#form1").submit(function(){
+            var val=$("#classname1").val();
+            if(val==""||val==null){
+                alert("班级名不能为空!");
+                return false;
+            }
+        });
 
-    });
-
+        $("#form2").submit(function(){
+            var val=$("#updName").val();
+            if(val==""||val==null){
+                alert("班级名不能为空!");
+                return false;
+            }
+        });
     });
 
 
@@ -149,7 +160,7 @@
                     <table class="table table-bordered table-striped" width="800px">
                         <tr>
                             <td>班级名称</td>
-                            <td><input name="classesName" class="form-control" placeholder="班级名称"></td>
+                            <td><input id="classesName1"  name="classesName" class="form-control" placeholder="班级名称"></td>
                         </tr>
                         <tr>
                             <td>班级类型</td>
