@@ -34,8 +34,24 @@ public class AdminController {
     }
 
     /*
-     * 权限登陆
+     * 登录
      * */
+    @RequestMapping("/dologin")
+    public String dologin( HttpSession session, String name, String pwd, Model model) {
+        Teacher login = adminService.login(name, pwd);
+        if(login==null){
+            model.addAttribute("msg","用户名或者密码错误");
+            return "admin/adminLogin";
+        }else{
+            session.setAttribute("admin", adminService.login(name, pwd));
+            return "redirect:admin/index";
+        }
+
+    }
+
+   /* *//*
+     * 权限登陆
+     * *//*
     @RequestMapping("/checkLogin")
     public String checkLogin(String username, String password, Model model) throws IOException {
         Teacher t = iTeacherService.getTeacher(username);
@@ -53,7 +69,7 @@ public class AdminController {
                 return "Long_index";
             }
         }
-    }
+    }*/
 
     /*
      * 管理员登录
