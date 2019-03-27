@@ -14,10 +14,11 @@ public class TeacherServiceImpl implements ITeacherService {
     @Resource
     private ITeacherDao iTeacherDao;
 
+
     @Override
-    public Teacher getTeacher(String username) {
-            return iTeacherDao.getTeacher(username);
-        }
+    public Teacher getTeacher( String name ) {
+        return iTeacherDao.getTeacher(name);
+    }
 
     @Override
     public List<Teacher> getTea(int type) {

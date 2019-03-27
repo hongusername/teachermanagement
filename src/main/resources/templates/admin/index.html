@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <!-- 页面meta -->
@@ -28,6 +28,12 @@
             }
         }
 
+    </script>
+    <script>
+        $(function () {
+            var iii= [[${session.teacher}]];
+            alert(iii);
+        })
     </script>
 
 </head>
@@ -107,11 +113,12 @@
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header">菜单</li>
+                <li class="header">菜单
+                </li>
                 <li id="admin-index"><a href="index.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
 
                 <!-- 菜单 -->
-                <li class="treeview">
+                <li class="treeview" th:if="${session.teacher.type == 4}">
                     <a href="">
                         <i class="fa fa-folder"></i>
                         <span>班级管理</span>
@@ -129,7 +136,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview" th:if="${session.teacher.type == 4}">
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>学期管理</span>
@@ -146,7 +153,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview" th:if="${session.teacher.type == 4}">
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>教师管理</span>
@@ -164,7 +171,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview" th:if="${session.teacher.type == 4}">
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>调查表管理</span>
@@ -175,21 +182,21 @@
                     <ul class="treeview-menu">
 
                         <li id="admin-login">
-                            <a href="/admin/survey_type_list" target="iframe">
+                            <a href="http://localhost:8080/admin/survey_type_list" target="iframe">
                                 <i class="fa fa-circle-o"></i>调查类型列表
                             </a>
                         </li>
                         <li id="admin-login">
-                            <a href="/admin/add_survey_content" target="iframe">
+                            <a href="http://localhost:8080/admin/add_survey_content" target="iframe">
                                 <i class="fa fa-circle-o"></i>添加调查问卷内容
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview" th:if="${session.teacher.type == 3}">
                     <a href="#">
                         <i class="fa fa-folder"></i>
-                        <span>评测管理</span>
+                        <span>评测结果</span>
                         <span class="pull-right-container">
 				       			<i class="fa fa-angle-left pull-right"></i>
 				   		 	</span>
@@ -197,20 +204,60 @@
                     <ul class="treeview-menu">
 
                         <li id="admin-login">
-                            <a href="/admin/evaluating_list" target="iframe">
-                                <i class="fa fa-circle-o"></i>测评列表
-                            </a>
-                        </li>
-                        <li id="admin-login">
-                            <a href="/admin/evaluating_result" target="iframe">
+                            <a href="http://localhost:8080/admin/evaluating_result" target="iframe">
                                 <i class="fa fa-circle-o"></i>评测结果列表
                             </a>
                         </li>
                     </ul>
                 </li>
-                <!-- 菜单 /-->
+                <!-- 菜单 / th:if="${list.type==3}" th:if="${tea.type eq '3'}"-->
+                <li class="treeview" th:if="${session.teacher.type == 3}">
+                    <a href="#">
+                        <i class="fa fa-folder"></i>
+                        <span>曲线图</span>
+                        <span class="pull-right-container">
+				       			<i class="fa fa-angle-left pull-right"></i>
+				   		 	</span>
+                    </a>
+                    <ul class="treeview-menu">
+
+                        <li id="admin-login">
+                            <a href="曲线图controller" target="iframe">
+                                <i class="fa fa-circle-o"></i>曲线图详细
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                </li>
 
             </ul>
+
+            <!--管理员-->
+
+            <!-- <ul class="sidebar-menu" th:if="${not t.getType()==3}">
+                 <li class="header">菜单</li>
+
+                 &lt;!&ndash;曲线图&ndash;&gt;
+                 <li class="treeview">
+                     <a href="#">
+                         <i class="fa fa-folder"></i>
+                         <span>曲线图</span>
+                         <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                 </span>
+                     </a>
+                     <ul class="treeview-menu">
+
+                         <li id="admin-login" th:if="${not #t.getType()==3}">
+                             <a href="曲线图controller" target="iframe">
+                                 <i class="fa fa-circle-o"></i>曲线图详细
+                             </a>
+                         </li>
+                     </ul>
+                 </li>
+
+             </ul>-->
         </section>
         <!-- /.sidebar -->
     </aside>
@@ -220,7 +267,21 @@
     <div class="content-wrapper">
         <iframe width="100%" id="iframe" name="iframe" onload="SetIFrameHeight()"
                 frameborder="0" src="home.html"></iframe>
+
     </div>
+    <!-- 内容区域 /-->
+
+    <!-- 底部导航 -->
+    <!--<footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0.8
+        </div>
+        <strong>Copyright &copy; 2014-2017 <a href="http://www.itcast.cn">研究院研发部</a>.</strong> All rights reserved.
+    </footer>-->
+    <!-- 底部导航 /-->
+
 </div>
+
 </body>
+
 </html>

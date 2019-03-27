@@ -1,98 +1,72 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
-    <title>品优购运营商运营管理后台</title>
-    <link rel="icon" href="../assets/img/favicon.ico">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="/css/styleLogin.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript" src="/js/vue.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.js"></script>
+    <link rel="icon" href="/image/kgclogo.jpg" type="image/x-icon" />
+    <style type="text/css">
+        body {
+            width：100%;
+            height: 100%;
+            background-image: url("/image/kgcbg2.png");
+            background-repeat: no-repeat;
+
+        }
+
+    </style>
 
 
-    <link rel="stylesheet" type="text/css" href="css/webbase.css"/>
-    <link rel="stylesheet" type="text/css" href="css/pages-login-manage.css"/>
 </head>
-
 <body>
-<div class="loginmanage">
-    <div class="py-container">
-        <h4 class="manage-title">后台管理</h4>
-        <div class="loginform">
-
-            <ul class="sui-nav nav-tabs tab-wraped">
-                <li>
-                    <a href="#index" data-toggle="tab">
-                        <h3>扫描登录</h3>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="#profile" data-toggle="tab">
-                        <h3>账户登录</h3>
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content tab-wraped">
-                <div id="index" class="tab-pane">
-                    <p>二维码登录，暂为官网二维码</p>
-                    <img src="../img/wx_cz.jpg"/>
-                </div>
-                <div id="profile" class="tab-pane  active">
-                    <form class="sui-form" onsubmit='return checkForm()'>
-                        <div class="input-prepend"><span class="add-on loginname"></span>
-                            <input id="prependedInput" type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat">
-                        </div>
-                        <div class="input-prepend"><span class="add-on loginpwd"></span>
-                            <input id="prependedInput" type="password" placeholder="请输入密码" class="span2 input-xfat">
-                        </div>
-
-                        <div class="logined">
-                            <a class="sui-btn btn-block btn-xlarge btn-danger" type="submit" href="admin/index.html"
-                               target="_blank">登&nbsp;&nbsp;录</a>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-        <div class="clearfix"></div>
+<hgroup>
+    <h1>Welcome to the evaluation system</h1>
+    <h3>亲爱的管理员，您好！</h3>
+</hgroup>
+<form action="/checkLogin" method="post">
+    <div class="group">
+        <input type="text" name="name"><span class="highlight"></span><span class="bar"></span>
+        <label>Name</label>
     </div>
-</div>
-
-
-<!--foot-->
-<div class="py-container copyright">
-    <ul>
-        <li>关于我们</li>
-        <li>联系我们</li>
-        <li>联系客服</li>
-        <li>商家入驻</li>
-        <li>营销中心</li>
-        <li>手机品优购</li>
-        <li>销售联盟</li>
-        <li>品优购社区</li>
-    </ul>
-    <div class="address">地址：北京市昌平区建材城西路金燕龙办公楼一层 邮编：100096 电话：400-618-4000 传真：010-82935100</div>
-    <div class="beian">京ICP备08001421号京公网安备110108007702
+    <div class="group">
+        <input type="password" name="pwd"><span class="highlight"></span><span class="bar"></span>
+        <label>Password</label>
     </div>
-</div>
-
-
-<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
-<script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
-<script src="js/pages/jquery.slideunlock.js"></script>
+    <button class="button buttonBlue">登录
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+    </button>
+</form>
+</body>
+</html>
+<script src="./js/jquery.min.js"></script>
 <script>
     $(function () {
-        var slider = new SliderUnlock("#slider", {
-            successLabelTip: "欢迎访问品优购"
-        }, function () {
-            // alert("验证成功,即将跳转至首页");
-            // window.location.href="index.html"
-        });
-        slider.init();
+        $("form").submit(function () {
+            var name = $("[name=name]").val();
+            var pwd = $("[name=pwd]").val();
+            if (name == "" || name == null) {
+                alert("姓名不能为空");
+                return false;
+            }
+            if (pwd == "" || pwd== null) {
+                alert("密码不能为空");
+                return false;
+            }
+            if (pwd.length<6) {
+                alert("密码长度不能小于6位");
+                return false;
+            }
+        })
     })
 </script>
+<script type="text/javascript">
+    var msg='[[${msg}]]';
+    if (msg.length>0){
+        alert(msg);
+    }
 
-</body>
-
-</html>
+</script>

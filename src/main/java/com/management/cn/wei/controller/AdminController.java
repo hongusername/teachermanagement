@@ -33,9 +33,9 @@ public class AdminController {
         return "admin/adminLogin";
     }
 
-    /*
+ /*   *//*
      * 登录
-     * */
+     * *//*
     @RequestMapping("/dologin")
     public String dologin( HttpSession session, String name, String pwd, Model model) {
         Teacher login = adminService.login(name, pwd);
@@ -47,29 +47,33 @@ public class AdminController {
             return "redirect:admin/index";
         }
 
-    }
+    }*/
 
-   /* *//*
-     * 权限登陆
-     * *//*
+
+    /*
+     权限登陆
+     */
     @RequestMapping("/checkLogin")
-    public String checkLogin(String username, String password, Model model) throws IOException {
-        Teacher t = iTeacherService.getTeacher(username);
-        model.addAttribute("username", username);
+    public String checkLogin(HttpSession session,String name, String pwd, Model model) throws IOException {
+        Teacher t = iTeacherService.getTeacher(name);
+
+        session.setAttribute("username", name);
+
+
         if (t == null) {
-            model.addAttribute("LoginInfo", "账号或密码不正确!");
-            return "Long_index";
+            model.addAttribute("msg", "账号或密码不正确!");
+            return "adminLogin";
         } else  {
-            if (t.getPwd().equals(password)||t.getPwd()==password&&t.getType()==3) {
-                return "redirect:admin/管理员";
-            }else if (t.getPwd().equals(password)||t.getPwd()==password&&t.getType()==4){
-                return "redirect:admin/教务";
-            }else {
-                model.addAttribute("LoginInfo", "账号或密码不正确!");
-                return "Long_index";
+            if (t.getPwd().equals(pwd)||t.getPwd()==pwd) {
+                session.setAttribute("teacher",t);
+                System.out.println(t);
+                return "redirect:admin/index";
+            }else{
+                model.addAttribute("msg", "账号或密码不正确!");
+                return "adminLogin";
             }
         }
-    }*/
+    }
 
     /*
      * 管理员登录
