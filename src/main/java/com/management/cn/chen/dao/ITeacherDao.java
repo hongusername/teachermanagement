@@ -9,4 +9,6 @@ public interface ITeacherDao {
     Teacher getTeacher(String name);
     //查询教师
     List<Teacher> getTea(int type);
+    //修改密码
+    Integer updatePassword(Teacher teacher);
 }

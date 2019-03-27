@@ -13,4 +13,8 @@
         select * from teacher where type=#{type}
     </select>
 
+    <update id="updatePassword" parameterType="com.management.cn.entity.Teacher">
+		update teacher set pwd=#{pwd} where teacherid=#{teacherid}
+	</update>
+
 </mapper>
