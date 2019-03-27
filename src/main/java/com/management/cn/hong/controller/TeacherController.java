@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,7 +21,7 @@ public class TeacherController {
     private TeacherServices teacherServices;
 
     @RequestMapping("/teacherListController")
-    public String index(Model model, Teacher teacher, @RequestParam(defaultValue = "1", required = false) Integer pageNumber, @RequestParam(defaultValue = "5", required = false) Integer pageSize) {
+    public String index(Model model, Teacher teacher, @RequestParam(defaultValue = "1", required = false) Integer pageNumber, @RequestParam(defaultValue = "50", required = false) Integer pageSize) {
         PageInfo<Teacher> page = teacherServices.getAll(teacher, pageNumber, pageSize);
         List<Teacher> list = page.getList();
         model.addAttribute("teacherList", list);
@@ -37,7 +38,7 @@ public class TeacherController {
 
     @RequestMapping("/ajaxteacherListController")
     @ResponseBody
-    public Object ajaxteacherListController(Teacher teacher, @RequestParam(defaultValue = "1", required = false) Integer pageNumber, @RequestParam(defaultValue = "5", required = false) Integer pageSize) {
+    public Object ajaxteacherListController(Teacher teacher, @RequestParam(defaultValue = "1", required = false) Integer pageNumber, @RequestParam(defaultValue = "50", required = false) Integer pageSize) {
         System.out.println(teacher);
         PageInfo<Teacher> page = teacherServices.getAll(teacher, pageNumber, pageSize);
         return page;
@@ -54,7 +55,7 @@ public class TeacherController {
         } else {
             arr[1] = false;
         }
-        arr[1] = teacherServices.getAll(teacher, 1, 5);
+        arr[1] = teacherServices.getAll(teacher, 1, 50);
         return arr;
     }
 
@@ -69,7 +70,7 @@ public class TeacherController {
         } else {
             arr[0] = false;
         }
-        arr[1] = teacherServices.getAll(null, 1, 5);
+        arr[1] = teacherServices.getAll(null, 1, 50);
         return arr;
     }
 
@@ -83,8 +84,36 @@ public class TeacherController {
         } else {
             arr[0] = false;
         }
-        arr[1] = teacherServices.getAll(null, 1, 5);
+        arr[1] = teacherServices.getAll(null, 1, 50);
         return arr;
+    }
+
+    @RequestMapping("ajaxDeleteTeachers")
+    @ResponseBody
+    public Object[] ajaxDeleteTeachers(String[] teacherids) {
+        System.out.print(teacherids);
+        Object[] arr = new Object[2];
+        Integer result = teacherServices.deleteTeachers(null);
+        if (result != 0) {
+            arr[0] = true;
+        } else {
+            arr[0] = false;
+        }
+        arr[1] = teacherServices.getAll(null, 1, 50);
+        return arr;
+    }
+
+    @RequestMapping("ajaxTeacherCanvas")
+    @ResponseBody
+    public List<Object> ajaxTeacherCanvas() {
+        List<Object> list = new ArrayList<>();
+        list.add(100);
+        list.add(200);
+        list.add(400);
+        list.add(600);
+        list.add(200);
+        list.add(340);
+        return list;
     }
 
 

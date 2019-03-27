@@ -18,5 +18,8 @@ public interface TeacherDao {
 
     Integer insertTeacher(Teacher teacher);
 
+    //批量删除
+    Integer deleteTeachers(Integer[] teacherids);
+
 
 }

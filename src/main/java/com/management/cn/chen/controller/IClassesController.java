@@ -36,7 +36,6 @@ public class IClassesController {
         model.addAttribute("jy", jy);
         model.addAttribute("bzr", bzr);
         model.addAttribute("classType", classType);
-
         return "Long_classes";
     }
 
