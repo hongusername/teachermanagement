@@ -29,4 +29,12 @@ public class ITeacherController {
     }
 
 
+
+    @RequestMapping("doUpdatePassword")
+    public String doupdatePassword(Model model,Teacher teacher){
+        model.addAttribute("teacher",this.iTeacherService.updatePassword(teacher));
+        return "admin/index";
+    }
+
+
 }
