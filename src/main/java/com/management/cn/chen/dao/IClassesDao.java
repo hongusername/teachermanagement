@@ -18,6 +18,10 @@ public interface IClassesDao {
 
     //修改考核状态(1:以考核,2:未考核)
     int updStatus(int status);
+
+    //
+    List<Classes> selClassByTypeId(Integer typeId);
+
     //模糊查询
     List<Classes> selClassName(String key);
     List<Classes> selClassType(String key);

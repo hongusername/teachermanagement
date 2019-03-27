@@ -19,6 +19,10 @@ import java.util.List;
 @Controller
 public class IClassesController {
 
+    static {
+        Test t=new Test();
+        t.run();
+    }
 
     @Resource
     private IClassesService iClassesService;
@@ -52,6 +56,7 @@ public class IClassesController {
         model.addAttribute("jy", jy);
         model.addAttribute("bzr", bzr);
         model.addAttribute("classType", classType);
+
 
         return "Long_classes";
     }
