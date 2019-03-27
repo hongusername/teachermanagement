@@ -40,14 +40,14 @@ public class AdminController {
     public String checkLogin(String username, String password, Model model) throws IOException {
         Teacher t = iTeacherService.getTeacher(username);
         model.addAttribute("username", username);
+        model.addAttribute("teacher",t);
+
         if (t == null) {
             model.addAttribute("LoginInfo", "账号或密码不正确!");
             return "Long_index";
         } else  {
-            if (t.getPwd().equals(password)||t.getPwd()==password&&t.getType()==3) {
-                return "redirect:admin/管理员";
-            }else if (t.getPwd().equals(password)||t.getPwd()==password&&t.getType()==4){
-                return "redirect:admin/教务";
+            if (t.getPwd().equals(password)||t.getPwd()==password) {
+                return "redirect:admin/index";
             }else {
                 model.addAttribute("LoginInfo", "账号或密码不正确!");
                 return "Long_index";
