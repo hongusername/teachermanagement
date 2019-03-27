@@ -31,6 +31,9 @@ public class PageController {
 
     @RequestMapping("/admin/{page}")
     public String adminPage(@PathVariable String page) {
+
+
+
         return "admin/" + page;
     }
 
@@ -43,4 +46,7 @@ public class PageController {
         model.addAttribute("surveyTypeId", surveyTypeId);
         return "admin/survey_content_list";
     }
+
+
+
 }

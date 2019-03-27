@@ -36,4 +36,14 @@ public class TeacherDTO {
      * 评测时间
      */
     private Date date;
+
+    /**
+     * 班级编号
+     */
+    private Integer classId;
+
+    /**
+     * 调查问卷类型
+     */
+    private Integer surveyType;
 }
