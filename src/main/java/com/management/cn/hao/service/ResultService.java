@@ -3,6 +3,7 @@ package com.management.cn.hao.service;
 import com.management.cn.dto.ResultDTO;
 import com.management.cn.dto.SurveyContentDTO;
 import com.management.cn.dto.TeacherDTO;
+import com.management.cn.entity.ResponseResult;
 import com.management.cn.entity.Result;
 import com.management.cn.entity.Teacher;
 import org.apache.ibatis.annotations.Param;
@@ -27,7 +28,7 @@ public interface ResultService {
 
     Integer queryResultAVG( Result result);
 
-    List<SurveyContentDTO> queryIndividualOptionAVG(Result result);
+    ResponseResult queryIndividualOptionAVG(Result result);
 
-    List<TeacherDTO> queryResultByClassIdAndDate(Integer classId, String date);
+    ResponseResult<List<TeacherDTO>> queryResultByClassIdAndDate(Integer classId, String date);
 }

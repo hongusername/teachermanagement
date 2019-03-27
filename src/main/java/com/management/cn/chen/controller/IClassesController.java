@@ -3,6 +3,7 @@ package com.management.cn.chen.controller;
 import com.management.cn.chen.service.IClassesService;
 import com.management.cn.chen.service.ITeacherService;
 import com.management.cn.chen.service.LongIGradeService;
+import com.management.cn.dto.ClassesDTO;
 import com.management.cn.entity.Classes;
 import com.management.cn.entity.Grade;
 import com.management.cn.entity.Teacher;
@@ -26,6 +27,21 @@ public class IClassesController {
     @Resource
     private LongIGradeService longIGradeService;
 
+    @RequestMapping("getAllClasses")
+    @ResponseBody
+    public List<ClassesDTO> getAllClasses(Integer typeId) {
+
+        List<ClassesDTO> classesDTOList = new ArrayList<>();
+        List<Classes> classes = iClassesService.selClassByTypeId(typeId);
+        classes.forEach(item -> {
+                    ClassesDTO classesDTO = new ClassesDTO();
+                    classesDTO.setClassId(item.getClass_id());
+                    classesDTO.setClassName(item.getClass_name());
+                    classesDTOList.add(classesDTO);
+                }
+        );
+        return classesDTOList;
+    }
     @RequestMapping("getClasses")
     public String getClasses(Model model) {
         List<Classes> list = iClassesService.getClasses();
@@ -74,17 +90,20 @@ public class IClassesController {
 
     @RequestMapping("Long_sel")
     public String sel(String key, Model model) {
-
-        if(key.trim()==null||key.trim()==""){
+        if(key.trim()==null||key.trim()==""||key.trim().equals("")){
             return "redirect:/getClasses";
         }
+        model.addAttribute("key", key);
+        key=key.toUpperCase();
+
+
         List<Teacher> jy = iTeacherService.getTea(1);
         List<Teacher> bzr = iTeacherService.getTea(2);
         List<Grade> classType = longIGradeService.getGrade();
         model.addAttribute("jy", jy);
         model.addAttribute("bzr", bzr);
         model.addAttribute("classType", classType);
-        model.addAttribute("key", key);
+
 
         List<Classes> c1 = iClassesService.selClassBzr(key);
         List<Classes> c2 = iClassesService.selClassJy(key);
@@ -104,43 +123,27 @@ public class IClassesController {
         for(Classes c : c4){
             list.add(c);
         }
-//        list.addAll(c1);
-//        for (Classes c : list) {
-//            System.out.println(c.getClass_name());
-//        }
-//        System.out.println("---------------------------------------------------------");
-//        list.addAll(c2);
-//        for (Classes c : list) {
-//            System.out.println(c.getClass_name());
-//        }
-//        System.out.println("---------------------------------------------------------");
-//        list.addAll(c3);
-//        for (Classes c : list) {
-//            System.out.println(c.getClass_name());
-//        }
-//        list.addAll(c4);
 
-//        for (Classes c : list) {
-//            Teacher t1 = new Teacher();
-//            Teacher t2 = new Teacher();
-//            Grade g = new Grade();
-//            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-//
-////            t1.setName(c.getTeacher1().getName().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            c.setTeacher1(t1);
-////
-////
-////            t2.setName(c.getTeacher2().getName().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            c.setTeacher2(t2);
-////
-////
-////            g.setSemester(c.getGrade().getSemester().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            c.setGrade(g);
-////
-////            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            System.out.println(c.getClass_name());
-//        }
+        for (Classes c : list) {
+            Teacher t1 = new Teacher();
+            Teacher t2 = new Teacher();
+            Grade g = new Grade();
+            c.setClass_name(c.getClass_name().replaceAll("(?i)"+key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
 
+            t1.setName(c.getTeacher1().getName().replaceAll("(?i)"+key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
+            t1.setTeacherid(c.getTeacher2().getTeacherid());
+            c.setTeacher1(t1);
+
+
+            t2.setName(c.getTeacher2().getName().replaceAll("(?i)"+key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
+            t2.setTeacherid(c.getTeacher1().getTeacherid());
+            c.setTeacher2(t2);
+
+
+            g.setSemester(c.getGrade().getSemester().replaceAll("(?i)"+key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
+            g.setId(c.getGrade().getId());
+            c.setGrade(g);
+        }
              model.addAttribute("classes", list);
         return "Long_classes";
     }

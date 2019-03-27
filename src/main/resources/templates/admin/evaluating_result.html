@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="/plugins/adminLTE/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/vue.js"></script>
@@ -28,37 +28,45 @@
     <div class="table-box">
 
         <div class="box-tools pull-left">
-            <div class="has-feedback">
-                选择班级：
-                <select v-model="classId">
-                    <option value="1">TCMP071</option>
-                    <option value="2">TCMP070</option>
-                    <option value="3">TCMP069</option>
-                    <option value="4">TCMP068</option>
-                    <option value="5">TCMP067</option>
+            <div class="has-feedback" style="margin-bottom: 10px">
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                学期：
+                <select v-model="gradeId" @change="loadClass()">
+                    <option v-for="item in gradeList" :value="item.id">{{item.semester}}</option>
                 </select>
-                选择月份：
-                <input type="month" v-model="date">
-                <button class="btn btn-default" @click="search()">查询</button>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                班级：
+                <select v-model="classId">
+                    <option v-for="item in classList" :value="item.classId">{{item.className}}</option>
+                </select>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                月份：
+                <input type="month" v-model="date" id="date">
             </div>
         </div>
 
 
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
             <thead>
-            <th>姓名</th>
-            <th>测评时间</th>
-            <th>平均分</th>
-            <th>操作</th>
+            <tr>
+                <th>姓名</th>
+                <th>测评时间</th>
+                <th>平均分</th>
+                <th>操作</th>
+            </tr>
             </thead>
             <tbody>
-            <tr>
-                <!-- <td>{{item.name}}</td>
-                 <td>{{item.startTime }}</td>
-                 <td>{{item.endTime }}</td>
-                 <td>
-                     <button type="button" class="btn bg-olive btn-xs" @click="details(item.id)">详情</button>
-                 </td>-->
+            <tr v-show="teacherList.length > 0" v-for="item in teacherList">
+                <td>{{item.name}}</td>
+                <td v-show="item.date != null">{{item.date}}</td>
+                <td v-show="item.date != null">{{item.avg}}</td>
+                <td v-show="item.date != null">
+                    <button type="button" @click="detail(item)" class="btn bg-olive btn-xs">详情</button>
+                </td>
+                <td v-show="item.date == null" colspan="3" style="text-align: center">暂无数据</td>
+            </tr>
+            <tr v-show="teacherList.length == 0">
+                <td colspan="4" style="text-align: center"><h3>{{message}}</h3></td>
             </tr>
             </tbody>
         </table>
@@ -75,11 +83,82 @@
         data: {
             classId: 1,
             date: '',
+            teacherList: [],
+            message: '',
+            gradeList: [],
+            gradeId: 1,
+            classList: []
         },
-        methods: {
-            search: function () {
-                console.log(this.classId + "\t" + this.date);
+        watch: {
+            date: {
+                deep: true,
+                handler: function () {
+                    if (this.validateDate()  == false) {
+                        return;
+                    }
+                    this.search();
+                }
             }
+        }
+        ,
+        methods: {
+            validateDate: function () {
+                if (this.date == null || this.date == "") {
+                    this.message = "请选择日期！";
+                    this.teacherList = [];
+                    return false;
+                }
+            }
+            ,
+            search: function () {
+                this.teacherList = [];
+                if (this.validateDate() == false) {
+                    return;
+                }
+                this.$http.post('http://localhost:8080/result/getResult', {
+                    classId: this.classId,
+                    date: this.date
+                }, {emulateJSON: true}).then(
+                    function (res) {
+                        lsit = res.body.data
+                        if (lsit != null) {
+                            this.teacherList = lsit;
+                        }
+                        this.message = res.body.message;
+                    }, function (res) {
+                        alert("请稍后再试...");
+                    });
+            },
+            detail: function (obj) {
+                location.href = "http://localhost:8080/result/detailResult?surveyTypeId=" + obj.surveyType + "&classId=" + obj.classId + "&teacherTypeId=" + obj.type + "&date=" + obj.date;
+            },
+            loadClass: function () {//加载班级
+                this.teacherList = [];
+                this.$http.get('http://localhost:8080/getAllClasses?typeId=' + this.gradeId).then(function (res) {
+                    this.classList = res.body;
+                    this.classId = this.classList[0].classId;
+                    this.search();
+                }, function (res) {
+                    alert("请稍后再试...")
+                });
+            }
+        },
+        mounted: function () {
+
+            var time = new Date();
+            var day = ("0" + time.getDate()).slice(-2);
+            var month = ("0" + (time.getMonth() + 1)).slice(-2);
+            var today = time.getFullYear() + "-" + (month);
+            this.date = today;//默认今天时间
+
+            //加载学期
+            this.$http.get('http://localhost:8080/grade/getGradeList').then(function (res) {
+                this.gradeList = res.body;
+            }, function (res) {
+                alert("请稍后再试...")
+            })
+            this.loadClass();
+            this.search();
         }
     });
 

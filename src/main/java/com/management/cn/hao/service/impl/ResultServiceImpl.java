@@ -11,15 +11,11 @@ import com.management.cn.hao.dao.SurveyContentMapper;
 import com.management.cn.hao.dao.SurveyTypeMapper;
 import com.management.cn.hao.service.ResultService;
 import com.management.cn.hong.dao.TeacherDao;
-import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.standard.expression.Each;
-import sun.plugin.javascript.navig.Link;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * @author: GengHao
@@ -94,7 +90,7 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public List<SurveyContentDTO> queryIndividualOptionAVG(Result result) {
+    public ResponseResult queryIndividualOptionAVG(Result result) {
         SurveyType surveyType = surveyTypeMapper.selectSurveyTypeById(result.getSurveyType());
         String optionsJSON = surveyType.getOptions();
         List<OptionScore> optionScoreList = Arrays.asList(JSON.parseObject(optionsJSON, OptionScore[].class));
@@ -102,7 +98,7 @@ public class ResultServiceImpl implements ResultService {
 
         //每个问题选项
         Map<String, List> eachQuestionOptions = new HashMap<>();
-
+        System.out.println(JSON.toJSON(results));
 
         //获取题号
         String options = results.get(0).getOptions();
@@ -112,8 +108,11 @@ public class ResultServiceImpl implements ResultService {
         for (Map<String, String> option : optionsMap) {
             eachQuestionOptions.put(option.get("id"), new ArrayList());
         }
+        //意见建议
+        List<String>  opinionList = new ArrayList<>();
 
         for (Result i : results) {
+            opinionList.add(i.getOpinion());
             //当前结果的选项字符串
             String options1 = i.getOptions();
             //当前结果的选项 Map集合
@@ -170,24 +169,68 @@ public class ResultServiceImpl implements ResultService {
             BeanUtils.copyProperties(surveyContent, surveyContentDTO);
             surveyContentDTO.setAvg(eachQuestionAVG.get(surveyContent.getId().toString()));
             surveyContentDTOList.add(surveyContentDTO);
-
         }
-        return surveyContentDTOList;
+        ResponseResult responseResult = new ResponseResult();
+
+
+        Map<String, Object> map = new HashMap<>();
+        //每一项的平均分
+        map.put("surveyContentDTOList", surveyContentDTOList);
+        //调查时间
+        map.put("date", result.getDate());
+        //班级名称
+        Classes classes = getClassByClassId(result.getClassid());
+        map.put("className", classes.getClass_name());
+        //老师
+        Integer teacherType = result.getTeacherType();
+        String teacherName = "";
+
+        if (teacherType == 1) {
+            teacherName = queryTeacherById(teacherType).getName();
+        }
+        if (teacherType == 2) {
+            teacherName = queryTeacherById(teacherType).getName();
+        }
+        map.put("teacherName", teacherName);
+        map.put("teacherType",teacherType);
+        map.put("opinionList",opinionList);
+        responseResult.setData(map);
+        return responseResult;
+    }
+
+    private Classes getClassByClassId(Integer classId) {
+        return classesDao.getClassByClassId(classId);
+    }
+
+    private Teacher queryTeacherById(Integer teacherId) {
+        return teacherDao.queryTeacherById(teacherId);
     }
 
     @Override
-    public List<TeacherDTO> queryResultByClassIdAndDate(Integer classId, String date) {
+    public ResponseResult<List<TeacherDTO>> queryResultByClassIdAndDate(Integer classId, String date) {
+        ResponseResult<List<TeacherDTO>> responseResult = new ResponseResult<>();
+        List<Result> results = resultMapper.queryResultByClassIdAndDate(classId, date);
+
+        if (results == null || results.size() == 0) {
+            responseResult.setStatus(200);
+            responseResult.setMessage("暂无数据");
+            return responseResult;
+        }
+
+
         List<Integer> list_jy_totalScore = new ArrayList();
         List<Integer> list_bzr_totalScore = new ArrayList();
         Date dateJY = null;
         Date dateBZR = null;
-        List<Result> results = resultMapper.queryResultByClassIdAndDate(classId, date);
+        Integer surveyTypeJY = 0;
+        Integer surveyTypeBZR = 0;
         for (Result result : results) {
             //教员
             if (result.getTeacherType() == 1) {
                 list_jy_totalScore.add(result.getTotalScore());
                 if (dateJY == null) {
                     dateJY = result.getCreateDate();
+                    surveyTypeJY = result.getSurveyType();
                 }
             }
             //班主任
@@ -195,19 +238,17 @@ public class ResultServiceImpl implements ResultService {
                 list_bzr_totalScore.add(result.getTotalScore());
                 if (dateBZR == null) {
                     dateBZR = result.getCreateDate();
+                    surveyTypeBZR = result.getSurveyType();
                 }
             }
         }
 
         // 班级
-        Classes classes = classesDao.getClassByClassId(classId);
+        Classes classes = getClassByClassId(classId);
         //班主任
-        Teacher teacherBZR = teacherDao.queryTeacherById(classes.getClass_bzr());
+        Teacher teacherBZR = queryTeacherById(classes.getClass_bzr());
         //教员
-        Teacher teacherJY = teacherDao.queryTeacherById(classes.getClass_jy());
-
-        System.out.println(JSON.toJSON(teacherBZR));
-        System.out.println(JSON.toJSON(teacherJY));
+        Teacher teacherJY = queryTeacherById(classes.getClass_jy());
 
         //班主任
         TeacherDTO teacherDTO_BZR = new TeacherDTO();
@@ -219,16 +260,30 @@ public class ResultServiceImpl implements ResultService {
 
         /*班主任平均分*/
         teacherDTO_BZR.setAvg(avg(list_bzr_totalScore));
-        /*教员平均分*/
-        teacherDTO_JY.setAvg(avg(list_jy_totalScore));
         /*班主任评测时间*/
         teacherDTO_BZR.setDate(dateBZR);
+        /*班级id*/
+        teacherDTO_BZR.setClassId(classId);
+        /*调查问卷类型*/
+        teacherDTO_BZR.setSurveyType(surveyTypeBZR);
+
+        /*教员平均分*/
+        teacherDTO_JY.setAvg(avg(list_jy_totalScore));
         /*教员评测时间*/
         teacherDTO_JY.setDate(dateJY);
+        /*班级id*/
+        teacherDTO_JY.setClassId(classId);
+        /*调查问卷类型*/
+        teacherDTO_JY.setSurveyType(surveyTypeJY);
+
+
         List<TeacherDTO> teacherDTOList = new ArrayList<>();
         teacherDTOList.add(teacherDTO_BZR);
         teacherDTOList.add(teacherDTO_JY);
-        return teacherDTOList;
+
+        responseResult.setStatus(200);
+        responseResult.setData(teacherDTOList);
+        return responseResult;
     }
 
     /**
@@ -241,6 +296,7 @@ public class ResultServiceImpl implements ResultService {
         Collections.sort(scoreList);
         int totalScore = 0;
         int avg = 0;
+        //去掉一个最高分和一个最低分
         for (int i = 1; i < scoreList.size() - 1; i++) {
             totalScore += scoreList.get(i);
         }
