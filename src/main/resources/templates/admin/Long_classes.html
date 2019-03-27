@@ -22,9 +22,12 @@
 </style>
 <script>
     $(function(){
+        $("#form3").submit(function(){
 
+        });
 
     });
+
 
     function t1(){
         $("#form1").submit();
@@ -44,6 +47,10 @@
         if(confirm("确认删除吗?")){
             location.href="delClasses?id="+obj.class_id;
         }
+    }
+
+    function t5(key){
+
     }
 </script>
 <body class="hold-transition skin-red sidebar-mini">
@@ -69,10 +76,12 @@
 			</div>
 		</div>
 		<div class="box-tools pull-right">
-			<div class="has-feedback">
-				名称：<input>
-				<button class="btn btn-default">查询</button>
-			</div>
+			<form action="Long_sel" id="form3" method="post">
+				<div class="has-feedback">
+					名称：<input id="key" th:value="${key}" name="key">
+					<button  class="btn btn-default">查询</button>
+				</div>
+			</form>
 		</div>
 		<!--工具栏/-->
 
@@ -80,25 +89,28 @@
 		<table id="dataList" class="table table-bordered table-striped table-hover dataTable">
 			<thead>
 			<tr>
-				<th class="sorting_asc">班级ID</th>
-				<th class="sorting">班级名称</th>
-				<th class="sorting">班级类型</th>
-				<th class="sorting">带班教师</th>
-				<th class="sorting">状态</th>
+				<th class="text-center">班级ID</th>
+				<th class="text-center">班级名称</th>
+				<th class="text-center">班级类型</th>
+				<th class="text-center">班主任</th>
+				<th class="text-center">教员</th>
+				<th class="text-center">状态</th>
 				<th class="text-center">操作</th>
 			</tr>
 			</thead>
-			<tbody>
+			<tbody id="StrColor">
 			<tr th:each="c,i : ${classes}" align="center">
-				<td th:text="${i.index+1}"></td>
-				<td th:text="${c.class_name}"></td>
-				<td th:text="${c.grade.semester}"></td>
+				<td th:utext="${i.index+1}"></td>
+				<td th:utext="${c.class_name}"></td>
+				<td th:utext="${c.grade.semester}"></td>
 				<td  class="teach">
-					<span  th:text="${c.teacher1.name}"></span>
-					<!--何子龙-&#45;&#45;钟婷-->-------
-					<span  th:text="${c.teacher2.name}"></span>
+					<span  th:utext="${c.teacher1.name}"></span>
+				</td>
+				<td>
+					<span  th:utext="${c.teacher2.name}"></span>
 				</td>
 				<!--
+
                     [[${c.status}]]
                 -->
 				<td>
@@ -233,6 +245,5 @@
 
 
 </body>
-
 
 </html>
