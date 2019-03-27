@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>课工场</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/vue.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.js"></script>
+    <script>
+
+        $(function () {
+            $("#opinion").hide();
+        });
+
+        function toggle() {
+            if ($("#opinion").css("display") != "none") {
+                $("#opinion").hide();
+                $("#avg").fadeIn(1000);
+                $("#toggle").text("显示意见、建议");
+            } else {
+                $("#opinion").fadeIn(1000);
+                $("#avg").hide();
+                $("#toggle").text("显示平均分");
+            }
+        }
+    </script>
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+<!-- .box-body -->
+<div class="box-header with-border">
+    <h3 class="box-title" style="margin-right: 15px">详细信息</h3>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div style="display: inline-block;margin: 0 auto">
+        <h3 class="box-title" style="margin-right: 15px">班级：<span th:text="${data.data.className}"></span></h3>
+        <h3 class="box-title" style="margin-right: 15px">测评时间：<span th:text="${data.data.date}"></span></h3>
+        <h3 class="box-title" style="margin-right: 15px" th:if="${data.data.teacherType == 2}">班主任：<span
+                th:text="${data.data.teacherName}"></span></h3>
+        <h3 class="box-title" style="margin-right: 15px" th:if="${data.data.teacherType == 1}">教员：<span
+                th:text="${data.data.teacherName}"></span></h3>
+    </div>
+    <div class="pull-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" onclick="toggle()" id="toggle">显示意见、建议</button>
+            <button type="button" class="btn btn-default" onclick="location.reload();">刷新</button>
+            <button type="button" class="btn btn-default" onclick="window.history.back()">返回</button>
+        </div>
+    </div>
+</div>
+
+<div class="box-body" id="app">
+    <div class="table-box">
+        <table id="avg" class="table table-bordered table-striped table-hover dataTable">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>题目</th>
+                <th>平均分</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item,i:${data.data.surveyContentDTOList}">
+                <td th:text="${i.count}"></td>
+                <td th:text="${item.content}"></td>
+                <td th:text="${item.avg}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <table id="opinion" class="table table-bordered table-striped table-hover dataTable">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>意见、建议</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item,i:${data.data.opinionList}">
+                <td th:text="${i.count}"></td>
+                <td th:text="${item}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- /.box-body -->
+</body>
+</html>

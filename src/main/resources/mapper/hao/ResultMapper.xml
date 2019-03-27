@@ -8,7 +8,7 @@
     </insert>
 
     <select id="queryResultAll" resultType="Result">
-        select *  from result where classid=#{classid} and teachertype=#{teacherType} and createDate=#{createDate} order by totalScore desc
+        select *  from result where classid=#{classid} and teachertype=#{teacherType} and DATE_FORMAT(createDate,'%Y-%m') = #{date} order by totalScore desc
     </select>
 
     <select id="queryResultByClassIdAndDate" resultType="Result">
