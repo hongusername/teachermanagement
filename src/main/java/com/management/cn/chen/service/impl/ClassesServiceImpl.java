@@ -36,6 +36,11 @@ public class ClassesServiceImpl implements IClassesService {
     }
 
     @Override
+    public int updStatus(int status) {
+        return iClassesDao.updStatus(status);
+    }
+
+    @Override
     public List<Classes> selClassName(String key) {
         return iClassesDao.selClassName(key);
     }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IClassesService {
 
-    List<Classes> getClasses();
+   List<Classes> getClasses();
 
     int addClass(Classes classes);
 
@@ -14,7 +14,10 @@ public interface IClassesService {
 
     int delClass(int id);
 
-    List<Classes> selClassByTypeId(Integer typeId);
+    int updStatus(int status);
+
+     List<Classes> selClassByTypeId(Integer typeId);
+
     //模糊查询
     List<Classes> selClassName(String key);
     List<Classes> selClassType(String key);
