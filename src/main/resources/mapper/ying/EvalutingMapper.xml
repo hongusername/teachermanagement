@@ -13,6 +13,9 @@
   	<select id="queryAllTeacher" resultMap="EvaluatingMap">
   	SELECT * FROM `evaluating` e,`teacher` t WHERE e.teacherid=t.`teacherid` ORDER BY score DESC
   	</select>
+	<update id="updatePassword" parameterType="com.management.cn.entity.Teacher">
+		update teacher set pwd=#{pwd} where teacherid=#{teacherid}
+	</update>
 
   	
 
