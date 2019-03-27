@@ -103,13 +103,13 @@
             </thead>
             <tbody id="StrColor">
             <tr th:each="c,i : ${classes}" align="center">
-                <td th:text="${i.index+1}"></td>
-                <td th:text="${c.class_name}"></td>
-                <td th:text="${c.grade.semester}"></td>
+                <td th:utext="${i.index+1}"></td>
+                <td th:utext="${c.class_name}"></td>
+                <td th:utext="${c.grade.semester}"></td>
                 <td  class="teach">
-                    <span  th:text="${c.teacher1.name}"></span>
+                    <span  th:utext="${c.teacher1.name}"></span>
                     <!--何子龙-&#45;&#45;钟婷-->-------
-                    <span  th:text="${c.teacher2.name}"></span>
+                    <span  th:utext="${c.teacher2.name}"></span>
                 </td>
                 <!--
                     [[${c.status}]]

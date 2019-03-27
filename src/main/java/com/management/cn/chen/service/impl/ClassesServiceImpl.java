@@ -54,4 +54,9 @@ public class ClassesServiceImpl implements IClassesService {
     public List<Classes> selClassBzr(String key) {
         return iClassesDao.selClassBzr(key);
     }
+
+    @Override
+    public List<Classes> selClassByTypeId(Integer typeId) {
+        return iClassesDao.selClassByTypeId(typeId);
+    }
 }

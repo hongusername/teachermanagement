@@ -3,9 +3,11 @@ package com.management.cn.chen.controller;
 import com.management.cn.chen.service.IClassesService;
 import com.management.cn.chen.service.ITeacherService;
 import com.management.cn.chen.service.LongIGradeService;
+import com.management.cn.dto.ClassesDTO;
 import com.management.cn.entity.Classes;
 import com.management.cn.entity.Grade;
 import com.management.cn.entity.Teacher;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,23 @@ public class IClassesController {
     private ITeacherService iTeacherService;
     @Resource
     private LongIGradeService longIGradeService;
+
+
+    @RequestMapping("getAllClasses")
+    @ResponseBody
+    public List<ClassesDTO> getAllClasses(Integer typeId) {
+
+        List<ClassesDTO> classesDTOList = new ArrayList<>();
+        List<Classes> classes = iClassesService.selClassByTypeId(typeId);
+        classes.forEach(item -> {
+                    ClassesDTO classesDTO = new ClassesDTO();
+                    classesDTO.setClassId(item.getClass_id());
+                    classesDTO.setClassName(item.getClass_name());
+                    classesDTOList.add(classesDTO);
+                }
+        );
+        return classesDTOList;
+    }
 
     @RequestMapping("getClasses")
     public String getClasses(Model model) {
@@ -75,7 +94,7 @@ public class IClassesController {
     @RequestMapping("Long_sel")
     public String sel(String key, Model model) {
 
-        if(key.trim()==null||key.trim()==""){
+        if (key.trim() == null || key.trim() == "") {
             return "redirect:/getClasses";
         }
         List<Teacher> jy = iTeacherService.getTea(1);
@@ -92,56 +111,41 @@ public class IClassesController {
         List<Classes> c4 = iClassesService.selClassName(key);
 
         List<Classes> list = new ArrayList<Classes>();
-        for(Classes c : c1){
+        for (Classes c : c1) {
             list.add(c);
         }
-        for(Classes c : c2){
+        for (Classes c : c2) {
             list.add(c);
         }
-        for(Classes c : c3){
+        for (Classes c : c3) {
             list.add(c);
         }
-        for(Classes c : c4){
+        for (Classes c : c4) {
             list.add(c);
         }
-//        list.addAll(c1);
-//        for (Classes c : list) {
-//            System.out.println(c.getClass_name());
-//        }
-//        System.out.println("---------------------------------------------------------");
-//        list.addAll(c2);
-//        for (Classes c : list) {
-//            System.out.println(c.getClass_name());
-//        }
-//        System.out.println("---------------------------------------------------------");
-//        list.addAll(c3);
-//        for (Classes c : list) {
-//            System.out.println(c.getClass_name());
-//        }
-//        list.addAll(c4);
 
-//        for (Classes c : list) {
-//            Teacher t1 = new Teacher();
-//            Teacher t2 = new Teacher();
-//            Grade g = new Grade();
-//            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-//
-////            t1.setName(c.getTeacher1().getName().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            c.setTeacher1(t1);
-////
-////
-////            t2.setName(c.getTeacher2().getName().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            c.setTeacher2(t2);
-////
-////
-////            g.setSemester(c.getGrade().getSemester().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            c.setGrade(g);
-////
-////            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
-////            System.out.println(c.getClass_name());
-//        }
+        for (Classes c : list) {
+            Teacher t1 = new Teacher();
+            Teacher t2 = new Teacher();
+            Grade g = new Grade();
+            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
 
-             model.addAttribute("classes", list);
+            t1.setName(c.getTeacher1().getName().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
+            c.setTeacher1(t1);
+
+
+            t2.setName(c.getTeacher2().getName().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
+            c.setTeacher2(t2);
+
+
+            g.setSemester(c.getGrade().getSemester().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
+            c.setGrade(g);
+
+            c.setClass_name(c.getClass_name().replace(key, "<span style='color:red;font-weight:900'>" + key + "</span>"));
+            System.out.println(c.getClass_name());
+        }
+
+        model.addAttribute("classes", list);
         return "Long_classes";
     }
 }

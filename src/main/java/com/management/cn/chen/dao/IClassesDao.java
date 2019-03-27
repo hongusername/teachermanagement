@@ -1,9 +1,12 @@
 package com.management.cn.chen.dao;
 
 import com.management.cn.entity.Classes;
+import io.swagger.models.auth.In;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface IClassesDao {
 
     //查班级
@@ -15,7 +18,7 @@ public interface IClassesDao {
     //删除班级
     int delClass(int id);
     Classes getClassByClassId(Integer classId);
-
+    List<Classes> selClassByTypeId(Integer typeId);
     //模糊查询
     List<Classes> selClassName(String key);
     List<Classes> selClassType(String key);
