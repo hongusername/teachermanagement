@@ -2,30 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<!-- 页面meta -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>班级管理</title>
-	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-	<link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
-	<link rel="stylesheet" href="/plugins/adminLTE/css/skins/_all-skins.min.css">
-	<link rel="stylesheet" href="/css/style.css">
-	<script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
-	<script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>班级管理</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
 
 </head>
 <style>
-	.long-center {
-		margin-left: 50px;
-	}
+    .long-center {
+        margin-left: 50px;
+    }
 </style>
 <script>
     $(function(){
-        $("#form3").submit(function(){
-
+        $("#form1").submit(function(){
+            var val=$("#classname1").val();
+            if(val==""||val==null){
+                alert("班级名不能为空!");
+                return false;
+            }
         });
 
+        $("#form2").submit(function(){
+            var val=$("#updName").val();
+            if(val==""||val==null){
+                alert("班级名不能为空!");
+                return false;
+            }
+        });
     });
 
 
@@ -36,7 +47,7 @@
         $("#updId").val(obj.class_id);
         $("#updName").val(obj.class_name);
         $("#updClassType").val(obj.grade.id);
-        $("#classesJy").val(obj.teacher2.teacherid);
+         $("#classesJy").val(obj.teacher2.teacherid);
         $("#classesBzr").val(obj.teacher1.teacherid);
     }
     function t3(){
@@ -57,79 +68,79 @@
 <!-- .box-body -->
 
 <div class="box-header with-border">
-	<h3 class="box-title">班级管理</h3>
+    <h3 class="box-title">班级管理</h3>
 </div>
 
 <div class="box-body">
-	<!-- 数据表格 -->
-	<div class="table-box">
-		<!--工具栏-->
-		<div class="pull-left">
-			<div class="form-group form-inline">
-				<div class="btn-group">
-					<button type="button" class="btn btn-default" title="新建" data-toggle="modal"
-							data-target="#editModal"><i class="fa fa-file-o"></i> 新建
-					</button>
-					<button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新
-					</button>
-				</div>
-			</div>
-		</div>
-		<div class="box-tools pull-right">
-			<form action="Long_sel" id="form3" method="post">
-				<div class="has-feedback">
-					名称：<input id="key" th:value="${key}" name="key">
-					<button  class="btn btn-default">查询</button>
-				</div>
-			</form>
-		</div>
-		<!--工具栏/-->
+    <!-- 数据表格 -->
+    <div class="table-box">
+        <!--工具栏-->
+        <div class="pull-left">
+            <div class="form-group form-inline">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" title="新建" data-toggle="modal"
+                            data-target="#editModal"><i class="fa fa-file-o"></i> 新建
+                    </button>
+                    <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="box-tools pull-right">
+            <form action="Long_sel" id="form3" method="post">
+                <div class="has-feedback">
+                    名称：<input id="key" th:value="${key}" name="key">
+                    <button  class="btn btn-default">查询</button>
+                </div>
+            </form>
+        </div>
+        <!--工具栏/-->
 
-		<!--数据列表-->
-		<table id="dataList" class="table table-bordered table-striped table-hover dataTable">
-			<thead>
-			<tr>
-				<th class="text-center">班级ID</th>
-				<th class="text-center">班级名称</th>
-				<th class="text-center">班级类型</th>
-				<th class="text-center">班主任</th>
-				<th class="text-center">教员</th>
-				<th class="text-center">状态</th>
-				<th class="text-center">操作</th>
-			</tr>
-			</thead>
-			<tbody id="StrColor">
-			<tr th:each="c,i : ${classes}" align="center">
-				<td th:utext="${i.index+1}"></td>
-				<td th:utext="${c.class_name}"></td>
-				<td th:utext="${c.grade.semester}"></td>
-				<td  class="teach">
-					<span  th:utext="${c.teacher1.name}"></span>
-				</td>
-				<td>
-					<span  th:utext="${c.teacher2.name}"></span>
-				</td>
-				<!--
+        <!--数据列表-->
+        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+            <thead>
+            <tr>
+                <th class="text-center">班级ID</th>
+                <th class="text-center">班级名称</th>
+                <th class="text-center">班级类型</th>
+                <th class="text-center">班主任</th>
+                <th class="text-center">教员</th>
+                <th class="text-center">状态</th>
+                <th class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody id="StrColor">
+            <tr th:each="c,i : ${classes}" align="center">
+                <td th:utext="${i.index+1}"></td>
+                <td th:utext="${c.class_name}"></td>
+                <td th:utext="${c.grade.semester}"></td>
+                <td  class="teach">
+                    <span  th:utext="${c.teacher1.name}"></span>
+                </td>
+                <td>
+                    <span  th:utext="${c.teacher2.name}"></span>
+                </td>
+                <!--
 
                     [[${c.status}]]
                 -->
-				<td>
-					<span  th:if="${c.status == 1} ">以考核</span>
+                <td>
+                    <span  th:if="${c.status == 1} ">以考核</span>
 
-					<span  th:if="${c.status == 2} ">未考核</span>
-				</td>
-				<td class="text-center">
-					<button th:onclick="t2([[${c}]])"  type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2" >修改</button>
-					<button th:onclick="t4([[${c}]])" type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button>
-				</td>
-				<!--data-toggle="modal" data-target="#editModa2"-->
-			</tr>
+                    <span  th:if="${c.status == 2} ">未考核</span>
+                </td>
+                <td class="text-center">
+                    <button th:onclick="t2([[${c}]])"  type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2" >修改</button>
+                    <button th:onclick="t4([[${c}]])" type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button>
+                </td>
+                <!--data-toggle="modal" data-target="#editModa2"-->
+            </tr>
 
-			</tbody>
-		</table>
-		<!--数据列表/-->
-	</div>
-	<!-- 数据表格 /-->
+            </tbody>
+        </table>
+        <!--数据列表/-->
+    </div>
+    <!-- 数据表格 /-->
 </div>
 <!-- /.box-body -->
 <!-- 分页 -->
@@ -137,110 +148,110 @@
 
 <!-- 编辑窗口 -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel">新建班级</h3>
-			</div>
-			<form action="l_addClass" id="form1">
-				<div class="modal-body">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">新建班级</h3>
+            </div>
+            <form action="l_addClass" id="form1">
+                <div class="modal-body">
 
-					<table class="table table-bordered table-striped" width="800px">
-						<tr>
-							<td>班级名称</td>
-							<td><input name="classesName" class="form-control" placeholder="班级名称"></td>
-						</tr>
-						<tr>
-							<td>班级类型</td>
-							<td>
-								<select name="classesType">
-									<option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>班主任</td>
-							<td>
-								<select name="classesBzr">
-									<option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>教员</td>
-							<td>
-								<select name="classesJy">
-									<option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-								</select>
-							</td>
-						</tr>
-					</table>
+                    <table class="table table-bordered table-striped" width="800px">
+                        <tr>
+                            <td>班级名称</td>
+                            <td><input id="classesName1"  name="classesName" class="form-control" placeholder="班级名称"></td>
+                        </tr>
+                        <tr>
+                            <td>班级类型</td>
+                            <td>
+                                <select name="classesType">
+                                    <option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>班主任</td>
+                            <td>
+                                <select name="classesBzr">
+                                    <option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>教员</td>
+                            <td>
+                                <select name="classesJy">
+                                    <option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
 
-				</div>
-				<div class="modal-footer">
-					<button  onclick="t1()" class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
-					<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-				</div>
-			</form>
-		</div>
-	</div>
+                </div>
+                <div class="modal-footer">
+                    <button  onclick="t1()" class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="editModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3>修改信息</h3>
-			</div>
-			<form action="updClasses" id="form2">
-				<div class="modal-body">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>修改信息</h3>
+            </div>
+        <form action="updClasses" id="form2">
+            <div class="modal-body">
 
-					<table class="table table-bordered table-striped" width="800px">
-						<tr>
-							<td>班级名称</td>
-							<td>
-								<input  name="classesName" id="updName" class="form-control" placeholder="班级名称">
-								<input type="hidden" id="updId" name="id">
-							</td>
-						</tr>
-						<tr>
-							<td>班级类型</td>
-							<td>
-								<select id="updClassType" name="classesType">
-									<option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>班主任</td>
-							<td>
-								<select id="classesBzr" name="classesBzr">
-									<option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-								</select>
-							</td>
+                <table class="table table-bordered table-striped" width="800px">
+                    <tr>
+                        <td>班级名称</td>
+                        <td>
+                            <input  name="classesName" id="updName" class="form-control" placeholder="班级名称">
+                            <input type="hidden" id="updId" name="id">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>班级类型</td>
+                        <td>
+                            <select id="updClassType" name="classesType">
+                                <option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>班主任</td>
+                        <td>
+                            <select id="classesBzr" name="classesBzr">
+                                <option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
+                            </select>
+                        </td>
 
-						</tr>
-						<tr>
-							<td>教员</td>
-							<td>
-								<select id="classesJy" name="classesJy">
-									<option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-								</select>
-							</td>
-						</tr>
+                    </tr>
+                    <tr>
+                        <td>教员</td>
+                        <td>
+                            <select id="classesJy" name="classesJy">
+                                <option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
+                            </select>
+                        </td>
+                    </tr>
 
-					</table>
+                </table>
 
-				</div>
-				<div class="modal-footer">
-					<button  onclick="t3()" class="btn btn-success" data-dismiss="modal" aria-hidden="true">修改</button>
-					<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-				</div>
-			</form>
-		</div>
-	</div>
+            </div>
+            <div class="modal-footer">
+                <button  onclick="t3()" class="btn btn-success" data-dismiss="modal" aria-hidden="true">修改</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </form>
+        </div>
+    </div>
 </div>
 
 
