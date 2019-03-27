@@ -71,7 +71,7 @@ public class IClassesController {
         int i = iClassesService.delClass(id);
         return "redirect:/getClasses";
     }
-
+    //模糊查询
     @RequestMapping("Long_sel")
     public String sel(String key, Model model) {
         if(key.trim()==null||key.trim()==""||key.trim().equals("")){
