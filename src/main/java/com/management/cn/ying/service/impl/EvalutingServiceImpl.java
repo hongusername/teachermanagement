@@ -3,6 +3,7 @@ package com.management.cn.ying.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.management.cn.entity.Evaluating;
+import com.management.cn.entity.Teacher;
 import com.management.cn.ying.dao.EvaluatingDao;
 import com.management.cn.ying.service.EvalutingService;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,10 @@ public class EvalutingServiceImpl implements EvalutingService {
         PageInfo<Evaluating> pi = new PageInfo<>(list);
         return pi;
 
+    }
+
+    @Override
+    public Integer updatePassword(Teacher teacher) {
+        return evaluatingDao.updatePassword(teacher);
     }
 }
