@@ -65,8 +65,9 @@
         SELECT * FROM classes WHERE class_id = #{classId}
     </select>
 
-
-
+    <update id="updStatus">
+        update classes set status=#{status}
+    </update>
 
 
 
