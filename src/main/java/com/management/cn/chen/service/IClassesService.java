@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IClassesService {
 
-   List<Classes> getClasses();
+    List<Classes> getClasses();
 
     int addClass(Classes classes);
 

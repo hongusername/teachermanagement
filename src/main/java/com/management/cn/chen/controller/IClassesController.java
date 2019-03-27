@@ -19,6 +19,10 @@ import java.util.List;
 @Controller
 public class IClassesController {
 
+    static {
+        Test t=new Test();
+        t.run();
+    }
 
     @Resource
     private IClassesService iClassesService;
@@ -52,6 +56,7 @@ public class IClassesController {
         model.addAttribute("jy", jy);
         model.addAttribute("bzr", bzr);
         model.addAttribute("classType", classType);
+
 
         return "Long_classes";
     }
@@ -87,7 +92,7 @@ public class IClassesController {
         int i = iClassesService.delClass(id);
         return "redirect:/getClasses";
     }
-
+    //模糊查询
     @RequestMapping("Long_sel")
     public String sel(String key, Model model) {
         if(key.trim()==null||key.trim()==""||key.trim().equals("")){

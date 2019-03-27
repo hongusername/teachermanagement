@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ITeacherDao {
     //教务登录
-    Teacher getTeacher(String name);
+    Teacher getTeacher(String username);
     //查询教师
     List<Teacher> getTea(int type);
     //修改密码
