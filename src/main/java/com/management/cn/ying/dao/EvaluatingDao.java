@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface EvaluatingDao {
     List<Evaluating> queryAllTeacher(Evaluating evaluating);
-    Integer updatePassword(Teacher teacher);
+
 }

@@ -25,8 +25,5 @@ public class EvalutingServiceImpl implements EvalutingService {
 
     }
 
-    @Override
-    public Integer updatePassword(Teacher teacher) {
-        return evaluatingDao.updatePassword(teacher);
-    }
+
 }

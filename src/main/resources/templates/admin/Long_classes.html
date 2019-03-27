@@ -22,10 +22,6 @@
 </style>
 <script>
     $(function(){
-        var key=$("#key").val();
-        $('#StrColor').html(function(i,oldHTML){
-            return oldHTML.replace("/"+key+"/g","<font color='red'>"+key+"</font>");
-        })
         $("#form3").submit(function(){
 
         });
@@ -80,7 +76,7 @@
 			</div>
 		</div>
 		<div class="box-tools pull-right">
-			<form action="Long_sel" id="form3">
+			<form action="Long_sel" id="form3" method="post">
 				<div class="has-feedback">
 					名称：<input id="key" th:value="${key}" name="key">
 					<button  class="btn btn-default">查询</button>
@@ -93,11 +89,12 @@
 		<table id="dataList" class="table table-bordered table-striped table-hover dataTable">
 			<thead>
 			<tr>
-				<th class="sorting_asc">班级ID</th>
-				<th class="sorting">班级名称</th>
-				<th class="sorting">班级类型</th>
-				<th class="sorting">带班教师</th>
-				<th class="sorting">状态</th>
+				<th class="text-center">班级ID</th>
+				<th class="text-center">班级名称</th>
+				<th class="text-center">班级类型</th>
+				<th class="text-center">班主任</th>
+				<th class="text-center">教员</th>
+				<th class="text-center">状态</th>
 				<th class="text-center">操作</th>
 			</tr>
 			</thead>
@@ -108,10 +105,12 @@
 				<td th:utext="${c.grade.semester}"></td>
 				<td  class="teach">
 					<span  th:utext="${c.teacher1.name}"></span>
-					<!--何子龙-&#45;&#45;钟婷-->-------
+				</td>
+				<td>
 					<span  th:utext="${c.teacher2.name}"></span>
 				</td>
 				<!--
+
                     [[${c.status}]]
                 -->
 				<td>

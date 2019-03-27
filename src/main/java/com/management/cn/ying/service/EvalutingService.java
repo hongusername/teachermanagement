@@ -6,5 +6,5 @@ import com.management.cn.entity.Teacher;
 
 public interface EvalutingService {
    PageInfo<Evaluating> queryAllTeacher(Evaluating evaluating, int pageNumber, int pageSize);
-   Integer updatePassword(Teacher teacher);
+
 }

@@ -12,4 +12,7 @@ public interface ITeacherService {
 
     List<Teacher> getTea(int type);
 
+
+    Integer updatePassword(Teacher teacher);
+
 }
