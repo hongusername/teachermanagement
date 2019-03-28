@@ -14,6 +14,10 @@ public interface IClassesService {
 
     int delClass(int id);
 
+    int updStatus(int status);
+
+     List<Classes> selClassByTypeId(Integer typeId);
+
 
     //模糊查询
     List<Classes> selClassName(String key);
