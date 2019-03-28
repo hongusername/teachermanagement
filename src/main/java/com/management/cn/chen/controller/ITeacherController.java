@@ -29,20 +29,5 @@ public class ITeacherController {
         return "Long_senate";
     }
 
-    @RequestMapping("checkLogin")
-    public String checkLogin(String username, String password, Model model) throws IOException {
-        Teacher t = iTeacherService.getTeacher(username);
-        model.addAttribute("username", username);
-        if (t == null) {
-            model.addAttribute("LoginInfo", "账号或密码不正确!");
-            return "Long_index";
-        } else  {
-            if (t.getPwd().equals(password)||t.getPwd()==password) {
-                return "redirect:getClasses";
-            } else {
-                model.addAttribute("LoginInfo", "账号或密码不正确!");
-                return "Long_index";
-            }
-        }
-    }
+
 }
