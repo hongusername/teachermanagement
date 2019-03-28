@@ -17,13 +17,14 @@ public interface IClassesDao {
     int updClass(Classes classes);
     //删除班级
     int delClass(int id);
-     //修改考核状态(1:以考核,2:未考核)
+    Classes getClassByClassId(Integer classId);
+
+    //修改考核状态(1:以考核,2:未考核)
     int updStatus(int status);
 
-    
-    
-    Classes getClassByClassId(Integer classId);
+    //
     List<Classes> selClassByTypeId(Integer typeId);
+
     //模糊查询
     List<Classes> selClassName(String key);
     List<Classes> selClassType(String key);

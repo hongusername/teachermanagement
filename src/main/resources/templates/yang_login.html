@@ -31,19 +31,31 @@
 <form action="/toEvaluation" method="post">
 
     <div class="group">
-        <select name="grade">
+        <select name="grade" id="selecto">
             <option>请选择班级</option>
             <option th:each="cla:${classes}" th:value="${cla.class_id}" th:text="${cla.class_name}"></option>
         </select>
 
     </div>
 
-    <button class="button buttonBlue">登录
+    <button class="button buttonBlue" type="button" id="but">登录
         <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
     </button>
 </form>
 
+<script>
+    $(function () {
+        $("#but").click(function () {
+            var otin = $("#selecto").val();
+            if(otin=="请选择班级"){
+                alert("请选择班级");
+            }else {
+                $("form").submit();
+            }
 
-</form>
+        })
+
+    })
+</script>
 </body>
 </html>

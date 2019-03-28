@@ -18,6 +18,7 @@ public interface IClassesService {
 
     List<Classes> selClassByTypeId(Integer typeId);
 
+
     //模糊查询
     List<Classes> selClassName(String key);
 
