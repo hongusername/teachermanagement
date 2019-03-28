@@ -30,7 +30,7 @@
             key = "class_bzr";
         }
         $.ajax({
-            url: "http://localhost:8080/isEvaluation?key=" + key + "&classId=" + grade,
+            url: "/isEvaluation?key=" + key + "&classId=" + grade,
             dataType: "json",
             type: "get",
             success: function (data) {

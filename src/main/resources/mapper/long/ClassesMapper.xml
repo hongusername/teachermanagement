@@ -69,6 +69,7 @@
         SELECT * FROM classes WHERE class_type = #{classType}
     </select>
 
+
     <update id="updStatus">
         update classes set status=#{status}
     </update>
@@ -81,8 +82,23 @@
         UPDATE classes SET class_name=#{class_name},class_type=#{class_type},class_jy=#{class_jy},class_bzr=#{class_bzr},STATUS=1 WHERE class_id=#{class_id}
     </update>
 
-    <delete id="delClass">
-        delete from classes where class_id=#{id}
-    </delete>
+    
+    
+    <!--<delete id="delClass">-->
+        <!--delete from classes where class_id=#{id}-->
+    <!--</delete>-->
+
+    <!--<insert id="addClass">-->
+        <!--insert into classes values(null,#{class_name},#{class_type},#{class_jy},#{class_bzr},2)-->
+    <!--</insert>-->
+
+    <!--<update id="updClass">-->
+        <!--UPDATE classes SET class_name=#{class_name},class_type=#{class_type},class_jy=#{class_jy},class_bzr=#{class_bzr},STATUS=1 WHERE class_id=#{class_id}-->
+    <!--</update>-->
+
+    <!--<delete id="delClass">-->
+        <!--delete from classes where class_id=#{id}-->
+    <!--</delete>-->
+
 
 </mapper>
