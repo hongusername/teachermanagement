@@ -41,6 +41,11 @@ public class ClassesServiceImpl implements IClassesService {
     }
 
     @Override
+    public List<Classes> selClassByTypeId(Integer typeId) {
+        return null;
+    }
+
+    @Override
     public List<Classes> selClassName(String key) {
         return iClassesDao.selClassName(key);
     }
@@ -60,10 +65,6 @@ public class ClassesServiceImpl implements IClassesService {
         return iClassesDao.selClassBzr(key);
     }
 
-    @Override
-    public List<Classes> selClassByTypeId(Integer typeId) {
-        return iClassesDao.selClassByTypeId(typeId);
-    }
 
     @Override
     public Classes getClassByClassId(Integer classId) {
