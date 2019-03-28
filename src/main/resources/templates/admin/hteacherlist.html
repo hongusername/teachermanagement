@@ -35,9 +35,9 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default" title="删除" @click="deleteteachersfunction()"  id="deletebuttons"><i
+                       <!-- <button type="button" class="btn btn-default" title="删除" @click="deleteteachersfunction()"  id="deletebuttons"><i
                                 class="fa fa-trash-o"></i> 删除
-                        </button>
+                        </button>-->
                         <button type="button" class="btn btn-default" title="新增" data-toggle="modal"
                                 data-target="#editModal"><i class="fa fa-ban"></i> 新增
                         </button>
@@ -65,9 +65,9 @@
             <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                 <thead>
                 <tr>
-                    <th class="" style="padding-right:0px">
+                    <!--<th class="" style="padding-right:0px">
                         <input id="selall" type="checkbox"  class="icheckbox_square-blue ">
-                    </th>
+                    </th>-->
                     <th class="sorting">老师ID</th>
                     <th class="sorting">老师名称</th>
                     <th class="sorting">职位</th>
@@ -76,7 +76,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="teacher in arrays" style="height: 55px;" >
-                    <td  width="15%"  ><input class="teachercheck"type="checkbox" :teacherid="teacher.teacherid"></td>
+                    <!--<td  width="15%"  ><input class="teachercheck"type="checkbox" :teacherid="teacher.teacherid"></td>-->
                     <td  width="25%" >{{teacher.teacherid}}</td>
                     <td  width="25%" class="displayblocktd">{{teacher.name}}</td>
                     <td width="20%" v-if="teacher.type==1"  class="displayblocktd">教员</td>
@@ -253,18 +253,18 @@
                     this.newteachertype = 0;
                 });
             }, deletefunction: function (params) {
-            //    if (confirm('是否删除该信息?')) {
+                if (confirm('是否删除该信息?')) {
                     this.$http.post('ajaxDeleteTeacher', {teacherid: params}, {emulateJSON: true}).then(function (res) {
                         if (res.body[0]) {
-                         //   alert('删除成功!!');
+                          alert('删除成功!!');
                             if (res.body[1].list.length > 0) {
                                 this.arrays = res.body[1].list;
                             }
                         } else {
-                      //      alert('删除失败!!');
+                           alert('删除失败!!');
                         }
                     });
-           //     }
+               }
             },editbutton:function (teacherid,name,type) {
                 this.editteacherid = teacherid;
                 this.editteachername = name;

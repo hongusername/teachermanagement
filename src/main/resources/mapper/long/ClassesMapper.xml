@@ -80,7 +80,7 @@
     </insert>
 
     <update id="updClass">
-        UPDATE classes SET class_name=#{class_name},class_type=#{class_type},class_jy=#{class_jy},class_bzr=#{class_bzr},STATUS=1 WHERE class_id=#{class_id}
+        UPDATE classes SET class_name=#{class_name},class_type=#{class_type},class_jy=#{class_jy},class_bzr=#{class_bzr} WHERE class_id=#{class_id}
     </update>
 
     <select id="selectAllClasses" resultType="Classes">
