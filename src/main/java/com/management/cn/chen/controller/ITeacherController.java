@@ -28,6 +28,4 @@ public class ITeacherController {
     public String tiao_Long_senate() {
         return "Long_senate";
     }
-
-
 }

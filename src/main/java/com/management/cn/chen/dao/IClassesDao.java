@@ -2,6 +2,7 @@ package com.management.cn.chen.dao;
 
 import com.management.cn.entity.Classes;
 import io.swagger.models.auth.In;
+import jdk.nashorn.internal.codegen.ClassEmitter;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public interface IClassesDao {
     List<Classes> selClassType(String key);
     List<Classes> selClassJy(String key);
     List<Classes> selClassBzr(String key);
+
+    List<Classes> selectAllClasses();
 
 
 }

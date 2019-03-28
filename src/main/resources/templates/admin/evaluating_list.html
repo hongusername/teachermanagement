@@ -125,9 +125,10 @@
                         <tr>
                             <td>参加本次评测的班级</td>
                             <td>
-                                <input v-for="item in classList" type="checkbox" @click="addClassName(item.className)"
-                                       :value="item.className">{{item.className}}
-
+                                <span v-for="item in classList">
+                                     <input  type="checkbox" @click="addClassName(item.className)"
+                                             :value="item.className">{{item.className}}
+                                </span>
                             </td>
                         </tr>
                     </table>
@@ -216,6 +217,7 @@
                     this.evaluating = res.body.data;
                     this.evaluating.startTime = this.evaluating.startTime.replace(" ", "T");
                     this.evaluating.endTime = this.evaluating.endTime.replace(" ", "T");
+                    this.loadClass();
                 }, function (res) {
                     alert("请稍后再试...");
                 });

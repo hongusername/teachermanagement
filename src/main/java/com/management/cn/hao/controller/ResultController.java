@@ -43,18 +43,18 @@ public class ResultController {
     @ResponseBody
     public Map<String, Object> addResult(@RequestBody ResultDTO resultDTO) {
         Map<String, Object> map = new HashMap<>();
-        Classes classes = classesService.getClassByClassId(resultDTO.getClassId());
-        Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(resultDTO.getTeacherType(), classes.getGrade().getId());
-        try {
-            Long endTime = sdf.parse(sdf.format(sdf.parse(evaluating.getEndTime()))).getTime();
-            if (endTime < System.currentTimeMillis()) {
-                map.put("success", false);
-                map.put("message", "该测评已停止！");
-                return map;
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        Classes classes = classesService.getClassByClassId(resultDTO.getClassId());
+//        Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(resultDTO.getTeacherType(), classes.getGrade().getId());
+//        try {
+//            Long endTime = sdf.parse(sdf.format(sdf.parse(evaluating.getEndTime()))).getTime();
+//            if (endTime < System.currentTimeMillis()) {
+//                map.put("success", false);
+//                map.put("message", "该测评已停止！");
+//                return map;
+//            }
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
 
         resultService.addResult(resultDTO);
