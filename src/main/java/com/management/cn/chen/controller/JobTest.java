@@ -5,11 +5,8 @@ import com.management.cn.chen.dao.IClassesDao;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.context.annotation.Bean;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class JobTest implements Job {
 
