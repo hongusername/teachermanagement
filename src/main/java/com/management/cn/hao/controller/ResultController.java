@@ -43,8 +43,13 @@ public class ResultController {
     @ResponseBody
     public Map<String, Object> addResult(@RequestBody ResultDTO resultDTO) {
         Map<String, Object> map = new HashMap<>();
-//        Classes classes = classesService.getClassByClassId(resultDTO.getClassId());
-//        Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(resultDTO.getTeacherType(), classes.getGrade().getId());
+        Classes classes = classesService.getClassByClassId(resultDTO.getClassId());
+
+        System.out.println(resultDTO);
+        System.out.println(classes);
+
+
+        Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(resultDTO.getTeacherType(), classes.getGrade().getId());
 //        try {
 //            Long endTime = sdf.parse(sdf.format(sdf.parse(evaluating.getEndTime()))).getTime();
 //            if (endTime < System.currentTimeMillis()) {
@@ -57,7 +62,7 @@ public class ResultController {
 //        }
 
 
-        resultService.addResult(resultDTO);
+//        resultService.addResult(resultDTO);
         map.put("success", true);
         map.put("message", "提交成功！");
         return map;

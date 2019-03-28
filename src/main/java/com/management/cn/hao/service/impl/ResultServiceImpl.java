@@ -91,6 +91,8 @@ public class ResultServiceImpl implements ResultService {
 
     @Override
     public ResponseResult queryIndividualOptionAVG(Result result) {
+
+        System.out.println("result:" + JSON.toJSON(result));
         SurveyType surveyType = surveyTypeMapper.selectSurveyTypeById(result.getSurveyType());
         String optionsJSON = surveyType.getOptions();
         List<OptionScore> optionScoreList = Arrays.asList(JSON.parseObject(optionsJSON, OptionScore[].class));
@@ -98,8 +100,6 @@ public class ResultServiceImpl implements ResultService {
 
         //每个问题选项
         Map<String, List> eachQuestionOptions = new HashMap<>();
-        System.out.println(JSON.toJSON(results));
-
         //获取题号
         String options = results.get(0).getOptions();
         //当前结果的选项 Map集合
@@ -109,8 +109,7 @@ public class ResultServiceImpl implements ResultService {
             eachQuestionOptions.put(option.get("id"), new ArrayList());
         }
         //意见建议
-        List<String>  opinionList = new ArrayList<>();
-
+        List<String> opinionList = new ArrayList<>();
         for (Result i : results) {
             opinionList.add(i.getOpinion());
             //当前结果的选项字符串
@@ -161,8 +160,6 @@ public class ResultServiceImpl implements ResultService {
             eachQuestionAVG.put(key, avg);
         }
         List<SurveyContent> surveyContentList = surveyContentMapper.selectContentBySurveyTypeId(result.getSurveyType());
-
-
         List<SurveyContentDTO> surveyContentDTOList = new ArrayList<>();
         for (SurveyContent surveyContent : surveyContentList) {
             SurveyContentDTO surveyContentDTO = new SurveyContentDTO();
@@ -171,8 +168,6 @@ public class ResultServiceImpl implements ResultService {
             surveyContentDTOList.add(surveyContentDTO);
         }
         ResponseResult responseResult = new ResponseResult();
-
-
         Map<String, Object> map = new HashMap<>();
         //每一项的平均分
         map.put("surveyContentDTOList", surveyContentDTOList);
@@ -184,7 +179,6 @@ public class ResultServiceImpl implements ResultService {
         //老师
         Integer teacherType = result.getTeacherType();
         String teacherName = "";
-
         if (teacherType == 1) {
             teacherName = queryTeacherById(teacherType).getName();
         }
@@ -192,8 +186,8 @@ public class ResultServiceImpl implements ResultService {
             teacherName = queryTeacherById(teacherType).getName();
         }
         map.put("teacherName", teacherName);
-        map.put("teacherType",teacherType);
-        map.put("opinionList",opinionList);
+        map.put("teacherType", teacherType);
+        map.put("opinionList", opinionList);
         responseResult.setData(map);
         return responseResult;
     }

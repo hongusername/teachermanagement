@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <!-- 页面meta -->
@@ -29,12 +29,12 @@
         }
 
     </script>
-    <script>
-        $(function () {
-            var iii= [[${session.teacher}]];
-            alert(iii);
-        })
-    </script>
+    <!--<script>-->
+    <!--$(function () {-->
+    <!--var iii = [[${session.teacher}]];-->
+    <!--alert(iii);-->
+    <!--})-->
+    <!--</script>-->
 
 </head>
 
@@ -170,23 +170,26 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="treeview" th:if="${session.teacher.type == 4}">
                     <a href="#">
                         <i class="fa fa-folder"></i>
-                        <span>调查表管理</span>
+                        <span>测评管理</span>
                         <span class="pull-right-container">
 				       			<i class="fa fa-angle-left pull-right"></i>
 				   		 	</span>
                     </a>
                     <ul class="treeview-menu">
-
                         <li id="admin-login4">
+                            <a href="/admin/evaluating_list" target="iframe">
+                                <i class="fa fa-circle-o"></i>发布测评
+                            </a>
+                        </li>
+                        <li id="admin-login5">
                             <a href="http://localhost:8080/admin/survey_type_list" target="iframe">
                                 <i class="fa fa-circle-o"></i>调查类型列表
                             </a>
                         </li>
-                        <li id="admin-login5">
+                        <li id="admin-login6">
                             <a href="http://localhost:8080/admin/add_survey_content" target="iframe">
                                 <i class="fa fa-circle-o"></i>添加调查问卷内容
                             </a>
@@ -202,13 +205,7 @@
 				   		 	</span>
                     </a>
                     <ul class="treeview-menu">
-
-                        <li id="admin-login">
-                            <a href="/admin/evaluating_list" target="iframe">
-                                <i class="fa fa-circle-o"></i>测评列表
-                            </a>
-                        </li>
-                        <li id="admin-login">
+                        <li id="admin-login7">
                             <a href="/admin/evaluating_result" target="iframe">
                                 <i class="fa fa-circle-o"></i>评测结果列表
                             </a>
@@ -267,26 +264,11 @@
         <!-- /.sidebar -->
     </aside>
     <!-- 导航侧栏 /-->
-
     <!-- 内容区域 -->
     <div class="content-wrapper">
         <iframe width="100%" id="iframe" name="iframe" onload="SetIFrameHeight()"
                 frameborder="0" src="home.html"></iframe>
-
     </div>
-    <!-- 内容区域 /-->
-
-    <!-- 底部导航 -->
-    <!--<footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.8
-        </div>
-        <strong>Copyright &copy; 2014-2017 <a href="http://www.itcast.cn">研究院研发部</a>.</strong> All rights reserved.
-    </footer>-->
-    <!-- 底部导航 /-->
-
 </div>
-
 </body>
-
 </html>

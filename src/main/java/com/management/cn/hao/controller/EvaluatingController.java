@@ -67,9 +67,18 @@ public class EvaluatingController {
     @RequestMapping("/save")
     public ResponseResult save(@RequestBody Evaluating evaluating) {
         ResponseResult responseResult = new ResponseResult();
+
+
         try {
             Long startTime = sdf.parse(sdf.format(sdf.parse(evaluating.getStartTime()))).getTime();
             Long endTime = sdf.parse(sdf.format(sdf.parse(evaluating.getEndTime()))).getTime();
+
+            if (endTime < System.currentTimeMillis()) {
+                responseResult.setStatus(500);
+                responseResult.setMessage("已经结束的测评无法修改！");
+                return responseResult;
+            }
+
             if (startTime > endTime || startTime.equals(endTime)) {
                 responseResult.setStatus(500);
                 responseResult.setMessage("开始时间必须小于结束时间！");
