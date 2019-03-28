@@ -3,6 +3,7 @@ package com.management.cn.chen.controller;
 import com.management.cn.chen.service.IClassesService;
 import com.management.cn.chen.service.ITeacherService;
 import com.management.cn.chen.service.LongIGradeService;
+import com.management.cn.dto.ClassesDTO;
 import com.management.cn.entity.Classes;
 import com.management.cn.entity.Grade;
 import com.management.cn.entity.Teacher;
@@ -19,7 +20,7 @@ import java.util.List;
 public class IClassesController {
 
     static {
-        Test t=new Test();
+        Test t = new Test();
         t.run();
     }
 
@@ -76,14 +77,15 @@ public class IClassesController {
         int i = iClassesService.delClass(id);
         return "redirect:/getClasses";
     }
+
     //模糊查询
     @RequestMapping("Long_sel")
     public String sel(String key, Model model) {
-        if(key.trim()==null||key.trim()==""||key.trim().equals("")){
+        if (key.trim() == null || key.trim() == "" || key.trim().equals("")) {
             return "redirect:/getClasses";
         }
         model.addAttribute("key", key);
-        key=key.toUpperCase();
+        key = key.toUpperCase();
 
 
         List<Teacher> jy = iTeacherService.getTea(1);
@@ -100,16 +102,16 @@ public class IClassesController {
         List<Classes> c4 = iClassesService.selClassName(key);
 
         List<Classes> list = new ArrayList<Classes>();
-        for(Classes c : c1){
+        for (Classes c : c1) {
             list.add(c);
         }
-        for(Classes c : c2){
+        for (Classes c : c2) {
             list.add(c);
         }
-        for(Classes c : c3){
+        for (Classes c : c3) {
             list.add(c);
         }
-        for(Classes c : c4){
+        for (Classes c : c4) {
             list.add(c);
         }
 
@@ -117,23 +119,39 @@ public class IClassesController {
             Teacher t1 = new Teacher();
             Teacher t2 = new Teacher();
             Grade g = new Grade();
-            c.setClass_name(c.getClass_name().replaceAll("(?i)"+key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
+            c.setClass_name(c.getClass_name().replaceAll("(?i)" + key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
 
-            t1.setName(c.getTeacher1().getName().replaceAll("(?i)"+key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
+            t1.setName(c.getTeacher1().getName().replaceAll("(?i)" + key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
             t1.setTeacherid(c.getTeacher2().getTeacherid());
             c.setTeacher1(t1);
 
 
-            t2.setName(c.getTeacher2().getName().replaceAll("(?i)"+key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
+            t2.setName(c.getTeacher2().getName().replaceAll("(?i)" + key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
             t2.setTeacherid(c.getTeacher1().getTeacherid());
             c.setTeacher2(t2);
 
 
-            g.setSemester(c.getGrade().getSemester().replaceAll("(?i)"+key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
+            g.setSemester(c.getGrade().getSemester().replaceAll("(?i)" + key, "<span style='color:red;font-size:20px;'>" + key + "</span>"));
             g.setId(c.getGrade().getId());
             c.setGrade(g);
         }
-             model.addAttribute("classes", list);
+        model.addAttribute("classes", list);
         return "Long_classes";
+    }
+
+
+    @RequestMapping("/getAllClasses")
+    @ResponseBody
+    public List<ClassesDTO> getAllClasses(Integer typeId) {
+        List<ClassesDTO> classesDTOList = new ArrayList<>();
+        iClassesService.selClassByTypeId(typeId).forEach(item -> {
+            ClassesDTO classesDTO = new ClassesDTO();
+            classesDTO.setClassName(item.getClass_name());
+            classesDTO.setClassId(item.getClass_id());
+            classesDTOList.add(classesDTO);
+        });
+
+
+        return classesDTOList;
     }
 }

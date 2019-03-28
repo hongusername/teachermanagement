@@ -69,4 +69,9 @@ public class ClassesServiceImpl implements IClassesService {
     public Classes getClassByClassId(Integer classId) {
         return iClassesDao.getClassByClassId(classId);
     }
+
+    @Override
+    public List<Classes> getAllClasses() {
+        return iClassesDao.selectAllClasses();
+    }
 }

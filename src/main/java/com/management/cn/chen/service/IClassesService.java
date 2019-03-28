@@ -30,4 +30,6 @@ public interface IClassesService {
 
     Classes getClassByClassId(Integer classId);
 
+    List<Classes> getAllClasses();
+
 }
