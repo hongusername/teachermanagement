@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.management.cn.hao.dao.EvaluatingMapper">
+
+    <resultMap id="resultMap" type="Evaluating">
+        <id property="id" column="id"></id>
+        <association property="grade" column="gradeId" select="com.management.cn.hao.dao.GradeMapper.selectGradeBId"/>
+        <collection property="classNameList" column="id"
+                    select="com.management.cn.hao.dao.EvaluatingMapper.selectEvaluatingClassName"/>
+    </resultMap>
+
+
+    <select id="selectEvaluatingList" resultMap="resultMap">
+        SELECT * FROM evaluating
+    </select>
+    <select id="selectEvaluatingById" resultMap="resultMap">
+        SELECT * FROM evaluating WHERE  id = #{id}
+    </select>
+    <insert id="insertEvaluating" parameterType="Evaluating" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO evaluating (startTime,endTime,teacherType,gradeId,`describe`)
+         VALUES (#{startTime},#{endTime},#{teacherType},#{grade.id},#{describe})
+    </insert>
+    <update id="updateEvaluating" parameterType="Evaluating">
+        UPDATE evaluating SET startTime=#{startTime},endTime=#{endTime},teacherType=#{teacherType},gradeId=#{grade.id},`describe`= #{describe}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteEvaluating" parameterType="java.lang.Integer">
+        DELETE FROM evaluating WHERE id = #{id}
+    </delete>
+
+
+    <insert id="insertEvaluatingClassName">
+        INSERT INTO evaluating_class (className,evaluatingId)VALUES(#{className},#{evaluatingId})
+    </insert>
+
+    <delete id="deleteEvaluatingClassName">
+        DELETE FROM evaluating_class WHERE className = #{className} AND evaluatingId = #{evaluatingId}
+    </delete>
+    <delete id="deleteAllEvaluatingClassName">
+        DELETE FROM evaluating_class WHERE evaluatingId = #{evaluatingId}
+    </delete>
+
+    <select id="selectEvaluatingClassName" resultType="java.lang.String">
+        SELECT className FROM evaluating_class WHERE evaluatingId = #{evaluatingId}
+    </select>
+
+    <select id="selectEvaluatingByTeacherTypeAndGradeId" resultMap="resultMap">
+         SELECT * FROM evaluating WHERE  teacherType = #{teacherType} AND gradeId = #{gradeId}
+    </select>
+
+</mapper>

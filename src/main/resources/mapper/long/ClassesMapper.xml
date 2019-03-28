@@ -69,19 +69,9 @@
         SELECT * FROM classes WHERE class_type = #{classType}
     </select>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <update id="updStatus">
+        update classes set status=#{status}
+    </update>
 
     <insert id="addClass">
         insert into classes values(null,#{class_name},#{class_type},#{class_jy},#{class_bzr},2)

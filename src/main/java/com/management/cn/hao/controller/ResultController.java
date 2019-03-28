@@ -73,7 +73,6 @@ public class ResultController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         Map<String, Object> map = new HashMap<>();
         //定义日期实例
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         for (int i = 1; i <= 3; i++) {

@@ -12,39 +12,13 @@
     <script type="text/javascript" src="/js/vue.js"></script>
     <script type="text/javascript" src="/js/vue-resource.js"></script>
     <style>
-        .textarea{
+        .textarea {
             padding-left: 15px;
             padding-top: 15px;
         }
     </style>
 </head>
 <body>
-<header id="basic-header">
-    <!-- header -->
-    <div class="header-content">
-        <div class="img-1"></div>
-        <ul class="header-nav">
-            <li seq="0">
-                <a href="http://tiku.kgc.cn:80/testing/index/120531/e71bdbe409654181b1dd64817711c868"
-                   title="我的自测">我的自测</a>
-            </li>
-            <li seq="1">
-                <a href="http://tiku.kgc.cn:80/testing/classExam" title="统一测试">统一测试</a>
-            </li>
-            <li seq="2">
-                <a href="http://tiku.kgc.cn:80/testing/history" title="我的历史">我的历史</a>
-            </li>
-            <li><a href="http://tiku.kgc.cn:80/testing/kgcLogin" title="试题广场" target="_blank">试题广场</a></li>
-            <li><a href="http://www.ekgc.cn/" title="课程" target="_blank">课程</a></li>
-        </ul>
-        <div class="right">
-            <a class="message" href="http://tiku.kgc.cn:80/testing/announcementPage"><span id="noReadCount"
-                                                                                           style="display:none;"></span></a>
-            <a class="user-info" id="userName">耿豪</a>
-            <div class="esc"><a href="http://tiku.kgc.cn:80/testing/logout" title="">退出</a></div>
-        </div>
-    </div>
-</header>
 <div class="main" id="app">
     <div class="test_main">
         <div class="nr_left">
@@ -94,15 +68,17 @@
                                         <li class="option">
                                             <input type="radio" class="radioOrCheck" name="answer_end"
                                                    id="0_answer_1_option_end_0"/>
-                                            <label @click="checked(0,'是')" onclick="chk(this)" for="0_answer_1_option_end_0">
+                                            <label @click="checked(0,'是')" onclick="chk(this)"
+                                                   for="0_answer_1_option_end_0">
                                                 A. <p class="ue" style="display: inline;">是</p>
                                             </label>
                                         </li>
                                         <li class="option">
                                             <input type="radio" class="radioOrCheck" name="answer_end"
                                                    id="0_answer_1_option_end_1"/>
-                                            <label @click="checked(0,'否')" onclick="chk(this)" for="0_answer_1_option_end_1">B. <p class="ue"
-                                                                                                           style="display: inline;">
+                                            <label @click="checked(0,'否')" onclick="chk(this)"
+                                                   for="0_answer_1_option_end_1">B. <p class="ue"
+                                                                                       style="display: inline;">
                                                 否</p>
                                             </label>
                                         </li>
@@ -132,7 +108,7 @@
                             <!--<i class="icon iconfont">&#xe692;</i>-->答题卡
                         </h1>
                         <p class="test_time">
-                            <!--<i class="icon iconfont">&#xe6fb;</i>--><b class="alt-1">01:40</b>
+                            <!--<i class="icon iconfont">&#xe6fb;</i>--><b class="alt-1" th:text="${remainingTime}">00:00:10</b>
                         </p>
                     </div>
 
@@ -140,14 +116,15 @@
                         <div class="rt_content_tt">
                             <h2>单选题</h2>
                             <p>
-                                <span>共</span><i class="content_lit">60</i><span>题</span>
+                                <span>共</span><i class="content_lit">{{surveyContentList.length+1}}</i><span>题</span>
                             </p>
                         </div>
                         <div class="rt_content_nr answerSheet">
                             <ul>
                                 <li v-for="(item,index) in surveyContentList">
                                     <a :href="'#qu_0_'+index">{{index+1}}</a>
-                                </li><li>
+                                </li>
+                                <li>
                                     <a href="#qu_0_end">{{surveyContentList.length+1}}</a>
                                 </li>
                             </ul>
@@ -208,7 +185,7 @@
             surveyContentList: [],
             message: '',
             checkedList: [],
-            opinion:'',
+            opinion: '',
         },
         methods: {
             checked: function (id, option) {
@@ -219,16 +196,16 @@
                 }
                 this.checkedList.push({id: id, option: option});
             },
-            submit:function () {
-                if (this.checkedList.length < this.surveyContentList.length+1){
+            submit: function () {
+                if (this.checkedList.length < this.surveyContentList.length + 1) {
                     alert("请回答完整！");
-                }else{
+                } else {
                     var entity = {
                         classId: [[${grade.class_id}]],
                         surveyTypeId: [[${surveyTypeId}]],
                         checkedList: this.checkedList,
                         opinion: this.opinion,
-                        teacherType:[[${teacher.type}]]
+                        teacherType: [[${teacher.type}]]
                     }
                     this.$http.post('http://localhost:8080/result/addResult', entity).then(function (res) {
                         alert(res.body.message);
@@ -241,7 +218,7 @@
         ,
         mounted: function () {
             /* 获取调查问卷问题选项格式 */
-            this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById?id='+[[${surveyTypeId}]]).then(function (res) {
+            this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById?id=' + [[${surveyTypeId}]]).then(function (res) {
                 var surveyType = res.body;
                 /* 页面title */
                 document.title = surveyType.name;
@@ -251,7 +228,7 @@
                 alert(res.status);
             });
             /* 获取调查问卷内容 */
-            this.$http.get('http://localhost:8080/survey_content/getContentBySurveyTypeId?surveyTypeId='+[[${surveyTypeId}]]).then(function (res) {
+            this.$http.get('http://localhost:8080/survey_content/getContentBySurveyTypeId?surveyTypeId=' + [[${surveyTypeId}]]).then(function (res) {
                 this.surveyContentList = res.body;
             }, function (res) {
                 alert(res.status);

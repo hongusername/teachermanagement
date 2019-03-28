@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>课工场</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/vue.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.js"></script>
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+<!-- .box-body -->
+<div class="box-header with-border">
+    <h3 class="box-title">评测列表</h3>
+</div>
+
+<div class="box-body" id="app">
+
+    <div class="table-box">
+
+        <div class="box-tools pull-left">
+            <div class="form-group form-inline">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal"
+                            title="新建测评" @click="edit('新建')"><i class="fa fa-file-o"></i> 新建
+                    </button>
+                    <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i
+                            class="fa fa-refresh"></i> 刷新
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>描述</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>老师类型</th>
+                <th>学期</th>
+                <th>参加本次测评的班级</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(item,index) in evaluatingList">
+                <td>{{index+1}}</td>
+                <td>{{item.describe}}</td>
+                <td>{{item.startTime}}</td>
+                <td>{{item.endTime}}</td>
+                <td>{{item.teacherType | teacherName}}</td>
+                <td>{{item.grade.semester}}</td>
+                <td>
+                       <span v-for="className in  item.classNameList">
+                           {{className}}&nbsp;&nbsp;
+                       </span>
+                </td>
+                <td>
+                    <button type="button" class="btn bg-olive btn-xs" @click="del(item.id)">删除</button>
+                    <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#myModal"
+                            @click="edit('修改');getEvaluating(item.id)">修改
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        {{title}}
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                        <tr>
+                            <td>描述</td>
+                            <td><input type="text" v-model="evaluating.describe" style="width: 196px;"></td>
+                        </tr>
+                        <tr>
+                            <td>开始时间</td>
+                            <td><input type="datetime-local" v-model="evaluating.startTime"></td>
+                        </tr>
+                        <tr>
+                            <td>结束时间</td>
+                            <td><input type="datetime-local" v-model="evaluating.endTime"></td>
+                        </tr>
+                        <tr>
+                            <td>老师类型</td>
+                            <td>
+                                <select v-model="evaluating.teacherType">
+                                    <option value="2">班主任</option>
+                                    <option value="1">教员</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>学期</td>
+                            <td>
+                                <select v-model="evaluating.grade.id">
+                                    <option value="1">S1</option>
+                                    <option value="2">S2</option>
+                                    <option value="3">Y2</option>
+                                    <option value="4">大数据</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>参加本次评测的班级</td>
+                            <td>
+                                <input type="checkbox" @click="addClassName('TCMP067')" value="TCMP067">TCMP067
+                                <input type="checkbox" @click="addClassName('TCMP068')" value="TCMP068">TCMP068
+                                <input type="checkbox" @click="addClassName('TCMP069')" value="TCMP069">TCMP069 <br>
+                                <input type="checkbox" @click="addClassName('TCMP070')" value="TCMP070">TCMP070
+                                <input type="checkbox" @click="addClassName('TCMP071')" value="TCMP071">TCMP071
+                                <input type="checkbox" @click="addClassName('TCMP072')" value="TCMP072">TCMP072
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" @click="save()" class="btn btn-primary">
+                        保存
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<!-- /.box-body -->
+</body>
+</html>
+<script>
+    var evaluating = {
+        id: '',
+        startTime: '',
+        endTime: '',
+        teacherType: '',
+        grade: {
+            id: ''
+        },
+        describe: '',
+        classNameList: []
+    }
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            evaluatingList: [],
+            title: '',
+            evaluating: {
+                id: '',
+                startTime: '',
+                endTime: '',
+                teacherType: '',
+                grade: {
+                    id: ''
+                },
+                describe: '',
+                classNameList: []
+            }
+        },
+        filters: {
+            teacherName: function (value) {
+                if (value == 1) {
+                    return "教员";
+                }
+                if (value == 2) {
+                    return "班主任";
+                }
+
+            }
+        },
+        methods: {
+            edit: function (title) {
+                this.evaluating = evaluating;
+                this.title = title;
+            },
+            del: function (id) {
+                this.$http.get('/evaluating/del?id=' + id).then(function (res) {
+                    alert(res.body.message);
+                    if (res.body.status == 200) {
+                        location.reload();
+                    }
+                }, function (res) {
+                    alert("请稍后再试...");
+                });
+            }
+            ,
+            getEvaluating: function (id) {
+                this.$http.get('/evaluating/getEvaluatingById?id=' + id).then(function (res) {
+                    this.evaluating = res.body.data;
+                    this.evaluating.startTime = this.evaluating.startTime.replace(" ", "T");
+                    this.evaluating.endTime = this.evaluating.endTime.replace(" ", "T");
+                }, function (res) {
+                    alert("请稍后再试...");
+                });
+            },
+            save: function () {
+                this.evaluating.startTime = this.evaluating.startTime.replace("T", " ");
+                this.evaluating.endTime = this.evaluating.endTime.replace("T", " ");
+                this.$http.post('/evaluating/save', this.evaluating).then(function (res) {
+                    alert(res.body.message);
+                    if (res.body.status == 200) {
+                        location.reload();
+                    }
+                }, function (res) {
+                    alert("请稍后再试...");
+                });
+            },
+            addClassName: function (className) {
+                if (this.evaluating.classNameList.indexOf(className) != -1) {
+                    this.evaluating.classNameList.splice(this.evaluating.classNameList.indexOf(className), 1);
+                } else {
+                    this.evaluating.classNameList.push(className);
+                }
+            }
+        }
+        ,
+        mounted: function () {
+            this.$http.get('/evaluating/getEvaluatingList').then(function (res) {
+                this.evaluatingList = res.body;
+            }, function (res) {
+                alert("请稍后再试...");
+            });
+
+
+        }
+    });
+</script>

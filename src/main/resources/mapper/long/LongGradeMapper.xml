@@ -12,19 +12,14 @@
        INSERT INTO Grade VALUE(NULL ,#{semester});
     </insert>
 
-
-
     <update id="updateGrade" parameterType="com.management.cn.entity.Grade">
         update Grade set semester=#{semester} where id=#{id}
     </update>
-
-
 
     <delete id="deleteGrade" parameterType="int">
         delete from Grade where id=#{id}
 
     </delete>
-
 
     <select id="queryGradeById" parameterType="int" resultType="com.management.cn.entity.Grade">
         select * from Grade where id=#{id}

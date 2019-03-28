@@ -23,9 +23,4 @@ public class TeacherServiceImpl implements ITeacherService {
     public List<Teacher> getTea(int type) {
         return iTeacherDao.getTea(type);
     }
-
-    @Override
-    public Integer updatePassword(Teacher teacher) {
-        return iTeacherDao.updatePassword(teacher);
-    }
 }
