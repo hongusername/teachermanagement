@@ -54,7 +54,7 @@ public class AdminController {
      权限登陆
      */
     @RequestMapping("/checkLogin")
-    public String checkLogin(HttpSession session,String name, String pwd, Model model) throws IOException {
+    public String checkLogin(HttpSession session,String name, String pwd, Model model)  {
         Teacher t = iTeacherService.getTeacher(name);
 
         session.setAttribute("username", name);
