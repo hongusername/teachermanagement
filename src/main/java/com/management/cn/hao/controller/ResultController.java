@@ -1,13 +1,15 @@
 package com.management.cn.hao.controller;
 
-import com.alibaba.fastjson.JSON;
+import com.management.cn.chen.service.IClassesService;
 import com.management.cn.dto.ResultDTO;
-import com.management.cn.dto.SurveyContentDTO;
 import com.management.cn.dto.TeacherDTO;
+import com.management.cn.entity.Classes;
+import com.management.cn.entity.Evaluating;
 import com.management.cn.entity.ResponseResult;
 import com.management.cn.entity.Result;
+import com.management.cn.hao.service.EvaluatingService;
+import com.management.cn.hao.service.GradeService;
 import com.management.cn.hao.service.ResultService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -31,11 +33,30 @@ public class ResultController {
 
     @Autowired
     private ResultService resultService;
+    @Autowired
+    private EvaluatingService evaluatingService;
+    @Autowired
+    private IClassesService classesService;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @RequestMapping("/addResult")
     @ResponseBody
     public Map<String, Object> addResult(@RequestBody ResultDTO resultDTO) {
         Map<String, Object> map = new HashMap<>();
+//        Classes classes = classesService.getClassByClassId(resultDTO.getClassId());
+//        Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(resultDTO.getTeacherType(), classes.getGrade().getId());
+//        try {
+//            Long endTime = sdf.parse(sdf.format(sdf.parse(evaluating.getEndTime()))).getTime();
+//            if (endTime < System.currentTimeMillis()) {
+//                map.put("success", false);
+//                map.put("message", "该测评已停止！");
+//                return map;
+//            }
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
+
         resultService.addResult(resultDTO);
         map.put("success", true);
         map.put("message", "提交成功！");

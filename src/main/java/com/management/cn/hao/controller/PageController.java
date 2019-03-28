@@ -1,18 +1,11 @@
 package com.management.cn.hao.controller;
 
-import com.management.cn.dto.SurveyContentDTO;
-import com.management.cn.entity.Result;
 import com.management.cn.hao.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 /**
  * @author: GengHao
@@ -26,12 +19,12 @@ public class PageController {
 
     @RequestMapping("/{page}")
     public String page(@PathVariable String page) {
+        System.out.println("-----------------------page------------------------");
         return page;
     }
 
     @RequestMapping("/admin/{page}")
     public String adminPage(@PathVariable String page) {
-
 
 
         return "admin/" + page;
@@ -46,7 +39,6 @@ public class PageController {
         model.addAttribute("surveyTypeId", surveyTypeId);
         return "admin/survey_content_list";
     }
-
 
 
 }

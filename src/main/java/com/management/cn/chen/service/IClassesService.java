@@ -16,13 +16,20 @@ public interface IClassesService {
 
     int updStatus(int status);
 
-     List<Classes> selClassByTypeId(Integer typeId);
+    List<Classes> selClassByTypeId(Integer typeId);
 
 
     //模糊查询
     List<Classes> selClassName(String key);
+
     List<Classes> selClassType(String key);
+
     List<Classes> selClassJy(String key);
+
     List<Classes> selClassBzr(String key);
+
+    Classes getClassByClassId(Integer classId);
+
+    List<Classes> getAllClasses();
 
 }

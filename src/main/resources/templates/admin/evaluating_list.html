@@ -117,23 +117,18 @@
                         <tr>
                             <td>学期</td>
                             <td>
-                                <select v-model="evaluating.grade.id">
-                                    <option value="1">S1</option>
-                                    <option value="2">S2</option>
-                                    <option value="3">Y2</option>
-                                    <option value="4">大数据</option>
+                                <select v-model="evaluating.grade.id" @change="loadClass()">
+                                    <option v-for="item in gradeList" :value="item.id">{{item.semester}}</option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <td>参加本次评测的班级</td>
                             <td>
-                                <input type="checkbox" @click="addClassName('TCMP067')" value="TCMP067">TCMP067
-                                <input type="checkbox" @click="addClassName('TCMP068')" value="TCMP068">TCMP068
-                                <input type="checkbox" @click="addClassName('TCMP069')" value="TCMP069">TCMP069 <br>
-                                <input type="checkbox" @click="addClassName('TCMP070')" value="TCMP070">TCMP070
-                                <input type="checkbox" @click="addClassName('TCMP071')" value="TCMP071">TCMP071
-                                <input type="checkbox" @click="addClassName('TCMP072')" value="TCMP072">TCMP072
+                                <span v-for="item in classList">
+                                     <input  type="checkbox" @click="addClassName(item.className)"
+                                             :value="item.className">{{item.className}}
+                                </span>
                             </td>
                         </tr>
                     </table>
@@ -167,8 +162,10 @@
     var vm = new Vue({
         el: "#app",
         data: {
+            classList: [],
             evaluatingList: [],
             title: '',
+            gradeList: [],
             evaluating: {
                 id: '',
                 startTime: '',
@@ -206,6 +203,13 @@
                 }, function (res) {
                     alert("请稍后再试...");
                 });
+            },
+            loadClass: function () {//加载班级
+                this.$http.get('/getAllClasses?typeId=' + this.evaluating.grade.id).then(function (res) {
+                    this.classList = res.body;
+                }, function (res) {
+                    alert("请稍后再试...");
+                });
             }
             ,
             getEvaluating: function (id) {
@@ -213,6 +217,7 @@
                     this.evaluating = res.body.data;
                     this.evaluating.startTime = this.evaluating.startTime.replace(" ", "T");
                     this.evaluating.endTime = this.evaluating.endTime.replace(" ", "T");
+                    this.loadClass();
                 }, function (res) {
                     alert("请稍后再试...");
                 });
@@ -244,6 +249,14 @@
             }, function (res) {
                 alert("请稍后再试...");
             });
+
+
+            //加载学期
+            this.$http.get('/grade/getGradeList').then(function (res) {
+                this.gradeList = res.body;
+            }, function (res) {
+                alert("请稍后再试...")
+            })
 
 
         }
