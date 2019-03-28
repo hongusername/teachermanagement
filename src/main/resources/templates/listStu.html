@@ -251,6 +251,12 @@
 </script>
 <script>
     $(function () {
+        alert([[${list.list}]]);
+    })
+</script>
+
+<script>
+    $(function () {
         $("form").submit(function () {
             var stu_name = $("[name=stu_name]").val();
             var stu_phone = $("[name=stu_phone]").val();

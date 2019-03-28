@@ -5,7 +5,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>班级管理</title>
+    <title>课工场</title>
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/plugins/adminLTE/css/AdminLTE.css">
@@ -22,13 +22,25 @@
 </style>
 <script>
     function jclick(index) {
-        var grade=$("#grade").val();
-        alert(grade)
-        if(index==1){
-            window.location="/evaluation?key=class_jy&grade="+grade;
-        }else {
-            window.location="/evaluation?key=class_bzr&grade="+grade;
+        var grade = $("#grade").val();
+        var key = "";
+        if (index == 1) {
+            key = "class_jy";
+        } else {
+            key = "class_bzr";
         }
+        $.ajax({
+            url: "http://localhost:8080/isEvaluation?key=" + key + "&classId=" + grade,
+            dataType: "json",
+            type: "get",
+            success: function (data) {
+                if (data.status != 200) {
+                    alert(data.message);
+                } else {
+                    window.location = "/evaluation?key=" + key + "&grade=" + grade;
+                }
+            }
+        })
     }
 </script>
 <body class="hold-transition skin-red sidebar-mini">
@@ -55,29 +67,37 @@
 
         <!--数据列表-->
         <div>
-        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
-            <input type="hidden" id="grade" th:value="${grade.class_id}">
-            <thead>
-            <tr>
-                <th class="sorting_asc" colspan="4"><center>名称</center></th>
-                <th class="text-center" colspan="1"><center>操作</center></th>
-            </tr>
-            <tr>
-                <td colspan="4">班主任</td>
-                <td colspan="1"><input style="right: 0"  type="button" onclick="jclick(1)" value="开始测评" class="btn btn-primary"></td>
+            <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                <input type="hidden" id="grade" th:value="${grade.class_id}">
+                <thead>
+                <tr>
+                    <th class="sorting_asc" colspan="4">
+                        <center>老师</center>
+                    </th>
+                    <th class="text-center" colspan="1">
+                        <center>操作</center>
+                    </th>
+                </tr>
+                <tr>
+                    <td colspan="4">班主任</td>
+                    <td colspan="1"><input style="right: 0" type="button" onclick="jclick(2)" value="开始测评"
+                                           class="btn btn-primary"></td>
 
-            </tr>
-            <tr>
-                <td colspan="4">教员</td>
-                <center><td colspan="1"><input style="right: 0"  type="button" onclick="jclick(1)" value="开始测评" class="btn btn-primary"></td></center>
+                </tr>
+                <tr>
+                    <td colspan="4">教员</td>
+                    <center>
+                        <td colspan="1"><input style="right: 0" type="button" onclick="jclick(1)" value="开始测评"
+                                               class="btn btn-primary"></td>
+                    </center>
 
-            </tr>
-            </thead>
-            <tbody>
+                </tr>
+                </thead>
+                <tbody>
 
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </div>
         <!--数据列表/-->
     </div>

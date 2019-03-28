@@ -65,6 +65,10 @@
         SELECT * FROM classes WHERE class_id = #{classId}
     </select>
 
+    <select id="selClassByTypeId" resultType="Classes" parameterType="java.lang.Integer">
+        SELECT * FROM classes WHERE class_type = #{classType}
+    </select>
+
     <update id="updStatus">
         update classes set status=#{status}
     </update>

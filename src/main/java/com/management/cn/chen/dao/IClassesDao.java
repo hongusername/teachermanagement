@@ -1,9 +1,12 @@
 package com.management.cn.chen.dao;
 
 import com.management.cn.entity.Classes;
+import io.swagger.models.auth.In;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface IClassesDao {
 
     //查班级

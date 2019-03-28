@@ -184,7 +184,7 @@
                 vmMyModal.$data.entity.name = '';
             },
             del: function (ids) {
-                this.$http.post('http://localhost:8080/survey_type/deleteSurveyTypeId', {ids: ids.toString()}, {emulateJSON: true}).then(function (res) {
+                this.$http.post('/survey_type/deleteSurveyTypeId', {ids: ids.toString()}, {emulateJSON: true}).then(function (res) {
                     alert(res.body.message);
                     if (res.body.success) {
                         location.reload();
@@ -197,7 +197,7 @@
                 location.href = "/survey_content_list_page?surveyTypeId=" + id;
             },
             getSurveyTypeById: function (id) {
-                this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById?id=' + id).then(function (res) {
+                this.$http.get('/survey_type/getSurveyTypeById?id=' + id).then(function (res) {
                     vmMyModal.$data.entity.options = JSON.parse(res.body.options);
                     vmMyModal.$data.entity.name = res.body.name;
                     vmMyModal.$data.entity.teacherType = res.body.teacherType;
@@ -210,7 +210,7 @@
         }
         ,
         mounted: function () {
-            this.$http.get('http://localhost:8080/survey_type/getSurveyTypeList').then(function (res) {
+            this.$http.get('/survey_type/getSurveyTypeList').then(function (res) {
                 this.surveyTypeList = res.body;
             }, function (res) {
                 alert("请稍后再试！");
@@ -282,7 +282,7 @@
                     teacherType: this.entity.teacherType,
                     gradeId: this.entity.gradeId
                 }
-                this.$http.post('http://localhost:8080/survey_type/saveSurveyType', surveyType).then(function (res) {
+                this.$http.post('/survey_type/saveSurveyType', surveyType).then(function (res) {
                     alert(res.body.message);
                     if (res.body.success) {
                         location.reload();
@@ -294,7 +294,7 @@
         }
         ,
         mounted: function () {
-            this.$http.get('http://localhost:8080/grade/getGradeList').then(function (res) {
+            this.$http.get('/grade/getGradeList').then(function (res) {
                 this.gradeList = res.body;
             }, function (res) {
                 alert(res.status);

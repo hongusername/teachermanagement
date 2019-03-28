@@ -30,7 +30,7 @@
             <div class="form-group form-inline">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default">删除</button>
-                    <button type="button" class="btn btn-default" onclick="window.location.href=''">添加</button>
+                    <button type="button" class="btn btn-default" onclick="window.location.href='/admin/add_survey_content'">添加</button>
                     <button type="button" class="btn btn-default" onclick="window.location.reload()">刷新</button>
                     <button type="button" class="btn btn-default" onclick="window.history.back()">返回</button>
                 </div>
@@ -73,7 +73,7 @@
         mounted: function () {
             //TODO 代码冗余
             /* 获取调查问卷问题选项格式 */
-            this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById', {params: {id: [[${surveyTypeId}]]}}).then(function (res) {
+            this.$http.get('/survey_type/getSurveyTypeById', {params: {id: [[${surveyTypeId}]]}}).then(function (res) {
                 var surveyType = res.body;
                 /* 页面title */
                 document.title = surveyType.name;
@@ -83,7 +83,7 @@
                 alert(res.status);
             });
             /* 获取调查问卷内容 */
-            this.$http.get('http://localhost:8080/survey_content/getContentBySurveyTypeId', {params: {surveyTypeId: [[${surveyTypeId}]]}}).then(function (res) {
+            this.$http.get('/survey_content/getContentBySurveyTypeId', {params: {surveyTypeId: [[${surveyTypeId}]]}}).then(function (res) {
                 this.surveyContentList = res.body;
             }, function (res) {
                 alert(res.status);

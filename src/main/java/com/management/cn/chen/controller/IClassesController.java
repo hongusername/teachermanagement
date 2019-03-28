@@ -3,7 +3,6 @@ package com.management.cn.chen.controller;
 import com.management.cn.chen.service.IClassesService;
 import com.management.cn.chen.service.ITeacherService;
 import com.management.cn.chen.service.LongIGradeService;
-import com.management.cn.dto.ClassesDTO;
 import com.management.cn.entity.Classes;
 import com.management.cn.entity.Grade;
 import com.management.cn.entity.Teacher;
@@ -31,21 +30,6 @@ public class IClassesController {
     @Resource
     private LongIGradeService longIGradeService;
 
-    @RequestMapping("getAllClasses")
-    @ResponseBody
-    public List<ClassesDTO> getAllClasses(Integer typeId) {
-
-        List<ClassesDTO> classesDTOList = new ArrayList<>();
-        List<Classes> classes = iClassesService.selClassByTypeId(typeId);
-        classes.forEach(item -> {
-                    ClassesDTO classesDTO = new ClassesDTO();
-                    classesDTO.setClassId(item.getClass_id());
-                    classesDTO.setClassName(item.getClass_name());
-                    classesDTOList.add(classesDTO);
-                }
-        );
-        return classesDTOList;
-    }
     @RequestMapping("getClasses")
     public String getClasses(Model model) {
         List<Classes> list = iClassesService.getClasses();
