@@ -143,14 +143,13 @@ public class IClassesController {
     @ResponseBody
     public List<ClassesDTO> getAllClasses(Integer typeId) {
         List<ClassesDTO> classesDTOList = new ArrayList<>();
+        System.out.println(iClassesService.selClassByTypeId(typeId));
         iClassesService.selClassByTypeId(typeId).forEach(item -> {
             ClassesDTO classesDTO = new ClassesDTO();
             classesDTO.setClassName(item.getClass_name());
             classesDTO.setClassId(item.getClass_id());
             classesDTOList.add(classesDTO);
         });
-
-
         return classesDTOList;
     }
 }

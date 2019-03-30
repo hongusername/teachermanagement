@@ -27,9 +27,9 @@ public class Result {
      */
     private Integer totalScore;
     /**
-     * 类型  1.教员 2.班主任
+     * 老师id
      */
-    private Integer teacherType;
+    private Integer teacherId;
     /**
      * 调查问卷类型
      */

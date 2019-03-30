@@ -4,11 +4,11 @@
 <mapper namespace="com.management.cn.hao.dao.ResultMapper">
 
     <insert id="addResult" parameterType="Result">
-          INSERT INTO result(classid,totalScore,teacherType,surveyType,`options`,createDate,opinion) VALUES (#{classid},#{totalScore},#{teacherType},#{surveyType},#{options},#{createDate},#{opinion})
+          INSERT INTO result(classid,totalScore,surveyType,`options`,createDate,opinion,teacherId) VALUES (#{classid},#{totalScore},#{surveyType},#{options},#{createDate},#{opinion},#{teacherId})
     </insert>
 
     <select id="queryResultAll" resultType="Result">
-        select *  from result where classid=#{classid} and teachertype=#{teacherType} and DATE_FORMAT(createDate,'%Y-%m') = #{date} order by totalScore desc
+        select *  from result where classid=#{classid} and teacherId=#{teacherId} and DATE_FORMAT(createDate,'%Y-%m') = #{date} order by totalScore desc
     </select>
 
     <select id="queryResultByClassIdAndDate" resultType="Result">

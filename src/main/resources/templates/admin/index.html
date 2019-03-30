@@ -1,5 +1,9 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html xmlns:th="http://www.thymeleaf.org">
+=======
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+>>>>>>> d512176e2b7b066102e66a4f599ef37f1fd7bfce
 
 <head>
     <!-- 页面meta -->
@@ -19,6 +23,7 @@
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
   
     <script src="/plugins/adminLTE/js/app.min.js"></script>
+<<<<<<< HEAD
     
     <script type="text/javascript">   
 		 function SetIFrameHeight(){
@@ -30,6 +35,25 @@
     
 	</script>    
  
+=======
+
+    <script type="text/javascript">
+        function SetIFrameHeight() {
+            var iframeid = document.getElementById("iframe"); //iframe id
+            if (document.getElementById) {
+                iframeid.height = document.documentElement.clientHeight;
+            }
+        }
+
+    </script>
+    <!--<script>-->
+    <!--$(function () {-->
+    <!--var iii = [[${session.teacher}]];-->
+    <!--alert(iii);-->
+    <!--})-->
+    <!--</script>-->
+
+>>>>>>> d512176e2b7b066102e66a4f599ef37f1fd7bfce
 </head>
 
 <body class="hold-transition skin-green sidebar-mini" >
@@ -130,7 +154,11 @@
 
                     </ul>
                 </li>
+<<<<<<< HEAD
                 <li class="treeview" >
+=======
+                <li class="treeview">
+>>>>>>> d512176e2b7b066102e66a4f599ef37f1fd7bfce
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>学期管理</span>
@@ -147,7 +175,11 @@
                         </li>
                     </ul>
                 </li>
+<<<<<<< HEAD
                 <li class="treeview" >
+=======
+                <li class="treeview">
+>>>>>>> d512176e2b7b066102e66a4f599ef37f1fd7bfce
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>教师管理</span>
@@ -164,30 +196,38 @@
                         </li>
                     </ul>
                 </li>
+<<<<<<< HEAD
 
                 <li class="treeview" >
+=======
+                <li class="treeview">
+>>>>>>> d512176e2b7b066102e66a4f599ef37f1fd7bfce
                     <a href="#">
                         <i class="fa fa-folder"></i>
-                        <span>调查表管理</span>
+                        <span>测评管理</span>
                         <span class="pull-right-container">
 				       			<i class="fa fa-angle-left pull-right"></i>
 				   		 	</span>
                     </a>
                     <ul class="treeview-menu">
-
                         <li id="admin-login4">
+                            <a href="/admin/evaluating_list" target="iframe">
+                                <i class="fa fa-circle-o"></i>发布测评
+                            </a>
+                        </li>
+                        <li id="admin-login5">
                             <a href="http://localhost:8080/admin/survey_type_list" target="iframe">
                                 <i class="fa fa-circle-o"></i>调查类型列表
                             </a>
                         </li>
-                        <li id="admin-login5">
+                        <li id="admin-login6">
                             <a href="http://localhost:8080/admin/add_survey_content" target="iframe">
                                 <i class="fa fa-circle-o"></i>添加调查问卷内容
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="treeview" th:if="${session.teacher.type == 3}">
+                <li class="treeview"  th:if="${session.role.type == 2}">
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>评测结果</span>
@@ -196,13 +236,7 @@
 				   		 	</span>
                     </a>
                     <ul class="treeview-menu">
-
-                        <li id="admin-login">
-                            <a href="/admin/evaluating_list" target="iframe">
-                                <i class="fa fa-circle-o"></i>测评列表
-                            </a>
-                        </li>
-                        <li id="admin-login">
+                        <li id="admin-login7">
                             <a href="/admin/evaluating_result" target="iframe">
                                 <i class="fa fa-circle-o"></i>评测结果列表
                             </a>
@@ -210,7 +244,11 @@
                     </ul>
                 </li>
                 <!-- 菜单 / th:if="${list.type==3}" th:if="${tea.type eq '3'}"-->
+<<<<<<< HEAD
                <!-- <li class="treeview" th:if="${session.teacher.type == 3}">
+=======
+                <li class="treeview"  th:if="${session.role.type == 2}">
+>>>>>>> d512176e2b7b066102e66a4f599ef37f1fd7bfce
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>曲线图</span>
@@ -261,26 +299,11 @@
         <!-- /.sidebar -->
     </aside>
     <!-- 导航侧栏 /-->
-
     <!-- 内容区域 -->
     <div class="content-wrapper">
         <iframe width="100%" id="iframe" name="iframe" onload="SetIFrameHeight()"
                 frameborder="0" src="home.html"></iframe>
-
     </div>
-    <!-- 内容区域 /-->
-
-    <!-- 底部导航 -->
-    <!--<footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.8
-        </div>
-        <strong>Copyright &copy; 2014-2017 <a href="http://www.itcast.cn">研究院研发部</a>.</strong> All rights reserved.
-    </footer>-->
-    <!-- 底部导航 /-->
-
 </div>
-
 </body>
-
 </html>

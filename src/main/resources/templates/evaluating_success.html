@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>测评结果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #D0E2F6;
+        }
+
+        #success {
+            width: 500px;
+            height: 300px;
+            margin: 150px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .div-0 {
+            margin-top: 20px;
+        }
+
+        .div-0 h3 {
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .div-0 i {
+            width: 32px;
+            height: 32px;
+            display: inline-block;
+            background: url("/img/success2.png");
+            vertical-align: middle;
+        }
+
+        #btn {
+            margin-top: 50px;
+        }
+    </style>
+    <script>
+        var time = 10;
+        function back() {
+            window.setTimeout('back()', 1000);
+            if (time > 0) {
+                document.getElementById("time").innerHTML = time;
+                time--;
+            }
+            else {
+                window.location.href="/toEvaluation?grade=[[${session.classId}]]"
+            }
+        }
+    </script>
+</head>
+<body onload="back();">
+<div id="success">
+    <div class="div-0">
+        <i></i>&nbsp;&nbsp;
+        <h3>提交成功</h3>
+    </div>
+
+    <div class="div-0">
+        <h3>感谢您对<span th:text="${session.teacherName}"></span>老师的测评，本次测评得分为<span th:text="${session.totalScore}"></span>分。
+        </h3>
+    </div>
+
+    <div id="btn">
+        <a th:href="@{'/toEvaluation?grade='+${session.classId}}">首页</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span><span id="time"></span>秒后返回首页</span>
+    </div>
+
+</div>
+</body>
+</html>

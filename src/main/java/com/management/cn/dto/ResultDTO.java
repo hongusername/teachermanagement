@@ -18,7 +18,7 @@ public class ResultDTO {
 
     private Integer classId;
     private Integer surveyTypeId;
-    private Integer teacherType;
+    private Integer teacherId;
     private List<Map<String,String>> checkedList;
     private String opinion;
 }

@@ -2,6 +2,7 @@ package com.management.cn.wei.controller;
 
 
 import com.management.cn.chen.service.ITeacherService;
+import com.management.cn.entity.Role;
 import com.management.cn.entity.Teacher;
 import com.management.cn.wei.sevice.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +55,8 @@ public class AdminController {
      权限登陆
      */
     @RequestMapping("/checkLogin")
-    public String checkLogin(HttpSession session,String name, String pwd, Model model) throws IOException {
-        Teacher t = iTeacherService.getTeacher(name);
+    public String checkLogin(HttpSession session,String name, String pwd, Model model)  {
+        Role t = iTeacherService.getRole(name);
 
         session.setAttribute("username", name);
 
@@ -65,7 +66,7 @@ public class AdminController {
             return "adminLogin";
         } else  {
             if (t.getPwd().equals(pwd)||t.getPwd()==pwd) {
-                session.setAttribute("teacher",t);
+                session.setAttribute("role",t);
                 System.out.println(t);
                 return "redirect:admin/index";
             }else{
