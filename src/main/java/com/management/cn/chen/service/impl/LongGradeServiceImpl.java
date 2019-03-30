@@ -18,4 +18,24 @@ public class LongGradeServiceImpl implements LongIGradeService {
     public List<Grade> getGrade() {
         return iGradeDao.getGrade();
     }
+
+    @Override
+    public Integer addGrade(Grade grade) {
+        return iGradeDao.addGrade(grade);
+    }
+
+    @Override
+    public Integer deleteGrade(int id) {
+        return iGradeDao.deleteGrade(id);
+    }
+
+    @Override
+    public Integer updateGrade(Grade grade) {
+        return iGradeDao.updateGrade(grade);
+    }
+
+    @Override
+    public Grade queryGradeById(int id) {
+        return iGradeDao.queryGradeById(id);
+    }
 }

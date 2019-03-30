@@ -27,18 +27,27 @@
 
     <select id="getAll" resultType="Teacher">
         select * from teacher
-        where type !=3
+        where type in(0,1,2)
         <if test="type !=0 and type !=null">
             and type =#{type}
         </if>
         <if test="name !=null and name !=''">
             and name like concat('%',#{name},'%')
         </if>
+<<<<<<< HEAD
+        order by teacherid
+=======
     </select>
 
     <select id="getTeacherById">
          select * from teacher where teacherid = #{id}
+>>>>>>> d512176e2b7b066102e66a4f599ef37f1fd7bfce
     </select>
-
+    <delete id="deleteTeachers" >
+        delete from  teacher where teacherid in
+        <foreach collection="teacherids" item="id" open="(" separator="," close=")" >
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

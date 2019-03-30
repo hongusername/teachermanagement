@@ -45,4 +45,9 @@ public class TeacherServicesImpl implements TeacherServices {
     public Integer insertTeacher(Teacher teacher) {
         return teacherDao.insertTeacher(teacher);
     }
+
+    @Override
+    public Integer deleteTeachers(Integer[] teacherids) {
+        return teacherDao.deleteTeachers(teacherids);
+    }
 }

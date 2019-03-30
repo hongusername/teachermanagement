@@ -77,15 +77,14 @@ public class IClassesController {
         int i = iClassesService.delClass(id);
         return "redirect:/getClasses";
     }
-
     //模糊查询
     @RequestMapping("Long_sel")
     public String sel(String key, Model model) {
-        if (key.trim() == null || key.trim() == "" || key.trim().equals("")) {
+        if(key.trim()==null||key.trim()==""||key.trim().equals("")){
             return "redirect:/getClasses";
         }
         model.addAttribute("key", key);
-        key = key.toUpperCase();
+        key=key.toUpperCase();
 
 
         List<Teacher> jy = iTeacherService.getTea(1);
@@ -102,16 +101,16 @@ public class IClassesController {
         List<Classes> c4 = iClassesService.selClassName(key);
 
         List<Classes> list = new ArrayList<Classes>();
-        for (Classes c : c1) {
+        for(Classes c : c1){
             list.add(c);
         }
-        for (Classes c : c2) {
+        for(Classes c : c2){
             list.add(c);
         }
-        for (Classes c : c3) {
+        for(Classes c : c3){
             list.add(c);
         }
-        for (Classes c : c4) {
+        for(Classes c : c4){
             list.add(c);
         }
 
