@@ -10,10 +10,10 @@
     <script src="js/vue-resource.js"></script>
     <script src = "/wei/layui/layui.all.js"></script>
 
-</head>
+</head>s
 <body>
 
-<div class="container" style="border: 2px dotted blue;margin-top: 100px;">
+<div  class="container" style="border: 2px dotted blue;margin-top: 100px;">
     <div align="center"><h1>教师信息</h1></div>
     <div style="margin-bottom: 40px;margin-top: 50px;" align="center">
         <form action="teacherListController" class="form-inline" role="form">
@@ -98,12 +98,12 @@
             <!--<td align="center">[[${teacher.type}]]</td>-->
             <!--<td align="center"><a href="" class="btn btn-info btn-sm	">详情</a></td>-->
         <!--</tr>-->
-        <tr v-for="item in arrays">
-            <td align="center" class="displayblocktd">{{item.name}}</td>
+        <tr v-for="item in arrays" >
+            <td height="50px;" align="center" class="displayblocktd">{{item.name}}</td>
             <td align="center" v-if="item.type==1" class="displayblocktd">教员</td>
             <td align="center" v-if="item.type==2" class="displayblocktd">班主任</td>
 
-            <td align="center" class="displaynonetd" style="display: none;"><input type="text" class="form-control"  v-model="editteachername"> </td>
+            <td  align="center" class="displaynonetd" style="display: none;"><input type="text" class="form-control"    v-model="editteachername"> </td>
             <td align="center"  class="displaynonetd" style="display: none;">
                 <select v-model="editteachertype" class="form-control" >
                     <option value="1">教员</option>
@@ -131,9 +131,7 @@
 </div>
 <script src="/js/jquery-1.7.2.min.js"></script>
 <script>
-   /* Vue.http.post('',{}).then(function (result) {
-        arr = result.body.list;
-    });*/
+   
    $(function () {
        $("body").on("click"," #addTeacherbutton",function () {
            $("#adddiv").slideUp(220);

@@ -2,6 +2,7 @@ package com.management.cn.wei.controller;
 
 
 import com.management.cn.chen.service.ITeacherService;
+import com.management.cn.entity.Role;
 import com.management.cn.entity.Teacher;
 import com.management.cn.wei.sevice.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,11 @@ public class AdminController {
      * 去登录
      * */
     @RequestMapping("/login")
-    public String tologin(Model model) {
+    public String tologin(Model model,HttpSession session) {
+        Role st = (Role) session.getAttribute("role");
+        if(st!=null){
+            return "redirect:admin/index";
+        }
         return "admin/adminLogin";
     }
 
@@ -49,28 +54,48 @@ public class AdminController {
 
     }*/
 
+    /*
+     * 修改密码
+     * */
+
+    @RequestMapping("toupdatePwd")
+    public String toupdate() {
+        return "admin/updateTeacherPwd";
+    }
+
+    @RequestMapping("/doupdatePwd")
+    public String doupda( Role role, Model model ) {
+        Integer t = adminService.updatePwd(role);
+        System.out.println(t);
+        if(t!=0){
+            model.addAttribute("msg","修改成功，请重新登录！");
+        }
+        return "admin/adminLogin";
+    }
+
+
+
+
+
 
     /*
      权限登陆
      */
     @RequestMapping("/checkLogin")
     public String checkLogin(HttpSession session,String name, String pwd, Model model)  {
-        Teacher t = iTeacherService.getTeacher(name);
-
-        session.setAttribute("username", name);
-
+        Role t = iTeacherService.getRole(name);
 
         if (t == null) {
             model.addAttribute("msg", "账号或密码不正确!");
-            return "adminLogin";
+            return "admin/adminLogin";
         } else  {
             if (t.getPwd().equals(pwd)||t.getPwd()==pwd) {
-                session.setAttribute("teacher",t);
+                session.setAttribute("role",t);
                 System.out.println(t);
                 return "redirect:admin/index";
             }else{
                 model.addAttribute("msg", "账号或密码不正确!");
-                return "adminLogin";
+                return "admin/adminLogin";
             }
         }
     }

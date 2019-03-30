@@ -22,21 +22,7 @@
 </style>
 <script>
     $(function(){
-        $("#form1").submit(function(){
-            var val=$("#classname1").val();
-            if(val==""||val==null){
-                alert("班级名不能为空!");
-                return false;
-            }
-        });
 
-        $("#form2").submit(function(){
-            var val=$("#updName").val();
-            if(val==""||val==null){
-                alert("班级名不能为空!");
-                return false;
-            }
-        });
     });
 
 
@@ -44,11 +30,13 @@
         $("#form1").submit();
     }
     function t2(obj){
+
         $("#updId").val(obj.class_id);
         $("#updName").val(obj.class_name);
         $("#updClassType").val(obj.grade.id);
          $("#classesJy").val(obj.teacher2.teacherid);
         $("#classesBzr").val(obj.teacher1.teacherid);
+
     }
     function t3(){
         $("#form2").submit();

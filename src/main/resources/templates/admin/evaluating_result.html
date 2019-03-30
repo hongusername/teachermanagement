@@ -127,7 +127,7 @@
                         }
                         this.message = res.body.message;
                     }, function (res) {
-                        alert("请稍后再试...");
+
                     });
             },
             detail: function (obj) {
@@ -139,7 +139,6 @@
                     this.classList = res.body;
                     this.classId = this.classList[0].classId;
                 }, function (res) {
-                    alert("请稍后再试...")
                 });
             }
         },
@@ -155,7 +154,6 @@
             this.$http.get('/grade/getGradeList').then(function (res) {
                 this.gradeList = res.body;
             }, function (res) {
-                alert("请稍后再试...")
             })
             this.loadClass();
             this.search();

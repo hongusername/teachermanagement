@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script>
 
 </head>
 
@@ -23,186 +25,280 @@
     <h3 class="box-title">教师管理</h3>
 </div>
 
-<div class="box-body">
-    <!-- 数据表格 -->
-    <div class="table-box">
-        <!--工具栏-->
-        <div class="pull-left">
-            <div class="form-group form-inline">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" title="新建" data-toggle="modal"
-                            data-target="#editModal"><i class="fa fa-file-o"></i> 新建
-                    </button>
-                    <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新
-                    </button>
+<div id="container">
+    <div class="box-body">
+
+        <!-- 数据表格 -->
+        <div class="table-box">
+
+            <!--工具栏-->
+            <div class="pull-left">
+                <div class="form-group form-inline">
+                    <div class="btn-group">
+                       <!-- <button type="button" class="btn btn-default" title="删除" @click="deleteteachersfunction()"  id="deletebuttons"><i
+                                class="fa fa-trash-o"></i> 删除
+                        </button>-->
+                        <button type="button" class="btn btn-default" title="新增" data-toggle="modal"
+                                data-target="#editModal"><i class="fa fa-ban"></i> 新增
+                        </button>
+                        <button type="button" class="btn btn-default" title="刷新"><i class="fa fa-refresh"></i> <a
+                                href="">刷新</a></button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="box-tools pull-right">
-            <div class="has-feedback">
-                名称：<input>
-                <button class="btn btn-default">查询</button>
+            <div class="box-tools pull-right">
+                <form action="teacherListController" class="form-inline" role="form">
+                    <div class="has-feedback">
+                        教师名称：<input type="text" v-model="name" name="name" class="form-control">
+                        老师职位: <select name="type" class="form-control" v-model="type">
+                                        <option value="0" selected="selected">请选择</option>
+                                        <option value="1">教员</option>
+                                        <option value="2">班主任</option>
+                                 </select>
+                        <button class="btn btn-default">查询</button>
+                    </div>
+                </form>
             </div>
+            <!--工具栏/-->
+
+            <!--数据列表-->
+            <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                <thead>
+                <tr>
+                    <!--<th class="" style="padding-right:0px">
+                        <input id="selall" type="checkbox"  class="icheckbox_square-blue ">
+                    </th>-->
+                    <th class="sorting">老师ID</th>
+                    <th class="sorting">老师名称</th>
+                    <th class="sorting">职位</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="teacher in arrays" style="height: 55px;" >
+                    <!--<td  width="15%"  ><input class="teachercheck"type="checkbox" :teacherid="teacher.teacherid"></td>-->
+                    <td  width="25%" >{{teacher.teacherid}}</td>
+                    <td  width="25%" class="displayblocktd">{{teacher.name}}</td>
+                    <td width="20%" v-if="teacher.type==1"  class="displayblocktd">教员</td>
+                    <td width="20%" v-if="teacher.type==2"  class="displayblocktd">班主任</td>
+
+
+                    <td width="25%" align="center" class="displaynonetd" style="display: none;">
+                        <input type="text" class="form-control"   v-model="editteachername">
+                    </td>
+
+                    <td  width="20%" align="center"  class="displaynonetd" style="display: none;">
+                        <select v-model="editteachertype" class="form-control" >
+                            <option value="1">教员</option>
+                            <option value="2">班主任</option>
+                        </select>
+                    </td>
+
+                    <td class="text-center" width="25%">
+                        <button type="button" class="btn bg-olive btn-xs editteacherbutton"  @click="editbutton(teacher.teacherid,teacher.name,teacher.type)">编辑</button>
+                        <a href="javascript:void(0);" class="btn btn-info btn-xs realeditteacherbutton"  style="display: none;"  @click="edit(editteacherid,editteachername,editteachertype)"> <!--@click="show(item.teacherid);"--> 修改</a>
+                        <a href="javascript:void(0);" class="btn btn-default btn-xs closeeditbutton"  style="display: none;" > 取消</a>
+                      <!--  <button type="button" class="btn bg-olive btn-xs" >
+                        详情
+                        </button>-->
+                        <button type="button" class="btn bg-olive btn-xs" @click="deletefunction(teacher.teacherid)">
+                            删除
+                        </button>
+                    </td>
+                </tr>
+
+
+                </tbody>
+            </table>
+            <!--数据列表/-->
+
+
         </div>
-        <!--工具栏/-->
+        <!-- 数据表格 /-->
 
-        <!--数据列表-->
-        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
-            <thead>
-            <tr>
-                <th class="sorting_asc">班级ID</th>
-                <th class="sorting">班级名称</th>
-                <th class="sorting">班级类型</th>
-                <th class="sorting">带班教师</th>
-                <th class="sorting">状态</th>
-                <th class="text-center">操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="c,i : ${classes}" align="center">
-                <td th:text="${i.index+1}"></td>
-                <td th:text="${c.class_name}"></td>
-                <td th:text="${c.grade.semester}"></td>
-                <td  class="teach">
-                    <span  th:text="${c.teacher1.name}"></span>
-                    <!--何子龙-&#45;&#45;钟婷-->-------
-                    <span  th:text="${c.teacher2.name}"></span>
-                </td>
-                <!--
-                    [[${c.status}]]
-                -->
-                <td>
-                    <span  th:if="${c.status == 1} ">以考核</span>
 
-                    <span  th:if="${c.status == 2} ">未考核</span>
-                </td>
-                <td class="text-center">
-                    <button th:onclick="t2([[${c}]])"  type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2" >修改</button>
-                    <button th:onclick="t4([[${c}]])" type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button>
-                </td>
-                <!--data-toggle="modal" data-target="#editModa2"-->
-            </tr>
-
-            </tbody>
-        </table>
-        <!--数据列表/-->
     </div>
-    <!-- 数据表格 /-->
-</div>
-<!-- /.box-body -->
-<!-- 分页 -->
+    <!-- /.box-body -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">新添老师信息</h3>
+                </div>
+                <form action="l_addClass" id="form1">
+                    <div class="modal-body">
 
+                        <table class="table table-bordered table-striped" width="800px">
+                            <tr>
+                                <td>老师名称</td>
+                                <td><input name="classesName" v-model="newteachername" class="form-control"
+                                           placeholder="老师名称"></td>
+                            </tr>
+                            <tr>
+                                <td>所属职位</td>
+                                <td>
+                                    <select name="classesType" class="form-control" v-model="newteachertype">
+                                        <option value="0" selected>请选择</option>
+                                        <option value="1">教员</option>
+                                        <option value="2">班主任</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
 
-<!-- 编辑窗口 -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">新建班级</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button  class="btn btn-success" data-dismiss="modal" aria-hidden="true"
+                                @click="add()">保存
+                        </button>
+                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+                    </div>
+                </form>
             </div>
-            <form action="l_addClass" id="form1">
-                <div class="modal-body">
-
-                    <table class="table table-bordered table-striped" width="800px">
-                        <tr>
-                            <td>班级名称</td>
-                            <td><input name="classesName" class="form-control" placeholder="班级名称"></td>
-                        </tr>
-                        <tr>
-                            <td>班级类型</td>
-                            <td>
-                                <select name="classesType">
-                                    <option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>班主任</td>
-                            <td>
-                                <select name="classesBzr">
-                                    <option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>教员</td>
-                            <td>
-                                <select name="classesJy">
-                                    <option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
-
-                </div>
-                <div class="modal-footer">
-                    <button  onclick="t1()" class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
-                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="editModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3>修改信息</h3>
-            </div>
-            <form action="updClasses" id="form2">
-                <div class="modal-body">
-
-                    <table class="table table-bordered table-striped" width="800px">
-                        <tr>
-                            <td>班级名称</td>
-                            <td>
-                                <input  name="classesName" id="updName" class="form-control" placeholder="班级名称">
-                                <input type="hidden" id="updId" name="id">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>班级类型</td>
-                            <td>
-                                <select id="updClassType" name="classesType">
-                                    <option th:each="c:${classType}" th:value="${c.id}" th:text="${c.semester}"></option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>班主任</td>
-                            <td>
-                                <select id="classesBzr" name="classesBzr">
-                                    <option th:each="b:${bzr}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-                                </select>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>教员</td>
-                            <td>
-                                <select id="classesJy" name="classesJy">
-                                    <option th:each="b:${jy}" th:value="${b.teacherid}" th:text="${b.name}"></option>
-                                </select>
-                            </td>
-                        </tr>
-
-                    </table>
-
-                </div>
-                <div class="modal-footer">
-                    <button  onclick="t3()" class="btn btn-success" data-dismiss="modal" aria-hidden="true">修改</button>
-                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
 
+<script>
+    $(function () {
+        $("body").on("click"," .editteacherbutton",function () {
+            $(".displayblocktd").show();
+            $(".editteacherbutton").show();
+            $(".displaynonetd").hide();
+            $(".realeditteacherbutton").hide();
+            $(".closeeditbutton").hide();
+            $(this).hide();
+            $(this).parent().parent().find(".displayblocktd").hide();
+            $(this).parent().parent().find(".displaynonetd").show();
+            $(this).parent().parent().find(".realeditteacherbutton").show();
+            $(this).parent().parent().find(".closeeditbutton").show();
+        });
 
+        $("body").on("click"," .realeditteacherbutton",function () {
+            $(".displayblocktd").show();
+            $(".editteacherbutton").show();
+            $(".displaynonetd").hide();
+            $(".realeditteacherbutton").hide();
+            $(".closeeditbutton").hide();
+        });
+
+
+        $("body").on("click"," .closeeditbutton",function () {
+            $(this).parent().parent().find(".displayblocktd").show();
+            $(this).parent().parent().find(".editteacherbutton").show();
+            $(this).parent().parent().find(".displaynonetd").hide();
+            $(this).parent().parent().find(".realeditteacherbutton").hide();
+            $(this).parent().parent().find(".closeeditbutton").hide();
+        });
+
+
+        $("#selall").change(function () {
+
+            if ($(this).prop("checked")) {
+                $(".teachercheck").prop("checked", true);
+            } else {
+                $(".teachercheck").prop("checked", false);
+            }
+        });
+
+   /*    $("body").on("click", " #deletebuttons", function () {
+            $(".teachercheck").each(function () {
+                if ($(this).prop("checked")) {
+                    vm.deletearrays.push($(this).attr("teacherid"));
+                }
+
+            });
+
+        });*/
+   $("#deletebuttons").click(function () {
+       $(".teachercheck").each(function () {
+           if ($(this).prop("checked")) {
+               vm.deletearrays.push($(this).attr("teacherid"));
+           }
+       });
+        for(var i =0;i<vm.deletearrays.length;i++){
+            vm.deletefunction(vm.deletearrays[i]);
+        }
+   });
+    });
+    var vm = new Vue({
+        el: "#container",
+        data: {
+            arrays: [],
+            name: '[[${name}]]',
+            type: '[[${type}]]',
+            newteachername: "",
+            newteachertype: 0,
+            editteachername:"",
+            editteachertype:0,
+            editteacherid:0
+        }
+        , methods: {
+            add: function () {
+                this.$http.post("ajaxAddTeacher", {
+                    name: this.newteachername,
+                    type: this.newteachertype
+                }, {emulateJSON: true}).then(function (res) {
+                    if (res.body[0]) {
+                        alert('添加成功!!');
+                        if (res.body[1].list.length > 0) {
+                            this.arrays = res.body[1].list;
+                        }
+                    } else {
+                        alert('添加失败!!');
+                    }
+                    this.newteachername = "";
+                    this.newteachertype = 0;
+                });
+            }, deletefunction: function (params) {
+                if (confirm('是否删除该信息?')) {
+                    this.$http.post('ajaxDeleteTeacher', {teacherid: params}, {emulateJSON: true}).then(function (res) {
+                        if (res.body[0]) {
+                          alert('删除成功!!');
+                            if (res.body[1].list.length > 0) {
+                                this.arrays = res.body[1].list;
+                            }
+                        } else {
+                           alert('删除失败!!');
+                        }
+                    });
+               }
+            },editbutton:function (teacherid,name,type) {
+                this.editteacherid = teacherid;
+                this.editteachername = name;
+                this.editteachertype = type;
+            },edit:function (teacherid,name,type) {
+                this.$http.post("ajaxUpdateTeacher",{teacherid:teacherid,name:name,type:type},{emulateJSON:true}).then(function (res) {
+                    if(res.body[0]){
+                        alert('修改成功!!');
+                        if(res.body[1].list.length>0){
+                            this.arrays = res.body[1].list;
+                            this.pages =res.body[1].pages;
+                            this.pageNum = res.body[1].pageNum;
+                            this.pages = res.body[1].pages;
+                        }
+                    }else{
+                        alert('修改失败!!');
+                    }
+                });
+            }
+        }
+
+        ,
+        created: function () {
+
+            this.$http.post('ajaxteacherListController', {
+                name: this.name,
+                type: this.type
+            }, {emulateJSON: true}).then(function (res) {
+                this.arrays = res.body.list;
+
+            });
+        }
+    });
+</script>
 </body>
-
 
 </html>
