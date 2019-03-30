@@ -30,7 +30,11 @@ public class AdminController {
      * 去登录
      * */
     @RequestMapping("/login")
-    public String tologin(Model model) {
+    public String tologin(Model model,HttpSession session) {
+        Role st = (Role) session.getAttribute("role");
+        if(st!=null){
+            return "redirect:admin/index";
+        }
         return "admin/adminLogin";
     }
 
@@ -81,12 +85,9 @@ public class AdminController {
     public String checkLogin(HttpSession session,String name, String pwd, Model model)  {
         Role t = iTeacherService.getRole(name);
 
-        session.setAttribute("username", name);
-
-
         if (t == null) {
             model.addAttribute("msg", "账号或密码不正确!");
-            return "adminLogin";
+            return "admin/adminLogin";
         } else  {
             if (t.getPwd().equals(pwd)||t.getPwd()==pwd) {
                 session.setAttribute("role",t);
@@ -94,7 +95,7 @@ public class AdminController {
                 return "redirect:admin/index";
             }else{
                 model.addAttribute("msg", "账号或密码不正确!");
-                return "adminLogin";
+                return "admin/adminLogin";
             }
         }
     }
