@@ -34,7 +34,7 @@
         <if test="name !=null and name !=''">
             and name like concat('%',#{name},'%')
         </if>
-        order by teacherid
+        order by teacherid desc 
     </select>
 
     <select id="getTeacherById">
