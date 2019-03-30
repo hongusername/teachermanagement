@@ -50,6 +50,29 @@ public class AdminController {
 
     }*/
 
+    /*
+     * 修改密码
+     * */
+
+    @RequestMapping("toupdatePwd")
+    public String toupdate() {
+        return "admin/updateTeacherPwd";
+    }
+
+    @RequestMapping("/doupdatePwd")
+    public String doupda( Role role, Model model ) {
+        Integer t = adminService.updatePwd(role);
+        System.out.println(t);
+        if(t!=0){
+            model.addAttribute("msg","修改成功，请重新登录！");
+        }
+        return "admin/adminLogin";
+    }
+
+
+
+
+
 
     /*
      权限登陆

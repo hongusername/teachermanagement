@@ -6,105 +6,307 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>后台管理系统</title>
     <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"> 
-	
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
     <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="../css/style.css">
-	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/chart.min.js"></script>
+    <script src="/js/vue.js"></script>
+    <script src="/js/vue-resource.js"></script>
+
+    <style>
+        ul {
+            text-align: center;
+            list-style: none;
+        }
+
+        ul li {
+            padding: 30px;
+            display: inline-block;
+        }
+
+        #buttondiv span {
+            position: fixed;
+            /*  display: none;*/
+            width: 35px;
+            line-height: 35px;
+            background: rgba(0, 0, 0, 0.3);
+            color: whitesmoke;
+            text-align: center;
+            z-index: 100;
+            dis
+        }
+        #buttondiv span:hover{
+            cursor: pointer;
+        }
+
+        #buttondiv .leftbutton {
+            left: 15px;
+            top: 100px;
+        }
+
+        #buttondiv .rightbutton {
+            right: 15px;
+            top: 100px;
+        }
+
+    </style>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
+<!-- 内容区域 -->
+<div id="container">
+    <!-- 内容头部 -->
+    <section class="content-header">
+        <h1>
+            教师测评平均成绩曲线图
+            <small>首页</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
+        </ol>
+    </section>
+    <!-- 内容头部 /-->
+    <div id="buttondiv">
+        <span class="chartbutton leftbutton" @click="changeClasses(1)"><</span>
+        <span class="chartbutton rightbutton" @click="changeClasses(2)">></span>
+    </div>
+    <!-- 正文区域 -->
+    <section class="content">
 
-   <!-- 内容区域 -->
 
+        <!-- 统计数值 -->
+        <div class="row">
 
-            <!-- 内容头部 -->
-            <section class="content-header">
-                <h1>
-                    控制面板
-                    <small>首页</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
-                </ol>
-            </section>
-            <!-- 内容头部 /-->
+            <div class="col-lg-3 col-xs-6" v-for="(item,index) in classesList"><!--@mouseover="bindclassesid()"-->
+                <!-- small box -->
+                <div class="small-box bg-green displaybutton" @click="change(index)" v-if="index==status">
+                    <div class="inner">
+                        <h3 align="center">{{item.class_name}}</h3>
 
-            <!-- 正文区域 -->
-            <section class="content">
-
-
-                <!-- 统计数值 -->
-                <div class="row">
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-aqua">
-                            <div class="inner">
-                                <h3>150</h3>
-
-                                <p>新订单</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                            <a href="all-order-manage-list.html" class="small-box-footer">详细 <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
+                        <p align="center">教员: <span> {{item.teacher2.name}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            班主任: <span>{{item.teacher1.name}}</span></p>
                     </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-green">
-                            <div class="inner">
-                                <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                                <p>转化率</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
-                            </div>
-                            <a href="all-ad-statistics-list.html" class="small-box-footer">详细 <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
                     </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-yellow">
-                            <div class="inner">
-                                <h3>44</h3>
-
-                                <p>新注册用户</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-person-add"></i>
-                            </div>
-                            <a href="all-member-manage-list.html" class="small-box-footer">详细 <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-red">
-                            <div class="inner">
-                                <h3>65</h3>
-
-                                <p>日PV</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
-                            </div>
-                            <a href="all-ad-statistics-list.html" class="small-box-footer">详细 <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
+                    <a href="javascript:void(0)" @click="chartfunction(item.class_id)" class="small-box-footer">查看曲线图 <i
+                            class="fa fa-arrow-circle-right"></i></a>
                 </div>
-                <!-- /.row -->
-            </section>
-            <!-- 正文区域 /-->
 
-        <!-- 内容区域 /-->
+                <div class="small-box bg-aqua displaybutton" @click="change(index)" v-else>
+                    <div class="inner">
+                        <h3 align="center">{{item.class_name}}</h3>
+
+                        <p align="center">教员: <span> {{item.teacher2.name}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            班主任: <span>{{item.teacher1.name}}</span></p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="javascript:void(0)" @click="chartfunction(item.class_id)" class="small-box-footer">查看曲线图 <i
+                            class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- /.row -->
+    </section>
+</div>
+<!-- 正文区域 /-->
+<div class="treeviewdiv">
+    <ul>
+        <li>
+            <canvas id="onechart" width="400" height="400"></canvas>
+        </li>
+        <li>
+            <canvas id="twochart" width="400" height="400"></canvas>
+        </li>
+    </ul>
+
+</div>
+<!-- 内容区域 /-->
+
+
 </body>
+<script>
 
+    var ctx = document.getElementById('onechart').getContext('2d');
+    var oneChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# 教员',
+                data: [0, 0, 0],
+                backgroundColor: [
+                    "rgba(255,153,0,0.6)"
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }, animation: {
+                onComplete: function () {
+                    var chartInstance = this.chart,
+                        ctx = chartInstance.ctx;
+
+                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+
+                    this.data.datasets.forEach(function (dataset, i) {
+                        var meta = chartInstance.controller.getDatasetMeta(i);
+                        meta.data.forEach(function (bar, index) {
+                            var data = dataset.data[index];
+                            ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                        });
+                    });
+                }
+            }
+        }
+    });
+
+    var ctx = document.getElementById('twochart').getContext('2d');
+    var twoChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# 班主任',
+                data: [0, 0, 0],
+                backgroundColor: [
+
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }, animation: {
+                onComplete: function () {
+                    var chartInstance = this.chart,
+                        ctx = chartInstance.ctx;
+
+                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+
+                    this.data.datasets.forEach(function (dataset, i) {
+                        var meta = chartInstance.controller.getDatasetMeta(i);
+                        meta.data.forEach(function (bar, index) {
+                            var data = dataset.data[index];
+                            ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                        });
+                    });
+                }
+            }
+        }
+    });
+
+    $(function () {
+        /*  $(".displaybutton").mouseover(function () {
+              $("#buttondiv span").show(100);
+          });*/
+        $("body").on("click", " .displaybutton", function () {
+            $("#buttondiv span").show(100);
+        });
+        $(".displaybutton").mousemove(function () {
+            $("#buttondiv span").hide(100);
+        });
+    });
+
+    var vm = new Vue({
+        el: "#container", data: {
+            classesList: [],
+            classesid: 0,
+            teacherdate: [],
+            oneteacheravg: [],
+            twoteacheravg: [],
+            status: -1,
+            pageNum: 1,
+            pages: 0
+        }, methods: {
+            chartfunction: function (id) {
+                this.teacherdate = [];
+                this.oneteacheravg = [];
+                this.twoteacheravg = [];
+                this.$http.post("/result/getResult2", {classId: id}, {emulateJSON: true}).then(function (res) {
+                    for (var key in res.body) {
+                        // alert(res.body[key]['data'][0]['avg']);
+                        this.teacherdate.push(key);
+                        if (res.body[key]['data'] != null) {
+                            this.oneteacheravg.push(res.body[key]['data'][1]['avg']);
+                            this.twoteacheravg.push(res.body[key]['data'][0]['avg']);
+                        } else {
+                            this.oneteacheravg.push(0);
+                            this.twoteacheravg.push(0);
+                        }
+                    }
+                    //   alert(this.twoteacheravg[2]);
+                    oneChart.data.datasets[0].data = this.oneteacheravg;
+                    oneChart.data.labels = this.teacherdate
+                    oneChart.update();
+
+                    twoChart.data.datasets[0].data = this.twoteacheravg;
+                    twoChart.data.labels = this.teacherdate
+                    twoChart.update();
+                });
+            }, change: function (index) {
+                this.status = index;
+            }, changeClasses: function (params) {
+                if (params == '1') {
+                    params = params - 1;
+                    if (params < 1) {
+                        params = 1;
+                    }
+                } else {
+                    params = params + 1
+                    if (params > this.pages) {
+                        params = this.pages;
+                    }
+                }
+                this.pageNum = params;
+                this.$http.post("/ajaxGetClasses", {pageNum: this.pageNum}, {emulateJSON: true}).then(function (res) {
+                    this.classesList = res.body.list;
+                    this.pages = res.body.pages;
+                })
+            }
+        }, created: function () {
+            this.$http.post("/ajaxGetClasses", {}, {emulateJSON: true}).then(function (res) {
+                this.classesList = res.body.list;
+                this.pages = res.body.pages;
+            })
+        }
+    });
+
+    /* Vue.http.post('/ajaxGetClasses', {}, {emulateJSON: true}).then(function (res) {
+         vm.classesList = res.body.list;
+     });*/
+</script>
 </html>
