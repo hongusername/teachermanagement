@@ -54,21 +54,23 @@
 </body>
 </html>
 <script src="./js/jquery.min.js"></script>
+<script src="./js/layer/layer.js"></script>
+
 <script>
     $(function () {
         $("form").submit(function () {
             var name = $("[name=name]").val();
             var pwd = $("[name=pwd]").val();
             if (name == "" || name == null) {
-                alert("姓名不能为空");
+                layer.msg('姓名不能为空');
                 return false;
             }
             if (pwd == "" || pwd== null) {
-                alert("密码不能为空");
+                layer.msg('密码不能为空');
                 return false;
             }
             if (pwd.length<6) {
-                alert("密码长度不能小于6位");
+                layer.msg("密码长度不能小于6位");
                 return false;
             }
         })
@@ -77,7 +79,7 @@
         <script type="text/javascript">
                var msg='[[${msg}]]';
                if (msg.length>0){
-                   alert(msg);
+                   layer.msg(msg);
                }
 
         </script>

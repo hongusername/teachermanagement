@@ -34,14 +34,11 @@
         <if test="name !=null and name !=''">
             and name like concat('%',#{name},'%')
         </if>
-<<<<<<< HEAD
-        order by teacherid
-=======
+        order by teacherid desc 
     </select>
 
     <select id="getTeacherById">
          select * from teacher where teacherid = #{id}
->>>>>>> d512176e2b7b066102e66a4f599ef37f1fd7bfce
     </select>
     <delete id="deleteTeachers" >
         delete from  teacher where teacherid in

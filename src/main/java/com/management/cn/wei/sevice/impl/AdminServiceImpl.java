@@ -1,6 +1,7 @@
 package com.management.cn.wei.sevice.impl;
 
 
+import com.management.cn.entity.Role;
 import com.management.cn.entity.Teacher;
 import com.management.cn.wei.dao.AdminDao;
 import com.management.cn.wei.sevice.AdminService;
@@ -24,5 +25,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Teacher> queryType() {
         return adminDao.queryType();
+    }
+
+    @Override
+    public Integer updatePwd( Role role) {
+        return adminDao.updatePwd(role);
     }
 }

@@ -65,7 +65,6 @@ public class ClassesServiceImpl implements IClassesService {
         return iClassesDao.selClassBzr(key);
     }
 
-
     @Override
     public Classes getClassByClassId(Integer classId) {
         return iClassesDao.getClassByClassId(classId);

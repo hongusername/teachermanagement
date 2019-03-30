@@ -43,7 +43,7 @@ public class IClassesController {
         model.addAttribute("classType", classType);
 
 
-        return "Long_classes";
+        return "admin/Long_classes";
     }
 
     @RequestMapping("l_addClass")
@@ -135,7 +135,7 @@ public class IClassesController {
             c.setGrade(g);
         }
         model.addAttribute("classes", list);
-        return "Long_classes";
+        return "admin/Long_classes";
     }
 
 
