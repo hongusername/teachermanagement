@@ -30,7 +30,9 @@
             <div class="form-group form-inline">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default">删除</button>
-                    <button type="button" class="btn btn-default" onclick="window.location.href='/admin/add_survey_content'">添加</button>
+                    <button type="button" class="btn btn-default"
+                            onclick="window.location.href='/admin/add_survey_content'">添加
+                    </button>
                     <button type="button" class="btn btn-default" onclick="window.location.reload()">刷新</button>
                     <button type="button" class="btn btn-default" onclick="window.history.back()">返回</button>
                 </div>
@@ -38,11 +40,11 @@
         </div>
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
             <thead>
-                <th><input type="checkbox"></th>
-                <th>序号</th>
-                <th>调查内容</th>
-                <th v-for="item in select">选项{{item.index}}</th>
-                <th>操作</th>
+            <th><input type="checkbox"></th>
+            <th>序号</th>
+            <th>调查内容</th>
+            <th v-for="item in select">选项{{item.index}}</th>
+            <th>操作</th>
             </thead>
             <tbody>
             <tr v-for="(item,index) in surveyContentList">
@@ -71,7 +73,6 @@
             select: [],
         },
         mounted: function () {
-            //TODO 代码冗余
             /* 获取调查问卷问题选项格式 */
             this.$http.get('/survey_type/getSurveyTypeById', {params: {id: [[${surveyTypeId}]]}}).then(function (res) {
                 var surveyType = res.body;

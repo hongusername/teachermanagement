@@ -96,22 +96,31 @@ public class LoginController {
     @RequestMapping("/evaluation")
     public String Evaluation(Model model, String key, String grade) {
         if ("".equals(key) || key == null || "".equals(grade) || grade == null) {
-            System.out.println("两个参数都是空");
             return "redirect:/toEvaluation";
         } else if (!CLASS_JY.equals(key) && !CLASS_BZR.equals(key)) {
-            System.out.println("不是教员也不是班主任");
             return "redirect:/toEvaluation";
         } else {
-            System.out.println("是教员或者班主任");
-
-
             Teacher teacher = studentServices.queryTeacherById(key, grade);
+            if (teacher == null) {
+                return "redirect:/toEvaluation";
+            }
             Classes classes = studentServices.queryClassesById(Integer.parseInt(grade));
             if (classes == null) {
                 return "redirect:/toEvaluation";
             }
-            Integer surveyTypeId = studentServices.querySurveyTypeById(teacher.getType(), classes.getClass_type()).getId();
+            Integer surveyTypeId = 0;
+
+            SurveyType surveyType = studentServices.querySurveyTypeById(teacher.getType(), classes.getClass_type());
+            if (surveyType == null) {
+                return "redirect:/toEvaluation";
+            }
+            surveyTypeId = surveyType.getId();
             Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(teacher.getType(), classes.getClass_type());
+            if (evaluating == null) {
+                return "redirect:/toEvaluation";
+            }
+
+
             try {
                 if (sdf.parse(evaluating.getEndTime()).getTime() < System.currentTimeMillis()) {
                     return "redirect:/toEvaluation";

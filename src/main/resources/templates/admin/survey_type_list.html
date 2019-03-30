@@ -194,7 +194,7 @@
                 });
             },
             details: function (id) {
-                location.href = "/survey_content_list_page?surveyTypeId=" + id;
+                location.href = "/survey_content/survey_content_list_page?surveyTypeId=" + id;
             },
             getSurveyTypeById: function (id) {
                 this.$http.get('/survey_type/getSurveyTypeById?id=' + id).then(function (res) {
