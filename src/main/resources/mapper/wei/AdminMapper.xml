@@ -8,4 +8,8 @@
     <select id="queryType" resultType="com.management.cn.entity.Teacher">
         select type from teacher
     </select>
+
+    <update id="updatePwd">
+           UPDATE role SET name=#{name},pwd=#{pwd} WHERE id=#{id}
+    </update>
 </mapper>

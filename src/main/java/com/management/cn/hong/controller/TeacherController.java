@@ -24,6 +24,7 @@ public class TeacherController {
         PageInfo<Teacher> page = teacherServices.getAll(teacher, pageNumber, pageSize);
         List<Teacher> list = page.getList();
         model.addAttribute("teacherList", list);
+        System.out.println(list);
         if (teacher != null) {
             model.addAttribute("name", teacher.getName());
             model.addAttribute("type", teacher.getType());

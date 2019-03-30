@@ -1,5 +1,6 @@
 package com.management.cn.wei.dao;
 
+import com.management.cn.entity.Role;
 import com.management.cn.entity.Teacher;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,5 +12,7 @@ public interface AdminDao {
 
         //查询teacher type
         List<Teacher> queryType();
+
+        Integer updatePwd( Role role );
 
 }
