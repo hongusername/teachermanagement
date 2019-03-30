@@ -34,8 +34,10 @@
         <if test="name !=null and name !=''">
             and name like concat('%',#{name},'%')
         </if>
+    </select>
 
-
+    <select id="getTeacherById">
+         select * from teacher where teacherid = #{id}
     </select>
 
 

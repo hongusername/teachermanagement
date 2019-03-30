@@ -19,6 +19,7 @@
     </style>
 </head>
 <body>
+
 <div class="main" id="app">
     <div class="test_main">
         <div class="nr_left">
@@ -205,10 +206,12 @@
                         surveyTypeId: [[${surveyTypeId}]],
                         checkedList: this.checkedList,
                         opinion: this.opinion,
-                        teacherType: [[${teacher.type}]]
+                        teacherId: [[${teacher.teacherid}]]
                     }
                     this.$http.post('http://localhost:8080/result/addResult', entity).then(function (res) {
-                        alert(res.body.message);
+                        if (res.body.status == 200) {
+                            window.location = "/evaluating_success";
+                        }
                     }, function (res) {
                         alert(res.body.message);
                     });

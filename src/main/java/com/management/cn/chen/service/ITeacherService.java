@@ -12,4 +12,5 @@ public interface ITeacherService {
 
     List<Teacher> getTea(int type);
 
+
 }

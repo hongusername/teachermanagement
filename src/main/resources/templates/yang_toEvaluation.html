@@ -38,13 +38,19 @@
                     $('#myModal').modal('show');
                     $(".modal-body").html(data.message);
                 } else {
-                    window.location = "/evaluation?key=" + key + "&grade=" + grade;
+                    $("#key").val(key);
+                    $("#gradeId").val(grade);
+                    $("#to-evaluation").submit();
                 }
             }
         })
     }
 </script>
 <body class="hold-transition skin-red sidebar-mini">
+<form action="/evaluation" method="post" id="to-evaluation">
+    <input type="hidden" id="key" name="key">
+    <input type="hidden" id="gradeId" name="grade">
+</form>
 <!-- .box-body -->
 
 <div class="box-header with-border">

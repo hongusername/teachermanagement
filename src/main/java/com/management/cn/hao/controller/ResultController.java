@@ -1,15 +1,14 @@
 package com.management.cn.hao.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.management.cn.chen.service.IClassesService;
 import com.management.cn.dto.ResultDTO;
 import com.management.cn.dto.TeacherDTO;
-import com.management.cn.entity.Classes;
-import com.management.cn.entity.Evaluating;
-import com.management.cn.entity.ResponseResult;
-import com.management.cn.entity.Result;
+import com.management.cn.entity.*;
 import com.management.cn.hao.service.EvaluatingService;
 import com.management.cn.hao.service.GradeService;
 import com.management.cn.hao.service.ResultService;
+import com.management.cn.hong.dao.TeacherDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -37,44 +38,46 @@ public class ResultController {
     private EvaluatingService evaluatingService;
     @Autowired
     private IClassesService classesService;
+    @Autowired
+    private TeacherDao teacherDao;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @RequestMapping("/addResult")
     @ResponseBody
-    public Map<String, Object> addResult(@RequestBody ResultDTO resultDTO) {
-        Map<String, Object> map = new HashMap<>();
+    public ResponseResult addResult(@RequestBody ResultDTO resultDTO, HttpServletRequest request) {
+        ResponseResult responseResult = new ResponseResult();
         Classes classes = classesService.getClassByClassId(resultDTO.getClassId());
-
-        System.out.println(resultDTO);
-        System.out.println(classes);
-
-
-        Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(resultDTO.getTeacherType(), classes.getGrade().getId());
-//        try {
-//            Long endTime = sdf.parse(sdf.format(sdf.parse(evaluating.getEndTime()))).getTime();
-//            if (endTime < System.currentTimeMillis()) {
-//                map.put("success", false);
-//                map.put("message", "该测评已停止！");
-//                return map;
-//            }
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-
-
-//        resultService.addResult(resultDTO);
-        map.put("success", true);
-        map.put("message", "提交成功！");
-        return map;
+        Teacher teacher = teacherDao.queryTeacherById(resultDTO.getTeacherId());
+        Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(teacher.getType(), classes.getClass_type());
+        try {
+            Long endTime = sdf.parse(evaluating.getEndTime()).getTime();
+            if (endTime < System.currentTimeMillis()) {
+                responseResult.setStatus(500);
+                responseResult.setMessage("测评已停止");
+                return responseResult;
+            }
+            responseResult = resultService.addResult(resultDTO);
+            HttpSession session = request.getSession();
+            //总分
+            session.setAttribute("totalScore", responseResult.getData());
+            //老师
+            session.setAttribute("teacherName", teacherDao.queryTeacherById(resultDTO.getTeacherId()).getName());
+            //班级
+            session.setAttribute("classId", resultDTO.getClassId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return responseResult;
     }
 
     @RequestMapping("/detailResult")
-    public String evaluatingDetail(Integer surveyTypeId, Integer classId, Integer teacherTypeId, String date, Model model) {
+    public String evaluatingDetail(Integer surveyTypeId, Integer classId, Integer teacherId, String date, Model model) {
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         Result result = new Result();
         result.setSurveyType(surveyTypeId);
         result.setClassid(classId);
-        result.setTeacherType(teacherTypeId);
+        result.setTeacherId(teacherId);
         try {
             result.setDate(sdf.format(sdf.parse(date)));
         } catch (ParseException e) {

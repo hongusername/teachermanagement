@@ -21,12 +21,11 @@ public interface ResultService {
 
     /**
      * 结果
+     *
      * @param resultDTO
      * @return
      */
-    int addResult(ResultDTO resultDTO);
-
-    Integer queryResultAVG( Result result);
+    ResponseResult addResult(ResultDTO resultDTO);
 
     ResponseResult queryIndividualOptionAVG(Result result);
 

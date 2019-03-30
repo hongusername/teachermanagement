@@ -9,4 +9,5 @@ public interface ITeacherDao {
     Teacher getTeacher(String username);
     //查询教师
     List<Teacher> getTea(int type);
+
 }

@@ -64,14 +64,16 @@ public class LoginController {
         ResponseResult responseResult = new ResponseResult();
         Teacher teacher = studentServices.queryTeacherById(key, classId);
         Classes classes = studentServices.queryClassesById(Integer.parseInt(classId));
+
         Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(teacher.getType(), classes.getClass_type());
         if (evaluating == null) {
             responseResult.setStatus(500);
             responseResult.setMessage("无需评测！");
+            return responseResult;
         }
         try {
-            Long startTime = sdf.parse(sdf.format(sdf.parse(evaluating.getStartTime()))).getTime();
-            Long endTime = sdf.parse(sdf.format(sdf.parse(evaluating.getEndTime()))).getTime();
+            Long startTime = sdf.parse(evaluating.getStartTime()).getTime();
+            Long endTime = sdf.parse(evaluating.getEndTime()).getTime();
             //开始时间大于当前时间
             if (startTime > System.currentTimeMillis()) {
                 responseResult.setStatus(500);
@@ -93,19 +95,25 @@ public class LoginController {
 
     @RequestMapping("/evaluation")
     public String Evaluation(Model model, String key, String grade) {
-        if ("".equals(key) || "".equals(grade)) {
+        if ("".equals(key) || key == null || "".equals(grade) || grade == null) {
+            System.out.println("两个参数都是空");
             return "redirect:/toEvaluation";
-        } else if (CLASS_JY.equals(key) == false && CLASS_BZR.equals(key) == false) {
+        } else if (!CLASS_JY.equals(key) && !CLASS_BZR.equals(key)) {
+            System.out.println("不是教员也不是班主任");
             return "redirect:/toEvaluation";
         } else {
+            System.out.println("是教员或者班主任");
+
+
             Teacher teacher = studentServices.queryTeacherById(key, grade);
             Classes classes = studentServices.queryClassesById(Integer.parseInt(grade));
+            if (classes == null) {
+                return "redirect:/toEvaluation";
+            }
             Integer surveyTypeId = studentServices.querySurveyTypeById(teacher.getType(), classes.getClass_type()).getId();
             Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(teacher.getType(), classes.getClass_type());
             try {
-                Long endTime = sdf.parse(sdf.format(sdf.parse(evaluating.getEndTime()))).getTime();
-                //结束时间小于当前时间
-                if (endTime < System.currentTimeMillis()) {
+                if (sdf.parse(evaluating.getEndTime()).getTime() < System.currentTimeMillis()) {
                     return "redirect:/toEvaluation";
                 }
             } catch (ParseException e) {

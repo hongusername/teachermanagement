@@ -23,7 +23,6 @@ import java.util.*;
  */
 @Service
 public class ResultServiceImpl implements ResultService {
-
     @Autowired
     private SurveyTypeMapper surveyTypeMapper;
     @Autowired
@@ -36,7 +35,7 @@ public class ResultServiceImpl implements ResultService {
     private TeacherDao teacherDao;
 
     @Override
-    public int addResult(ResultDTO resultDTO) {
+    public ResponseResult addResult(ResultDTO resultDTO) {
         SurveyType surveyType = surveyTypeMapper.selectSurveyTypeById(resultDTO.getSurveyTypeId());
         String optionsJSON = surveyType.getOptions();
         List<OptionScore> optionScoreList = Arrays.asList(JSON.parseObject(optionsJSON, OptionScore[].class));
@@ -61,8 +60,6 @@ public class ResultServiceImpl implements ResultService {
         result.setClassid(resultDTO.getClassId());
         //总分
         result.setTotalScore(totalScore);
-        //老师类型
-        result.setTeacherType(resultDTO.getTeacherType());
         //创建日期
         result.setCreateDate(new Date());
         //调查问卷类型
@@ -71,42 +68,30 @@ public class ResultServiceImpl implements ResultService {
         result.setOptions(JSON.toJSONString(resultDTO.getCheckedList()));
         //意见、建议
         result.setOpinion(resultDTO.getOpinion());
-        return resultMapper.addResult(result);
+
+        result.setTeacherId(resultDTO.getTeacherId());
+        resultMapper.addResult(result);
+
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setStatus(200);
+        responseResult.setData(totalScore);
+        return responseResult;
     }
 
-    @Override
-    public Integer queryResultAVG(Result result) {
-        List<Result> results = resultMapper.queryResultAll(result);
-        int count = 0;
-        int index = 0;
-        for (Result i : results) {
-            if (index != 0 || index != results.size()) {
-                count += i.getTotalScore();
-            }
-        }
-        int avg = count / (results.size() - 2);
-        System.out.println("平均分：" + avg);
-        return 0;
-    }
 
     @Override
     public ResponseResult queryIndividualOptionAVG(Result result) {
 
-        System.out.println("result:" + JSON.toJSON(result));
         SurveyType surveyType = surveyTypeMapper.selectSurveyTypeById(result.getSurveyType());
         String optionsJSON = surveyType.getOptions();
         List<OptionScore> optionScoreList = Arrays.asList(JSON.parseObject(optionsJSON, OptionScore[].class));
         List<Result> results = resultMapper.queryResultAll(result);
-
+        List<SurveyContent> surveyContentList = surveyContentMapper.selectContentBySurveyTypeId(result.getSurveyType());
         //每个问题选项
         Map<String, List> eachQuestionOptions = new HashMap<>();
-        //获取题号
-        String options = results.get(0).getOptions();
         //当前结果的选项 Map集合
-        List<Map<String, String>> optionsMap = JSON.parseObject(options, List.class);
-        //选项
-        for (Map<String, String> option : optionsMap) {
-            eachQuestionOptions.put(option.get("id"), new ArrayList());
+        for (SurveyContent surveyContent : surveyContentList) {
+            eachQuestionOptions.put(surveyContent.getId().toString(), new ArrayList());
         }
         //意见建议
         List<String> opinionList = new ArrayList<>();
@@ -125,7 +110,6 @@ public class ResultServiceImpl implements ResultService {
                 }
             }
         }
-
 
         Map<String, String> optionScoreMap = new HashMap<>();
 
@@ -157,9 +141,9 @@ public class ResultServiceImpl implements ResultService {
                 totalScore += Integer.parseInt(score.toString());
             }
             avg = totalScore / list.size();
+
             eachQuestionAVG.put(key, avg);
         }
-        List<SurveyContent> surveyContentList = surveyContentMapper.selectContentBySurveyTypeId(result.getSurveyType());
         List<SurveyContentDTO> surveyContentDTOList = new ArrayList<>();
         for (SurveyContent surveyContent : surveyContentList) {
             SurveyContentDTO surveyContentDTO = new SurveyContentDTO();
@@ -177,16 +161,9 @@ public class ResultServiceImpl implements ResultService {
         Classes classes = getClassByClassId(result.getClassid());
         map.put("className", classes.getClass_name());
         //老师
-        Integer teacherType = result.getTeacherType();
-        String teacherName = "";
-        if (teacherType == 1) {
-            teacherName = queryTeacherById(teacherType).getName();
-        }
-        if (teacherType == 2) {
-            teacherName = queryTeacherById(teacherType).getName();
-        }
-        map.put("teacherName", teacherName);
-        map.put("teacherType", teacherType);
+        Teacher teacher = teacherDao.queryTeacherById(result.getTeacherId());
+        map.put("teacherName", teacher.getName());
+        map.put("teacherType", teacher.getType());
         map.put("opinionList", opinionList);
         responseResult.setData(map);
         return responseResult;
@@ -219,8 +196,9 @@ public class ResultServiceImpl implements ResultService {
         Integer surveyTypeJY = 0;
         Integer surveyTypeBZR = 0;
         for (Result result : results) {
+            Teacher teacher = teacherDao.queryTeacherById(result.getTeacherId());
             //教员
-            if (result.getTeacherType() == 1) {
+            if (teacher.getType() == 1) {
                 list_jy_totalScore.add(result.getTotalScore());
                 if (dateJY == null) {
                     dateJY = result.getCreateDate();
@@ -228,7 +206,7 @@ public class ResultServiceImpl implements ResultService {
                 }
             }
             //班主任
-            if (result.getTeacherType() == 2) {
+            if (teacher.getType() == 2) {
                 list_bzr_totalScore.add(result.getTotalScore());
                 if (dateBZR == null) {
                     dateBZR = result.getCreateDate();

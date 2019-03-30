@@ -69,8 +69,8 @@
                 </td>
                 <td>
                     <button type="button" class="btn bg-olive btn-xs" @click="del(item.id)">删除</button>
-                    <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#myModal"
-                            @click="edit('修改');getEvaluating(item.id)">修改
+                    <button type="button" class="btn bg-olive btn-xs"
+                            @click="getEvaluating(item.id)">修改
                     </button>
                 </td>
             </tr>
@@ -164,7 +164,7 @@
         data: {
             classList: [],
             evaluatingList: [],
-            title: '',
+            title: '修改',
             gradeList: [],
             evaluating: {
                 id: '',
@@ -214,10 +214,17 @@
             ,
             getEvaluating: function (id) {
                 this.$http.get('/evaluating/getEvaluatingById?id=' + id).then(function (res) {
-                    this.evaluating = res.body.data;
-                    this.evaluating.startTime = this.evaluating.startTime.replace(" ", "T");
-                    this.evaluating.endTime = this.evaluating.endTime.replace(" ", "T");
-                    this.loadClass();
+                    if (res.body.status == 200){
+                        this.evaluating = res.body.data;
+                        this.evaluating.startTime = this.evaluating.startTime.replace(" ", "T");
+                        this.evaluating.endTime = this.evaluating.endTime.replace(" ", "T");
+                        this.loadClass();
+
+                        $('#myModal').modal('show')
+                    } else{
+                        alert(res.body.message);
+                    }
+
                 }, function (res) {
                     alert("请稍后再试...");
                 });

@@ -42,6 +42,8 @@
                 &nbsp; &nbsp; &nbsp; &nbsp;
                 月份：
                 <input type="month" v-model="date" id="date">
+
+                <button @click="search()">查询</button>
             </div>
         </div>
 
@@ -96,7 +98,6 @@
                     if (this.validateDate() == false) {
                         return;
                     }
-                    this.search();
                 }
             }
         }
@@ -130,18 +131,16 @@
                     });
             },
             detail: function (obj) {
-                location.href = "/result/detailResult?surveyTypeId=" + obj.surveyType + "&classId=" + obj.classId + "&teacherTypeId=" + obj.type + "&date=" + obj.date;
+                location.href = "/result/detailResult?surveyTypeId=" + obj.surveyType + "&classId=" + obj.classId + "&teacherId=" + obj.teacherid + "&date=" + obj.date;
             },
             loadClass: function () {//加载班级
                 this.teacherList = [];
                 this.$http.get('/getAllClasses?typeId=' + this.gradeId).then(function (res) {
                     this.classList = res.body;
                     this.classId = this.classList[0].classId;
-                    this.search();
                 }, function (res) {
                     alert("请稍后再试...")
                 });
-                this.search();
             }
         },
         mounted: function () {
