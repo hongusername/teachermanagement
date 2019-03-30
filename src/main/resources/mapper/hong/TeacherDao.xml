@@ -3,9 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.management.cn.hong.dao.TeacherDao">
+
     <select id="queryTeacherById" resultType="Teacher">
-  select * from teacher where teacherid = #{teacherid}
+      select * from teacher where teacherid = #{teacherid}
     </select>
+
 
     <delete id="deleteTeacher">
         delete from teacher where teacherid = #{teacherid}
@@ -16,13 +18,12 @@
         <set>
             <if test="name!=null and name !=''">name =#{name},</if>
             <if test="type!=0">type =#{type},</if>
-
         </set>
         where teacherid = #{teacherid}
     </update>
 
     <insert id="insertTeacher">
-        insert into teacher values(null,#{name},#{type},null)
+        insert into teacher values(null,#{name},#{type})
     </insert>
 
     <select id="getAll" resultType="Teacher">
@@ -34,15 +35,11 @@
         <if test="name !=null and name !=''">
             and name like concat('%',#{name},'%')
         </if>
-<<<<<<< HEAD
-        order by teacherid
-=======
+        order by teacherid desc
     </select>
 
-    <select id="getTeacherById">
-         select * from teacher where teacherid = #{id}
->>>>>>> d512176e2b7b066102e66a4f599ef37f1fd7bfce
-    </select>
+
+
     <delete id="deleteTeachers" >
         delete from  teacher where teacherid in
         <foreach collection="teacherids" item="id" open="(" separator="," close=")" >

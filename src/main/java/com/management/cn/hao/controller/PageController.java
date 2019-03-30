@@ -25,8 +25,6 @@ public class PageController {
 
     @RequestMapping("/admin/{page}")
     public String adminPage(@PathVariable String page) {
-
-
         return "admin/" + page;
     }
 
