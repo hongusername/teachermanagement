@@ -19,7 +19,6 @@ public class PageController {
 
     @RequestMapping("/{page}")
     public String page(@PathVariable String page) {
-        System.out.println("-----------------------page------------------------");
         return page;
     }
 
@@ -27,16 +26,4 @@ public class PageController {
     public String adminPage(@PathVariable String page) {
         return "admin/" + page;
     }
-
-
-    /**
-     * 调查问卷内容列表
-     */
-    @RequestMapping("/survey_content_list_page")
-    public String surveyContentListPage(Integer surveyTypeId, Model model) {
-        model.addAttribute("surveyTypeId", surveyTypeId);
-        return "admin/survey_content_list";
-    }
-
-
 }

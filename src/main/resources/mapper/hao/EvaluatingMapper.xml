@@ -46,7 +46,7 @@
     </select>
 
     <select id="selectEvaluatingByTeacherTypeAndGradeId" resultMap="resultMap">
-         SELECT * FROM evaluating WHERE  teacherType = #{teacherType} AND gradeId = #{gradeId} and endtime>now()
+         SELECT * FROM evaluating WHERE  teacherType = #{teacherType} AND gradeId = #{gradeId} AND endTime > NOW()
     </select>
 
 </mapper>
