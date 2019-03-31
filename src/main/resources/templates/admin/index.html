@@ -17,9 +17,8 @@
 
     <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
-
     <script src="/plugins/adminLTE/js/app.min.js"></script>
-    <script src="./js/layer/layer.js"></script>
+    <script src="/js/layer/layer.js"></script>
 
     <script type="text/javascript">
         function SetIFrameHeight() {
@@ -28,11 +27,11 @@
                 iframeid.height = document.documentElement.clientHeight;
             }
         }
+        function tuichu() {
+            layer.confirm('您确定要退出系统吗',{btn: ['确定', '取消'],title:"提示"},function () {
+                location.href="/logout";
 
-        function t4(obj){
-            layer.confirm('您确定要退出系统吗?',{btn: ['确定', '取消'],title:"提示"}, function(){
-                location.href="deleteGradeController?id="+obj.grade.id;
-            });
+            })
         }
 
     </script>
@@ -84,8 +83,8 @@
                                         修改密码</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="/logout" class="btn btn-default btn-flat"
-                                       onclick="t4(obj)">注销</a>
+                                    <a href="#" class="btn btn-default btn-flat"
+                                       onclick="tuichu()">注销</a>
                                 </div>
                             </li>
                         </ul>
