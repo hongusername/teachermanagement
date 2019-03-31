@@ -123,10 +123,10 @@
 <div class="treeviewdiv">
     <ul>
         <li>
-            <canvas id="onechart" width="400" height="400"></canvas>
+            <canvas  id="onechart" width="400" height="300"></canvas>
         </li>
         <li>
-            <canvas id="twochart" width="400" height="400"></canvas>
+            <canvas id="twochart" width="400" height="300"></canvas>
         </li>
     </ul>
 
@@ -269,6 +269,9 @@
                         }
                     }
                     //   alert(this.twoteacheravg[2]);
+                    this.teacherdate = this.teacherdate.reverse();
+                    this.oneteacheravg = this.oneteacheravg.reverse();
+                    this.twoteacheravg = this.twoteacheravg.reverse();
                     oneChart.data.datasets[0].data = this.oneteacheravg;
                     oneChart.data.labels = this.teacherdate
                     oneChart.update();
@@ -280,18 +283,20 @@
             }, change: function (index) {
                 this.status = index;
             }, changeClasses: function (params) {
+                this.status = -1;
+                var temp = this.pageNum;
                 if (params == '1') {
-                    params = params - 1;
-                    if (params < 1) {
-                        params = 1;
+                    temp = temp - 1;
+                    if (temp < 1) {
+                        temp = 1;
                     }
-                } else {
-                    params = params + 1
-                    if (params > this.pages) {
-                        params = this.pages;
+                } else if (params == '2'){
+                    temp = parseInt(temp) + 1
+                    if (temp > this.pages) {
+                        temp = this.pages;
                     }
                 }
-                this.pageNum = params;
+                this.pageNum = temp;
                 this.$http.post("/ajaxGetClasses", {pageNum: this.pageNum}, {emulateJSON: true}).then(function (res) {
                     this.classesList = res.body.list;
                     this.pages = res.body.pages;

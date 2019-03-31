@@ -91,10 +91,10 @@ public class TeacherController {
 
     @RequestMapping("ajaxDeleteTeachers")
     @ResponseBody
-    public Object[] ajaxDeleteTeachers(String[] teacherids) {
-        System.out.print(teacherids);
+    public Object[] ajaxDeleteTeachers(@RequestParam("teacherids[]") Integer[] teacherids) {
+
         Object[] arr = new Object[2];
-        Integer result = teacherServices.deleteTeachers(null);
+        Integer result = teacherServices.deleteTeachers(teacherids);
         if (result != 0) {
             arr[0] = true;
         } else {
@@ -104,9 +104,9 @@ public class TeacherController {
         return arr;
     }
 
-    @RequestMapping("ajaxTeacherCanvas")
+   /* @RequestMapping("ajaxTeacherCanvas")
     @ResponseBody
-    public List<Object> ajaxTeacherCanvas() {
+        public List<Object> ajaxTeacherCanvas() {
         List<Object> list = new ArrayList<>();
         list.add(100);
         list.add(200);
@@ -115,7 +115,7 @@ public class TeacherController {
         list.add(200);
         list.add(340);
         return list;
-    }
+    }*/
 
 
 }

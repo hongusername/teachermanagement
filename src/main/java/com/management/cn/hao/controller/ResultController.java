@@ -100,11 +100,11 @@ public class ResultController {
     @ResponseBody
     public Map<String, Object> getResult2(Integer classId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new LinkedHashMap<>();
         //定义日期实例
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 5; i++) {
             String date = sdf.format(calendar.getTime());
             ResponseResult<List<TeacherDTO>> responseResult = resultService.queryResultByClassIdAndDate(classId, date);
             map.put(date, responseResult);
