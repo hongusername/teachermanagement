@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="/css/style.css">
 	<script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
 	<script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
-
+	<script src="./js/layer/layer.js"></script>
 </head>
 <style>
 	.long-center {
@@ -45,12 +45,18 @@
             location.href="delClasses?id="+obj.class_id;
         }
     }
+
+    function t5(){
+        // layer.confirm('您确定要删除该学期吗?',{btn: ['确定', '取消'],title:"提示"}, function(){
+        //     return true;
+        // });
+	}
 </script>
 <body class="hold-transition skin-red sidebar-mini">
 <!-- .box-body -->
 
 <div class="box-header with-border">
-	<h3 class="box-title">班级管理</h3>
+	<h3 class="box-title">学期管理</h3>
 </div>
 
 <div class="box-body">
@@ -86,7 +92,7 @@
 				<td th:text="${list.semester}"></td>
 				<td class="text-center">
 					<button th:onclick="bianji([[${list.id}]])" type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2" >修改</button>
-					<a th:href="@{/deleteGradeController(id=${list.id})}" onclick="return confirm('确认删除该学期吗?');" ><button type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button></a>
+					<a th:href="@{/deleteGradeController(id=${list.id})}" onclick="return confirm('是否删除?')" ><button type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button></a>
 				</td>
 				<!--data-toggle="modal" data-target="#editModa2"-->
 			</tr>
