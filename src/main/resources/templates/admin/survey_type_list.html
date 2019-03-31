@@ -15,6 +15,8 @@
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/vue.js"></script>
     <script type="text/javascript" src="/js/vue-resource.js"></script>
+
+
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
@@ -30,7 +32,7 @@
         <div class="pull-left">
             <div class="form-group form-inline">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" @click="del(checkedList)">删除</button>
+                    <!--<button type="button" class="btn btn-default" @click="del(checkedList)">删除</button>-->
                     <button type="button" class="btn btn-default" data-toggle="modal" @click="edit('添加问卷类型')"
                             data-target="#myModal">添加
                     </button>
@@ -42,7 +44,7 @@
 
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
             <thead>
-            <th><input type="checkbox" id="quan" @click="checkAll($event)"></th>
+            <!--<th><input type="checkbox" id="quan" @click="checkAll($event)"></th>-->
             <th>序号</th>
             <th>问卷类型</th>
             <th>教师类型</th>
@@ -51,7 +53,7 @@
             </thead>
             <tbody>
             <tr v-for="(item,index) in surveyTypeList">
-                <td><input type="checkbox" class="checkItem" :value="item.id" v-model="checkData"></td>
+                <!--<td><input type="checkbox" class="checkItem" :value="item.id" v-model="checkData"></td>-->
                 <td>{{index+1}}</td>
                 <td>{{item.name}}</td>
                 <td>{{item.teacherType == 1 ? '教员' : '班主任'}}</td>

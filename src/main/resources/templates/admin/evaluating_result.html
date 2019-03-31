@@ -54,6 +54,7 @@
                 <th>姓名</th>
                 <th>测评时间</th>
                 <th>平均分</th>
+                <th>参加本次测评的总人数</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -62,6 +63,7 @@
                 <td>{{item.name}}</td>
                 <td v-show="item.date != null">{{item.date}}</td>
                 <td v-show="item.date != null">{{item.avg}}</td>
+                <td v-show="item.date != null">{{item.totalNumber}}</td>
                 <td v-show="item.date != null">
                     <button type="button" @click="detail(item)" class="btn bg-olive btn-xs">详情</button>
                 </td>

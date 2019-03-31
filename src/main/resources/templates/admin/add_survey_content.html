@@ -17,7 +17,7 @@
     <script type="text/javascript" src="/js/service/surveyTypeService.js"></script>
     <script type="text/javascript" src="/js/controller/baseController.js"></script>
     <script type="text/javascript" src="/js/controller/surveyTypeController.js"></script>
-
+    <script src="/js/layer/layer.js"></script>
     <style>
         .row {
             margin-top: 20px;
@@ -26,7 +26,59 @@
         .del-btn {
             margin-left: 900px;
         }
+
     </style>
+    <script>
+        $(function () {
+            $("#submit").click(function () {
+                importExp();
+            });
+        });
+
+        //导入文件
+        function importExp() {
+            var formData = new FormData();
+            formData.append("filename", $("#inputfile")[0].files[0]);
+            formData.append("surveyType", parseInt($("#surveyType option:selected").val()) + 1);
+            $.ajax({
+                url: '/excel/uploadExcel',
+                type: 'POST',
+                async: false,
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                beforeSend: function () {
+                    layer.msg('正在进行，请稍候...');
+                },
+                success: function (data) {
+                    if (data.status == 200) {
+                        //通过controller来获取Angular应用
+                        var appElement = document.querySelector('[ng-controller=surveyTypeController]');
+                        //获取$scope变量
+                        var $scope = angular.element(appElement).scope();
+                        //清空原有数据
+                        $scope.entity = [];
+                        $.each(data.data, function (i, item) {
+                            var options = [];
+                            $.each(item.options, function (i, o) {
+                                options.push({id: o.id, index: o.index, option: o.option});
+                            });
+                            //调用方法
+                            $scope.addTableRowWithData(item.content, item.surveyType, options);
+                        });
+                        //上面each改变了Angular属性的值，如果想同步到Angular控制器中，则需要调用$apply()方法即可
+                        $scope.$apply();
+                        // $("#inputfile").replaceWith('<input type="file" id="inputfile" name="filename" accept="application/vnd.ms-excel">');
+                        $('#myModal').modal('hide');
+                    } else {
+                        layer.msg(data.data.message);
+                    }
+                }
+            });
+        }
+    </script>
 </head>
 <body ng-app="teachermanagement" ng-controller="surveyTypeController" ng-init="findById();findAll();">
 <!-- .box-body -->
@@ -41,26 +93,62 @@
         <div class="btn-group">
             <button type="button" class="btn btn-default" ng-click="addTableRow()">添加一列</button>
             <button type="button" class="btn btn-default" ng-click="save()">保存</button>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">导入Excel数据</button>
         </div>
     </div>
 
-
-    <div class="panel panel-default "  ng-repeat="pojo in entity">
+    <div class="panel panel-default " ng-repeat="pojo in entity">
         <div class="panel-heading">
             <h3 class="panel-title">
                 调查内容：<input ng-model="pojo.content" type="text" style="width: 300px">
-                <button style="margin-left: 100px" type="button" class="btn bg-olive btn-xs" title="删除这一项" ng-click="delTableRow($index)">删除这一项</button>
+                <button style="margin-left: 100px" type="button" class="btn bg-olive btn-xs" title="删除这一项"
+                        ng-click="delTableRow($index)">删除这一项
+                </button>
             </h3>
 
         </div>
         <div class="panel-body">
-            <table  class="table table-bordered table-striped table-hover dataTable">
+            <table class="table table-bordered table-striped table-hover dataTable">
                 <tr ng-repeat="item in options">
-                    <td><label>选项{{ item.index }}：<input ng-model="pojo.options[$index].option" type="text"></label></td>
+                    <td><label>选项{{ item.index }}：<input ng-model="pojo.options[$index].option" type="text"></label>
+                    </td>
                 </tr>
             </table>
         </div>
     </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">导入Excel数据</h4>
+            </div>
+            <div class="modal-body">
+                <form id="uploadExcel" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <select ng-model="surveyType" name="surveyType" id="surveyType" ng-change="findById()"
+                                ng-options="x.id as x.name for x in surveyContentList"></select>
+                        <br>
+                        <br>
+                        <input type="file" id="inputfile" name="filename" accept="application/vnd.ms-excel">
+                        <br>
+                        <br>
+                        <p class="help-block" style="color: red;font-weight: 600">提示：请选择后缀为.xsl的文件。文件内容格式为：</p>
+                        <a href="/img/geshi.jpg" title="点击查看大图" target="_blank">
+                            <img src="/img/geshi.jpg" width="400px" height="250px">
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-default" data-dismiss="modal" value="取消">
+                <input type="submit" class="btn btn-primary" id="submit" value="确定">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 </body>
 </html>

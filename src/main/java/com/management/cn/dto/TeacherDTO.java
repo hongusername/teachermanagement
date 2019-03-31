@@ -46,4 +46,10 @@ public class TeacherDTO {
      * 调查问卷类型
      */
     private Integer surveyType;
+
+
+    /**
+     * 总人数
+     */
+    private Integer totalNumber;
 }

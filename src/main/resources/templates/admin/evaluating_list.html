@@ -15,6 +15,7 @@
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/vue.js"></script>
     <script type="text/javascript" src="/js/vue-resource.js"></script>
+    <script src="/js/layer/layer.js"></script>
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
@@ -126,8 +127,8 @@
                             <td>参加本次评测的班级</td>
                             <td>
                                 <span v-for="item in classList">
-                                     <input  type="checkbox" @click="addClassName(item.className)"
-                                             :value="item.className">{{item.className}}
+                                     <input type="checkbox" @click="addClassName(item.className)"
+                                            :value="item.className">{{item.className}}
                                 </span>
                             </td>
                         </tr>
@@ -190,56 +191,135 @@
             }
         },
         methods: {
+            //验证两个时间 间隔
+            verificationDate: function (startTime, endTime) {
+                startTime = startTime.replace("T", " ");
+                endTime = endTime.replace("T", " ");
+                var date1 = new Date(startTime);
+                var date2 = new Date(endTime);
+
+                return Math.floor((date2 - date1) / 1000 / 60);
+            }
+            ,
+            verification: function () {
+                var describe = this.evaluating.describe;
+                var startTime = this.evaluating.startTime;
+                var endTime = this.evaluating.endTime;
+                var teacherType = this.evaluating.teacherType;
+                var gradeId = this.evaluating.grade.id;
+                var classNameListSize = this.evaluating.classNameList.length;
+
+                if (describe == "" || describe == null) {
+                    layer.msg('请输入描述');
+                    return false;
+                }
+                if (this.verificationDate(startTime, endTime) < 30) {
+                    layer.msg('结束时间至少大于开始时间30分钟');
+                    return false;
+                }
+                if (startTime == "" || startTime == null) {
+                    layer.msg('请选择开始时间');
+                    return false;
+                }
+                if (new Date(startTime).getTime() < new Date().getTime()) {
+                    layer.msg('开始时间必须大于或等于当前时间');
+                    return false;
+                }
+                if (endTime == "" || endTime == null) {
+                    layer.msg('请选择结束时间');
+                    return false;
+                }
+                if (teacherType == "" || teacherType == null) {
+                    layer.msg('请选择老师类型');
+                    return false;
+                }
+                if (gradeId == "" || gradeId == null) {
+                    layer.msg('请选择学期');
+                    return false;
+                }
+                if (classNameListSize == "" || classNameListSize == null || classNameListSize == 0) {
+                    layer.msg('请选择参加本次测评的班级');
+                    return false;
+                }
+                return true;
+
+            },
             edit: function (title) {
                 this.evaluating = evaluating;
+                this.evaluating.teacherType = 1;
+                this.evaluating.grade.id = this.gradeList[0].id;
+                date = new Date();
+                month = date.getMonth() + 1;
+                if (month <= 9) {
+                    month = "0" + month;
+                }
+                var minutes1 = date.getMinutes() + 1;
+
+                minutes1 = minutes1 > 9 ? minutes1 : "0" + minutes1;
+
+                str1 = date.getFullYear() + "-" + month + "-" + date.getDate() + "T" + date.getHours() + ":" + minutes1;
+
+                date.setTime(date.getTime() + 30 * 60 * 1000);
+
+                var minutes2 = date.getMinutes() + 1;
+
+                minutes2 = minutes2 > 9 ? minutes2 : "0" + minutes2;
+
+                str2 = date.getFullYear() + "-" + month + "-" + date.getDate() + "T" + date.getHours() + ":" + minutes2;
+
+                this.evaluating.startTime = str1;
+                this.evaluating.endTime = str2;
                 this.title = title;
+                this.loadClass();
             },
             del: function (id) {
                 this.$http.get('/evaluating/del?id=' + id).then(function (res) {
-                    alert(res.body.message);
+                    layer.msg(res.body.message);
                     if (res.body.status == 200) {
                         location.reload();
                     }
                 }, function (res) {
-                    alert("请稍后再试...");
+                    layer.msg('网络异常，请稍后再试...');
                 });
             },
             loadClass: function () {//加载班级
                 this.$http.get('/getAllClasses?typeId=' + this.evaluating.grade.id).then(function (res) {
                     this.classList = res.body;
                 }, function (res) {
-                    alert("请稍后再试...");
+                    layer.msg('网络异常，请稍后再试...');
                 });
             }
             ,
             getEvaluating: function (id) {
                 this.$http.get('/evaluating/getEvaluatingById?id=' + id).then(function (res) {
-                    if (res.body.status == 200){
+                    if (res.body.status == 200) {
                         this.evaluating = res.body.data;
                         this.evaluating.startTime = this.evaluating.startTime.replace(" ", "T");
                         this.evaluating.endTime = this.evaluating.endTime.replace(" ", "T");
-                        this.evaluating.classNameList=[];
+                        this.evaluating.classNameList = [];
                         this.loadClass();
-
                         $('#myModal').modal('show')
-                    } else{
-                        alert(res.body.message);
+                    } else {
+                        layer.msg(res.body.message);
                     }
 
                 }, function (res) {
-                    alert("请稍后再试...");
+                    layer.msg('网络异常，请稍后再试...');
                 });
             },
             save: function () {
+                if (!this.verification()){
+                    return;
+                }
                 this.evaluating.startTime = this.evaluating.startTime.replace("T", " ");
                 this.evaluating.endTime = this.evaluating.endTime.replace("T", " ");
                 this.$http.post('/evaluating/save', this.evaluating).then(function (res) {
-                    alert(res.body.message);
+                    layer.msg(res.body.message);
                     if (res.body.status == 200) {
                         location.reload();
                     }
                 }, function (res) {
-                    alert("请稍后再试...");
+                    layer.msg('网络异常，请稍后再试...');
                 });
             },
             addClassName: function (className) {
@@ -255,18 +335,15 @@
             this.$http.get('/evaluating/getEvaluatingList').then(function (res) {
                 this.evaluatingList = res.body;
             }, function (res) {
-                alert("请稍后再试...");
+                layer.msg('网络异常，请稍后再试...');
             });
-
 
             //加载学期
             this.$http.get('/grade/getGradeList').then(function (res) {
                 this.gradeList = res.body;
             }, function (res) {
-                alert("请稍后再试...")
+                layer.msg('网络异常，请稍后再试...');
             })
-
-
         }
     });
 </script>

@@ -22,14 +22,15 @@ app.controller('surveyTypeController', function ($scope, $controller, surveyType
             $scope.addTableRow();
         });
     }
+
     /* 保存问卷 */
     $scope.save = function () {
         surveyTypeService.add($scope.entity).success(function (response) {
             if (response.success) {
-                alert(response.message);
+                layer.msg(response.message);
                 location.reload();
             } else {
-                alert("添加失败！");
+                layer.msg("保存失败");
             }
         });
     }
@@ -49,6 +50,14 @@ app.controller('surveyTypeController', function ($scope, $controller, surveyType
             content: '',
             surveyType: $scope.surveyType,
             options: JSON.parse(JSON.stringify($scope.options))
+        })
+    }
+    // 增加一行
+    $scope.addTableRowWithData = function (content, surveyType, options) {
+        $scope.entity.push({
+            content: content,
+            surveyType: surveyType,
+            options: JSON.parse(JSON.stringify(options))
         })
     }
     // 删除规格选项行

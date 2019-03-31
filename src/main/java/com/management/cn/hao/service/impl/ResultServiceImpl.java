@@ -238,6 +238,8 @@ public class ResultServiceImpl implements ResultService {
         teacherDTO_BZR.setClassId(classId);
         /*调查问卷类型*/
         teacherDTO_BZR.setSurveyType(surveyTypeBZR);
+        /*参加本次测评的人数*/
+        teacherDTO_BZR.setTotalNumber(list_bzr_totalScore.size());
 
         /*教员平均分*/
         teacherDTO_JY.setAvg(avg(list_jy_totalScore));
@@ -247,6 +249,8 @@ public class ResultServiceImpl implements ResultService {
         teacherDTO_JY.setClassId(classId);
         /*调查问卷类型*/
         teacherDTO_JY.setSurveyType(surveyTypeJY);
+        /*参加本次测评的人数*/
+        teacherDTO_JY.setTotalNumber(list_jy_totalScore.size());
 
 
         List<TeacherDTO> teacherDTOList = new ArrayList<>();
