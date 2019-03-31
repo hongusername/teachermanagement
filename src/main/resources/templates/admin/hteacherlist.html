@@ -15,7 +15,7 @@
     <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="js/vue.js"></script>
     <script src="js/vue-resource.js"></script>
-
+    <script src="/wei/layui/layui.all.js"></script>
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
@@ -35,9 +35,9 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
-                       <!-- <button type="button" class="btn btn-default" title="删除" @click="deleteteachersfunction()"  id="deletebuttons"><i
-                                class="fa fa-trash-o"></i> 删除
-                        </button>-->
+                        <button type="button" class="btn btn-default" title="删除"   id="deletebuttons"><i
+                                 class="fa fa-trash-o"></i> 删除
+                         </button>
                         <button type="button" class="btn btn-default" title="新增" data-toggle="modal"
                                 data-target="#editModal"><i class="fa fa-ban"></i> 新增
                         </button>
@@ -51,10 +51,10 @@
                     <div class="has-feedback">
                         教师名称：<input type="text" v-model="name" name="name" class="form-control">
                         老师职位: <select name="type" class="form-control" v-model="type">
-                                        <option value="0" selected="selected">请选择</option>
-                                        <option value="1">教员</option>
-                                        <option value="2">班主任</option>
-                                 </select>
+                        <option value="0" selected="selected">请选择</option>
+                        <option value="1">教员</option>
+                        <option value="2">班主任</option>
+                    </select>
                         <button class="btn btn-default">查询</button>
                     </div>
                 </form>
@@ -65,9 +65,9 @@
             <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                 <thead>
                 <tr>
-                    <!--<th class="" style="padding-right:0px">
+                   <th class="" style="padding-right:0px">
                         <input id="selall" type="checkbox"  class="icheckbox_square-blue ">
-                    </th>-->
+                    </th>
                     <th class="sorting">老师ID</th>
                     <th class="sorting">老师名称</th>
                     <th class="sorting">职位</th>
@@ -75,32 +75,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="teacher in arrays" style="height: 55px;" >
-                    <!--<td  width="15%"  ><input class="teachercheck"type="checkbox" :teacherid="teacher.teacherid"></td>-->
-                    <td  width="25%" >{{teacher.teacherid}}</td>
-                    <td  width="25%" class="displayblocktd">{{teacher.name}}</td>
-                    <td width="20%" v-if="teacher.type==1"  class="displayblocktd">教员</td>
-                    <td width="20%" v-if="teacher.type==2"  class="displayblocktd">班主任</td>
+                <tr v-for="teacher in arrays" style="height: 55px;">
+                   <td  width="15%"  ><input class="teachercheck"type="checkbox" :teacherid="teacher.teacherid"></td>
+                    <td width="25%">{{teacher.teacherid}}</td>
+                    <td width="25%" class="displayblocktd">{{teacher.name}}</td>
+                    <td width="20%" v-if="teacher.type==1" class="displayblocktd">教员</td>
+                    <td width="20%" v-if="teacher.type==2" class="displayblocktd">班主任</td>
 
 
                     <td width="25%" align="center" class="displaynonetd" style="display: none;">
-                        <input type="text" class="form-control"   v-model="editteachername">
+                        <input type="text" class="form-control" v-model="editteachername">
                     </td>
 
-                    <td  width="20%" align="center"  class="displaynonetd" style="display: none;">
-                        <select v-model="editteachertype" class="form-control" >
+                    <td width="20%" align="center" class="displaynonetd" style="display: none;">
+                        <select v-model="editteachertype" class="form-control">
                             <option value="1">教员</option>
                             <option value="2">班主任</option>
                         </select>
                     </td>
 
                     <td class="text-center" width="25%">
-                        <button type="button" class="btn bg-olive btn-xs editteacherbutton"  @click="editbutton(teacher.teacherid,teacher.name,teacher.type)">编辑</button>
-                        <a href="javascript:void(0);" class="btn btn-info btn-xs realeditteacherbutton"  style="display: none;"  @click="edit(editteacherid,editteachername,editteachertype)"> <!--@click="show(item.teacherid);"--> 修改</a>
-                        <a href="javascript:void(0);" class="btn btn-default btn-xs closeeditbutton"  style="display: none;" > 取消</a>
-                      <!--  <button type="button" class="btn bg-olive btn-xs" >
-                        详情
-                        </button>-->
+                        <button type="button" class="btn bg-olive btn-xs editteacherbutton"
+                                @click="editbutton(teacher.teacherid,teacher.name,teacher.type)">编辑
+                        </button>
+                        <a href="javascript:void(0);" class="btn btn-info btn-xs realeditteacherbutton"
+                           style="display: none;" @click="edit(editteacherid,editteachername,editteachertype)">
+                            <!--@click="show(item.teacherid);"--> 修改</a>
+                        <a href="javascript:void(0);" class="btn btn-default btn-xs closeeditbutton"
+                           style="display: none;"> 取消</a>
+                        <!--  <button type="button" class="btn bg-olive btn-xs" >
+                          详情
+                          </button>-->
                         <button type="button" class="btn bg-olive btn-xs" @click="deletefunction(teacher.teacherid)">
                             删除
                         </button>
@@ -150,7 +155,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button  class="btn btn-success" data-dismiss="modal" aria-hidden="true"
+                        <button class="btn btn-success" data-dismiss="modal" aria-hidden="true"
                                 @click="add()">保存
                         </button>
                         <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
@@ -163,7 +168,7 @@
 
 <script>
     $(function () {
-        $("body").on("click"," .editteacherbutton",function () {
+        $("body").on("click", " .editteacherbutton", function () {
             $(".displayblocktd").show();
             $(".editteacherbutton").show();
             $(".displaynonetd").hide();
@@ -176,7 +181,7 @@
             $(this).parent().parent().find(".closeeditbutton").show();
         });
 
-        $("body").on("click"," .realeditteacherbutton",function () {
+        $("body").on("click", " .realeditteacherbutton", function () {
             $(".displayblocktd").show();
             $(".editteacherbutton").show();
             $(".displaynonetd").hide();
@@ -185,7 +190,7 @@
         });
 
 
-        $("body").on("click"," .closeeditbutton",function () {
+        $("body").on("click", " .closeeditbutton", function () {
             $(this).parent().parent().find(".displayblocktd").show();
             $(this).parent().parent().find(".editteacherbutton").show();
             $(this).parent().parent().find(".displaynonetd").hide();
@@ -203,25 +208,23 @@
             }
         });
 
-   /*    $("body").on("click", " #deletebuttons", function () {
+           $("body").on("click", " #deletebuttons", function () {
+                 $(".teachercheck").each(function () {
+                     if ($(this).prop("checked")) {
+                         vm.deletearrays.push($(this).attr("teacherid"));
+                     }
+
+                 });
+               vm.deleteteachersfunction(vm.deletearrays);
+             });
+       /* $("#deletebuttons").click(function () {
             $(".teachercheck").each(function () {
                 if ($(this).prop("checked")) {
                     vm.deletearrays.push($(this).attr("teacherid"));
                 }
-
             });
-
+                vm.deleteteachersfunction(vm.deletearrays);
         });*/
-   $("#deletebuttons").click(function () {
-       $(".teachercheck").each(function () {
-           if ($(this).prop("checked")) {
-               vm.deletearrays.push($(this).attr("teacherid"));
-           }
-       });
-        for(var i =0;i<vm.deletearrays.length;i++){
-            vm.deletefunction(vm.deletearrays[i]);
-        }
-   });
     });
     var vm = new Vue({
         el: "#container",
@@ -231,56 +234,109 @@
             type: '[[${type}]]',
             newteachername: "",
             newteachertype: 0,
-            editteachername:"",
-            editteachertype:0,
-            editteacherid:0
+            editteachername: "",
+            editteachertype: 0,
+            editteacherid: 0,
+            deletearrays:[]
         }
         , methods: {
+            deleteteachersfunction:function (ids) {
+               layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.confirm('是否删除所选中的教师信息？', {
+                        icon: 3, btn: ['是', '否'] //可以无限个按钮
+                        , btn1: function (index, layero) {
+                            vm.$http.get('ajaxDeleteTeachers',{params : {teacherids:ids}}).then(function(res){
+                                if (res.body[0]) {
+                                    layer.msg('批量删除成功!!');
+                                    if (res.body[1].list.length > 0) {
+                                        this.arrays = res.body[1].list;
+                                    }
+                                } else {
+                                    layer.msg('批量删除成功!!');
+                                }
+                            });
+                        }, btn2: function (index, layero) {
+                            //按钮【按钮一】的回调
+                        }
+                    });
+                });
+
+            },
             add: function () {
                 this.$http.post("ajaxAddTeacher", {
                     name: this.newteachername,
                     type: this.newteachertype
                 }, {emulateJSON: true}).then(function (res) {
                     if (res.body[0]) {
-                        alert('添加成功!!');
+                        layui.use('layer', function () {
+                            var layer = layui.layer;
+                            layer.msg('添加成功!!');
+                        });
+
                         if (res.body[1].list.length > 0) {
                             this.arrays = res.body[1].list;
                         }
                     } else {
-                        alert('添加失败!!');
+                        layui.use('layer', function () {
+                            var layer = layui.layer;
+                            layer.msg('添加成功!!');
+                        });
+
                     }
                     this.newteachername = "";
                     this.newteachertype = 0;
                 });
             }, deletefunction: function (params) {
-                if (confirm('是否删除该信息?')) {
-                    this.$http.post('ajaxDeleteTeacher', {teacherid: params}, {emulateJSON: true}).then(function (res) {
-                        if (res.body[0]) {
-                          alert('删除成功!!');
-                            if (res.body[1].list.length > 0) {
-                                this.arrays = res.body[1].list;
-                            }
-                        } else {
-                           alert('删除失败!!');
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.alert('是否删除该信息?', {
+                        icon: 3, btn: ['是', '否'],
+                        btn1: function (index, layero) {
+                            vm.$http.post('ajaxDeleteTeacher', {teacherid: params}, {emulateJSON: true}).then(function (res) {
+                                if (res.body[0]) {
+                                    layer.msg('删除成功!!');
+                                    if (res.body[1].list.length > 0) {
+                                        this.arrays = res.body[1].list;
+                                    }
+                                } else {
+                                    layer.msg('删除失败..');
+
+                                }
+                            });
+                        },
+                        btn2: function (index, layero) {
                         }
                     });
-               }
-            },editbutton:function (teacherid,name,type) {
+                })
+
+            }, editbutton: function (teacherid, name, type) {
                 this.editteacherid = teacherid;
                 this.editteachername = name;
                 this.editteachertype = type;
-            },edit:function (teacherid,name,type) {
-                this.$http.post("ajaxUpdateTeacher",{teacherid:teacherid,name:name,type:type},{emulateJSON:true}).then(function (res) {
-                    if(res.body[0]){
-                        alert('修改成功!!');
-                        if(res.body[1].list.length>0){
+            }, edit: function (teacherid, name, type) {
+                this.$http.post("ajaxUpdateTeacher", {
+                    teacherid: teacherid,
+                    name: name,
+                    type: type
+                }, {emulateJSON: true}).then(function (res) {
+                    if (res.body[0]) {
+                        layui.use('layer', function () {
+                            var layer = layui.layer;
+                            layer.msg('修改成功!!');
+                        });
+
+                        if (res.body[1].list.length > 0) {
                             this.arrays = res.body[1].list;
-                            this.pages =res.body[1].pages;
+                            this.pages = res.body[1].pages;
                             this.pageNum = res.body[1].pageNum;
                             this.pages = res.body[1].pages;
                         }
-                    }else{
-                        alert('修改失败!!');
+                    } else {
+                        layui.use('layer', function () {
+                            var layer = layui.layer;
+                            layer.msg('修改失败。。');
+                        });
                     }
                 });
             }
