@@ -29,28 +29,16 @@
     function t1(){
         $("#form1").submit();
     }
-    function t2(obj){
-        $("#updId").val(obj.class_id);
-        $("#updName").val(obj.class_name);
-        $("#updClassType").val(obj.grade.id);
-        $("#classesJy").val(obj.teacher2.teacherid);
-        $("#classesBzr").val(obj.teacher1.teacherid);
-    }
+
     function t3(){
         $("#form2").submit();
     }
-
     function t4(obj){
-        if(confirm("确认删除吗?")){
-            location.href="delClasses?id="+obj.class_id;
-        }
+        layer.confirm('您确定要删除该学期吗?',{btn: ['确定', '取消'],title:"提示"}, function(){
+            location.href="deleteGradeController?id="+obj.id;
+        });
     }
 
-    function t5(){
-        // layer.confirm('您确定要删除该学期吗?',{btn: ['确定', '取消'],title:"提示"}, function(){
-        //     return true;
-        // });
-	}
 </script>
 <body class="hold-transition skin-red sidebar-mini">
 <!-- .box-body -->
@@ -92,7 +80,8 @@
 				<td th:text="${list.semester}"></td>
 				<td class="text-center">
 					<button th:onclick="bianji([[${list.id}]])" type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModa2" >修改</button>
-					<a th:href="@{/deleteGradeController(id=${list.id})}" onclick="return confirm('是否删除?')" ><button type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button></a>
+					<button th:onclick="t4([[${list}]])" type="button" class="btn bg-olive btn-xs" data-toggle="modal">删除</button>
+					<!--th:href="@{/deleteGradeController(id=${list.id})}"-->
 				</td>
 				<!--data-toggle="modal" data-target="#editModa2"-->
 			</tr>
