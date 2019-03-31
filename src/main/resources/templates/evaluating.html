@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>学 员 满 意 度 调 查</title>
+    <title>学员满意度调查</title>
 
     <link href="/css/main.css" rel="stylesheet" type="text/css"/>
     <link href="/css/iconfont.css" rel="stylesheet" type="text/css"/>
@@ -15,6 +15,12 @@
         .textarea {
             padding-left: 15px;
             padding-top: 15px;
+        }
+
+        #nickname {
+            padding: 5px;
+            outline: none;
+            width: 200px;
         }
     </style>
 </head>
@@ -28,6 +34,8 @@
                     <div class="test_title">
                         <p class="test_time">
                             <!--<i class="icon iconfont">&#xe6fb;</i><b class="alt-1">01:40</b>-->
+                            <label for="nickname" style="color: #0C0C0C;font-weight: 600;font-size: 15px">昵称：</label>
+                            <input type="text" id="nickname" name="nickname" v-model="nickname" placeholder="马云爸爸">
                         </p>
                         <font><input type="button" @click="submit()" name="test_jiaojuan" value="交卷"></font>
                     </div>
@@ -179,6 +187,7 @@
 </script>
 </body>
 </html>
+<script src="/js/layer/layer.js"></script>
 <script type="text/javascript">
     var vm = new Vue({
         el: '#app',
@@ -187,6 +196,7 @@
             message: '',
             checkedList: [],
             opinion: '',
+            nickname: '',
         },
         methods: {
             checked: function (id, option) {
@@ -199,9 +209,10 @@
             },
             submit: function () {
                 if (this.checkedList.length < this.surveyContentList.length + 1) {
-                    alert("请回答完整！");
+                    layer.msg("请回答完整！");
                 } else {
                     var entity = {
+                        nickname: this.nickname,
                         classId: [[${grade.class_id}]],
                         surveyTypeId: [[${surveyTypeId}]],
                         checkedList: this.checkedList,
@@ -211,9 +222,16 @@
                     this.$http.post('http://localhost:8080/result/addResult', entity).then(function (res) {
                         if (res.body.status == 200) {
                             window.location = "/evaluating_success";
+                        } else {
+                            layer.msg(res.body.message + "  3秒后回到主页", {time: 4000, icon: 2});
+
+                            setTimeout(function () {
+                                window.location.href = "/toEvaluation?grade=[[${session.classId}]]";
+                            }, 3000)
+
                         }
                     }, function (res) {
-                        alert(res.body.message);
+                        layer.msg(res.body.message);
                     });
                 }
             }
@@ -228,13 +246,13 @@
                 /* 调查问卷类型  班主任/教员 */
                 this.teacherType = surveyType.teacherType;
             }, function (res) {
-                alert(res.status);
+                layer.msg("请稍后再试...");
             });
             /* 获取调查问卷内容 */
             this.$http.get('http://localhost:8080/survey_content/getContentBySurveyTypeId?surveyTypeId=' + [[${surveyTypeId}]]).then(function (res) {
                 this.surveyContentList = res.body;
             }, function (res) {
-                alert(res.status);
+                layer.msg("请稍后再试...");
             });
         }
     });

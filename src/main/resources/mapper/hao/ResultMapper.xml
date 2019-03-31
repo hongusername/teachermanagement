@@ -4,7 +4,7 @@
 <mapper namespace="com.management.cn.hao.dao.ResultMapper">
 
     <insert id="addResult" parameterType="Result">
-          INSERT INTO result(classid,totalScore,surveyType,`options`,createDate,opinion,teacherId) VALUES (#{classid},#{totalScore},#{surveyType},#{options},#{createDate},#{opinion},#{teacherId})
+          INSERT INTO result(classid,totalScore,surveyType,`options`,createDate,opinion,teacherId,nickname) VALUES (#{classid},#{totalScore},#{surveyType},#{options},#{createDate},#{opinion},#{teacherId},#{nickname})
     </insert>
 
     <select id="queryResultAll" resultType="Result">

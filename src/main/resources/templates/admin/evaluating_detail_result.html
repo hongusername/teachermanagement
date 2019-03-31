@@ -78,13 +78,15 @@
             <thead>
             <tr>
                 <th>序号</th>
+                <th>昵称</th>
                 <th>意见、建议</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="item,i:${data.data.opinionList}">
                 <td th:text="${i.count}"></td>
-                <td th:text="${item}"></td>
+                <td th:text="${item.nickname}"></td>
+                <td th:text="${item.opinion}"></td>
             </tr>
             </tbody>
         </table>

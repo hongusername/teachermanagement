@@ -21,4 +21,5 @@ public class ResultDTO {
     private Integer teacherId;
     private List<Map<String,String>> checkedList;
     private String opinion;
+    private String nickname;
 }

@@ -85,7 +85,7 @@ public class EvaluatingServiceImpl implements EvaluatingService {
     }
 
     @Override
-    public Evaluating getEvaluatingByTeacherTypeAndGradeId(Integer teacherType, Integer gradeId) {
+    public List<Evaluating> getEvaluatingByTeacherTypeAndGradeId(Integer teacherType, Integer gradeId) {
         return evaluatingMapper.selectEvaluatingByTeacherTypeAndGradeId(teacherType, gradeId);
     }
 }

@@ -308,15 +308,41 @@
                 });
             },
             save: function () {
-                if (!this.verification()){
+                if (!this.verification()) {
                     return;
                 }
                 this.evaluating.startTime = this.evaluating.startTime.replace("T", " ");
                 this.evaluating.endTime = this.evaluating.endTime.replace("T", " ");
                 this.$http.post('/evaluating/save', this.evaluating).then(function (res) {
-                    layer.msg(res.body.message);
                     if (res.body.status == 200) {
                         location.reload();
+                    } else {
+                        var existStr = "";
+                        var nonExistStr = "";
+                        $.each(res.body.data.existList, function (i, item) {
+                            if (i != 0) {
+                                existStr += "," + item;
+                            }
+                            existStr += item;
+                        });
+                        $.each(res.body.data.nonExistList, function (i, item) {
+                            if (i != 0) {
+                                nonExistStr += "," + item;
+                            }
+                            nonExistStr += item;
+                        });
+
+                        var message = '班级' + existStr + '存在未结束的测评，无需重复添加！';
+                        if (nonExistStr != null && nonExistStr != ""){
+                            message = '班级' + existStr + '存在未结束的测评，无需重复添加，如果要添加' + nonExistStr + '班级的测评，请单独添加！';
+                        }
+                        console.log(nonExistStr)
+                        layer.confirm(message, {
+                            btn: ['确定'],
+                            title: "提示"
+                        }, function () {
+                            layer.close(layer.index);
+                        });
                     }
                 }, function (res) {
                     layer.msg('网络异常，请稍后再试...');

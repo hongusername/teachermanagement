@@ -23,6 +23,6 @@ public interface EvaluatingService {
 
     Evaluating getEvaluatingById(Integer id);
 
-    Evaluating getEvaluatingByTeacherTypeAndGradeId(Integer teacherType, Integer gradeId);
+    List<Evaluating> getEvaluatingByTeacherTypeAndGradeId(Integer teacherType, Integer gradeId);
 
 }

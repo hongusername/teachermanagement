@@ -1,5 +1,6 @@
 package com.management.cn.hao.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.management.cn.entity.Evaluating;
 import com.management.cn.entity.ResponseResult;
 import com.management.cn.hao.service.EvaluatingService;
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: GengHao
@@ -81,6 +85,33 @@ public class EvaluatingController {
         }
         //添加
         if (evaluating.getId() == null) {
+            List<Evaluating> evaluatingList = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(evaluating.getTeacherType(), evaluating.getGrade().getId());
+            if (evaluatingList != null) {
+                //如果evaluating1 不为null  则这个学期的这个老师类型已经存在一个未结束的测评
+                Map<String, Object> map = new HashMap<>();
+                List<String> existList = new ArrayList<>();
+                List<String> nonExistList = new ArrayList<>();
+                evaluating.getClassNameList().forEach(item -> {
+                    evaluatingList.forEach(evaluating1 -> {
+                        //这个未结束的测评 是否包含当前班级
+                        boolean isExist = evaluating1.getClassNameList().contains(item);
+                        if (isExist) {
+                            existList.add(item);
+                        } else {
+                            nonExistList.add(item);
+                        }
+                    });
+                });
+                map.put("existList", existList);
+                map.put("nonExistList", nonExistList);
+                responseResult.setStatus(500);
+                responseResult.setMessage("重复测评");
+                responseResult.setData(map);
+                if (existList != null && existList.size() > 0) {
+                    return responseResult;
+                }
+            }
+
             boolean b = evaluatingService.addEvaluating(evaluating);
             if (b) {
                 responseResult.setStatus(200);
@@ -102,6 +133,7 @@ public class EvaluatingController {
 
         return responseResult;
     }
+
 
     /**
      * 验证时间

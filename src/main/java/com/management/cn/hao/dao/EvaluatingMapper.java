@@ -17,7 +17,7 @@ public interface EvaluatingMapper {
 
     Evaluating selectEvaluatingById(@Param("id") Integer id);
 
-    Evaluating selectEvaluatingByTeacherTypeAndGradeId(@Param("teacherType") Integer teacherType,@Param("gradeId") Integer gradeId);
+    List<Evaluating> selectEvaluatingByTeacherTypeAndGradeId(@Param("teacherType") Integer teacherType,@Param("gradeId") Integer gradeId);
 
     boolean insertEvaluating(Evaluating evaluating);
 

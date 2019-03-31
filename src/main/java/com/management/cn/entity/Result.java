@@ -49,4 +49,9 @@ public class Result {
      * 意见、建议
      */
     private String opinion;
+
+    /**
+     * 昵称
+     */
+    private String nickname;
 }

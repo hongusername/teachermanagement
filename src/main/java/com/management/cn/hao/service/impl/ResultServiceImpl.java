@@ -68,6 +68,8 @@ public class ResultServiceImpl implements ResultService {
         result.setOptions(JSON.toJSONString(resultDTO.getCheckedList()));
         //意见、建议
         result.setOpinion(resultDTO.getOpinion());
+        //昵称
+        result.setNickname(resultDTO.getNickname());
 
         result.setTeacherId(resultDTO.getTeacherId());
         resultMapper.addResult(result);
@@ -94,9 +96,12 @@ public class ResultServiceImpl implements ResultService {
             eachQuestionOptions.put(surveyContent.getId().toString(), new ArrayList());
         }
         //意见建议
-        List<String> opinionList = new ArrayList<>();
+        List<Map<String,Object>> opinionList = new ArrayList<>();
         for (Result i : results) {
-            opinionList.add(i.getOpinion());
+            Map<String,Object> map = new HashMap<>();
+            map.put("nickname",i.getNickname());
+            map.put("opinion",i.getOpinion());
+            opinionList.add(map);
             //当前结果的选项字符串
             String options1 = i.getOptions();
             //当前结果的选项 Map集合

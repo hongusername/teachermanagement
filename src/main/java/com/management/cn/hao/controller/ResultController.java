@@ -29,7 +29,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/result")
-public class ResultController {
+public class ResultController extends BaseController {
 
 
     @Autowired
@@ -48,10 +48,10 @@ public class ResultController {
         ResponseResult responseResult = new ResponseResult();
         Classes classes = classesService.getClassByClassId(resultDTO.getClassId());
         Teacher teacher = teacherDao.queryTeacherById(resultDTO.getTeacherId());
-        Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(teacher.getType(), classes.getClass_type());
+        List<Evaluating> evaluatingList = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(teacher.getType(), classes.getClass_type());
+        Evaluating evaluating = getOneEvaluating(evaluatingList, classes.getClass_name());
         try {
-            Long endTime = sdf.parse(evaluating.getEndTime()).getTime();
-            if (endTime < System.currentTimeMillis()) {
+            if (evaluating == null) {
                 responseResult.setStatus(500);
                 responseResult.setMessage("测评已停止");
                 return responseResult;
@@ -83,6 +83,7 @@ public class ResultController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        System.out.println(JSON.toJSON(resultService.queryIndividualOptionAVG(result)));
         model.addAttribute("data", resultService.queryIndividualOptionAVG(result));
         return "/admin/evaluating_detail_result";
     }

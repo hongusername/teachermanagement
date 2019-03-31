@@ -2,6 +2,7 @@ package com.management.cn.yang.controller;
 
 import com.management.cn.chen.service.IClassesService;
 import com.management.cn.entity.*;
+import com.management.cn.hao.controller.BaseController;
 import com.management.cn.hao.dao.EvaluatingMapper;
 import com.management.cn.hao.service.EvaluatingService;
 import com.management.cn.hao.service.GradeService;
@@ -18,10 +19,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
-public class LoginController {
+public class LoginController extends BaseController {
 
     private static final String CLASS_JY = "class_jy";
     private static final String CLASS_BZR = "class_bzr";
@@ -65,7 +67,8 @@ public class LoginController {
         Teacher teacher = studentServices.queryTeacherById(key, classId);
         Classes classes = studentServices.queryClassesById(Integer.parseInt(classId));
 
-        Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(teacher.getType(), classes.getClass_type());
+        List<Evaluating> evaluatingList = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(teacher.getType(), classes.getClass_type());
+        Evaluating evaluating = getOneEvaluating(evaluatingList, classes.getClass_name());
         if (evaluating == null) {
             responseResult.setStatus(500);
             responseResult.setMessage("无需评测！");
@@ -115,11 +118,13 @@ public class LoginController {
                 return "redirect:/toEvaluation";
             }
             surveyTypeId = surveyType.getId();
-            Evaluating evaluating = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(teacher.getType(), classes.getClass_type());
+
+            List<Evaluating> evaluatingList = evaluatingService.getEvaluatingByTeacherTypeAndGradeId(teacher.getType(), classes.getClass_type());
+
+            Evaluating evaluating = getOneEvaluating(evaluatingList, classes.getClass_name());
             if (evaluating == null) {
                 return "redirect:/toEvaluation";
             }
-
 
             try {
                 if (sdf.parse(evaluating.getEndTime()).getTime() < System.currentTimeMillis()) {
@@ -138,6 +143,7 @@ public class LoginController {
         }
         return "evaluating";
     }
+
 
     public String remainingTime(String end) {
         Long currentTime = System.currentTimeMillis();
