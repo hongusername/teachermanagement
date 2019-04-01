@@ -254,21 +254,28 @@
                     month = "0" + month;
                 }
                 var minutes1 = date.getMinutes() + 1;
-
+                var day1 = date.getDate();
+                var hours1 = date.getHours();
                 minutes1 = minutes1 > 9 ? minutes1 : "0" + minutes1;
+                day1 = day1 > 9 ? day1 : "0" + day1;
+                hours1 = hours1 > 9 ? hours1 : "0" + hours1;
 
-                str1 = date.getFullYear() + "-" + month + "-" + date.getDate() + "T" + date.getHours() + ":" + minutes1;
+                str1 = date.getFullYear() + "-" + month + "-" + day1 + "T" + hours1 + ":" + minutes1;
 
                 date.setTime(date.getTime() + 30 * 60 * 1000);
 
                 var minutes2 = date.getMinutes() + 1;
-
+                var day2 = date.getDate();
+                var hours2 = date.getHours();
                 minutes2 = minutes2 > 9 ? minutes2 : "0" + minutes2;
-
-                str2 = date.getFullYear() + "-" + month + "-" + date.getDate() + "T" + date.getHours() + ":" + minutes2;
+                day2 = day2 > 9 ? day2 : "0" + day2;
+                hours2 = hours2 > 9 ? hours2 : "0" + hours2;
+                str2 = date.getFullYear() + "-" + month + "-" + day2 + "T" + hours2 + ":" + minutes2;
 
                 this.evaluating.startTime = str1;
                 this.evaluating.endTime = str2;
+
+
                 this.title = title;
                 this.loadClass();
             },
@@ -333,7 +340,7 @@
                         });
 
                         var message = '班级' + existStr + '存在未结束的测评，无需重复添加！';
-                        if (nonExistStr != null && nonExistStr != ""){
+                        if (nonExistStr != null && nonExistStr != "") {
                             message = '班级' + existStr + '存在未结束的测评，无需重复添加，如果要添加' + nonExistStr + '班级的测评，请单独添加！';
                         }
                         console.log(nonExistStr)

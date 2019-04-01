@@ -219,7 +219,7 @@
                         opinion: this.opinion,
                         teacherId: [[${teacher.teacherid}]]
                     }
-                    this.$http.post('http://localhost:8080/result/addResult', entity).then(function (res) {
+                    this.$http.post('/result/addResult', entity).then(function (res) {
                         if (res.body.status == 200) {
                             window.location = "/evaluating_success";
                         } else {
@@ -239,7 +239,7 @@
         ,
         mounted: function () {
             /* 获取调查问卷问题选项格式 */
-            this.$http.get('http://localhost:8080/survey_type/getSurveyTypeById?id=' + [[${surveyTypeId}]]).then(function (res) {
+            this.$http.get('/survey_type/getSurveyTypeById?id=' + [[${surveyTypeId}]]).then(function (res) {
                 var surveyType = res.body;
                 /* 页面title */
                 document.title = surveyType.name;
@@ -249,7 +249,7 @@
                 layer.msg("请稍后再试...");
             });
             /* 获取调查问卷内容 */
-            this.$http.get('http://localhost:8080/survey_content/getContentBySurveyTypeId?surveyTypeId=' + [[${surveyTypeId}]]).then(function (res) {
+            this.$http.get('/survey_content/getContentBySurveyTypeId?surveyTypeId=' + [[${surveyTypeId}]]).then(function (res) {
                 this.surveyContentList = res.body;
             }, function (res) {
                 layer.msg("请稍后再试...");
